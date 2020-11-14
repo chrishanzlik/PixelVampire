@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="FodyWeavers.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.3.4" />
     <PackageReference Include="ReactiveUI" Version="12.1.5" />
     <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
