@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PixelVampire.Controls;
+using PixelVampire.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PixelVampire
+namespace PixelVampire.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : ReactiveMetroWindow<MainWindowViewModel>
     {
         public MainWindow()
         {
