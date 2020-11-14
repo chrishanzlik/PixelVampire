@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Authors>Christopher Hanzlik</Authors>
+    <Company>Christopher Hanzlik</Company>
+    <Version>0.1.0-alpha</Version>
+    <Copyright>Copyright (c) 2020 Christopher Hanzlik</Copyright>
+    <Description>Tool to shrink/compress images</Description>
+    <PackageProjectUrl>https://github.com/chrishanzlik/PixelVampire</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/chrishanzlik/PixelVampire</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>PixelVampire Imaging Compression</PackageTags>
+  </PropertyGroup>
+
+</Project>
