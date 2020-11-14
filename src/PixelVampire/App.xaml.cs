@@ -1,6 +1,4 @@
-﻿using PixelVampire.Services;
-using PixelVampire.Services.Abstractions;
-using PixelVampire.ViewModels;
+﻿using PixelVampire.ViewModels;
 using PixelVampire.Views;
 using ReactiveUI;
 using Splat;
@@ -16,8 +14,7 @@ namespace PixelVampire
         public App()
         {
             Locator.CurrentMutable.Register(() => new MainWindow(), typeof(IViewFor<MainWindowViewModel>));
-
-            Locator.CurrentMutable.Register<IImageService>(() => new SkiaImageService());
+            Locator.CurrentMutable.Register(() => new ImageEditorView(), typeof(IViewFor<ImageEditorViewModel>));
         }
 
         protected override void OnStartup(StartupEventArgs e)

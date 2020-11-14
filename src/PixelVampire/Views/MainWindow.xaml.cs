@@ -1,8 +1,10 @@
 ﻿using PixelVampire.Controls;
 using PixelVampire.ViewModels;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +27,11 @@ namespace PixelVampire.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            this.WhenActivated(d =>
+            {
+                this.OneWayBind(ViewModel, x => x.Router, x => x.RoutedViewHost.Router).DisposeWith(d);
+            });
         }
     }
 }

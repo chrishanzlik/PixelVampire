@@ -22,9 +22,14 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.3.4" />
     <PackageReference Include="ReactiveUI" Version="12.1.5" />
+    <PackageReference Include="ReactiveUI.Events.WPF" Version="12.1.5" />
     <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
     <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>
