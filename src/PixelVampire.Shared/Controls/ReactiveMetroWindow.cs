@@ -2,7 +2,7 @@
 using ReactiveUI;
 using System.Windows;
 
-namespace PixelVampire.Controls
+namespace PixelVampire.Shared.Controls
 {
     public abstract class ReactiveMetroWindow<TViewModel> : MetroWindow, IViewFor<TViewModel>, IActivatableView
         where TViewModel : class

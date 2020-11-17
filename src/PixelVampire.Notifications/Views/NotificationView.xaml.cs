@@ -1,4 +1,4 @@
-﻿using PixelVampire.ViewModels;
+﻿using PixelVampire.Notifications.ViewModels;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -16,22 +16,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PixelVampire.Views
+namespace PixelVampire.Notifications.Views
 {
     /// <summary>
-    /// Interaktionslogik für NotificationHostView.xaml
+    /// Interaktionslogik für NotificationView.xaml
     /// </summary>
-    public partial class NotificationHostView : ReactiveUserControl<NotificationHostViewModel>
+    public partial class NotificationView : ReactiveUserControl<NotificationViewModel>
     {
-        public NotificationHostView()
+        public NotificationView()
         {
             InitializeComponent();
 
             this.WhenActivated(d =>
             {
                 this.OneWayBind(ViewModel,
-                    x => x.Notifications,
-                    x => x.NotificationContainer.ItemsSource).DisposeWith(d);
+                    x => x.Notification.Message,
+                    x => x.txt.Text).DisposeWith(d);
             });
         }
     }

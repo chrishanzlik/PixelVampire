@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<EnableDefaultPageItems>false</EnableDefaultPageItems>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Views\ImageEditorView.xaml" />
+	  <None Remove="Views\ImageExplorerItemView.xaml" />
+	  <None Remove="Views\ImageSettingsView.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="ReactiveUI.Events.WPF" Version="12.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Include="Views\ImageEditorView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImageExplorerItemView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImageSettingsView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\PixelVampire.Notifications\PixelVampire.Notifications.csproj" />
+	  <ProjectReference Include="..\PixelVampire.Shared\PixelVampire.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\ImageEditorView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImageExplorerItemView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImageSettingsView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+
+</Project>

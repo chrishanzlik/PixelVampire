@@ -1,4 +1,4 @@
-﻿using PixelVampire.ViewModels;
+﻿using PixelVampire.Imaging.ViewModels;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PixelVampire.Views
+namespace PixelVampire.Imaging.Views
 {
     /// <summary>
     /// Interaktionslogik für ImageSettingsView.xaml

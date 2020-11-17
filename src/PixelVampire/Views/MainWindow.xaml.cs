@@ -1,4 +1,4 @@
-﻿using PixelVampire.Controls;
+﻿using PixelVampire.Shared.Controls;
 using PixelVampire.ViewModels;
 using ReactiveUI;
 using System;

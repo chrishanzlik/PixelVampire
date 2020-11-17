@@ -1,13 +1,8 @@
-﻿using PixelVampire.Helpers;
-using PixelVampire.Notifications;
-using PixelVampire.ViewModels.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PixelVampire.Notifications;
+using PixelVampire.Shared;
+using PixelVampire.Shared.ViewModels;
 
-namespace PixelVampire.ViewModels
+namespace PixelVampire.Notifications.ViewModels
 {
     public class NotificationViewModel : ViewModelBase
     {
