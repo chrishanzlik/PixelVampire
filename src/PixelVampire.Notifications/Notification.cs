@@ -8,5 +8,6 @@ namespace PixelVampire.Notifications
         public string Message { get; set; }
         public NotificationLevel Level { get; set; }
         public DateTime? TimeStamp { get; set; }
+        public TimeSpan? DisplayDuration { get; set; }
     }
 }

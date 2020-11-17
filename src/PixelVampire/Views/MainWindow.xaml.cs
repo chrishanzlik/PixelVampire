@@ -37,6 +37,17 @@ namespace PixelVampire.Views
                 this.OneWayBind(ViewModel,
                     x => x.NotificationHost, 
                     x => x.NotificationHost.ViewModel).DisposeWith(d);
+
+                //Testing:
+                this.BindCommand(ViewModel,
+                    x => x.SpawnTestNotification1,
+                    x => x.Button1).DisposeWith(d);
+                this.BindCommand(ViewModel,
+                    x => x.SpawnTestNotification2,
+                    x => x.Button2).DisposeWith(d);
+                this.BindCommand(ViewModel,
+                    x => x.SpawnTestNotification3,
+                    x => x.Button3).DisposeWith(d);
             });
         }
     }

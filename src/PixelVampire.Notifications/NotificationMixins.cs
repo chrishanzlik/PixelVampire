@@ -11,32 +11,33 @@ namespace PixelVampire.Notifications
             return Locator.Current.GetService<INotificationPublisher>();
         }
 
-        public static void PublishInfo(this INotificationPublisher self, string message, string title = null)
+        public static void PublishInfo(this INotificationPublisher self, string message, string title = null, TimeSpan? displayDuration = null)
         {
-            var n = GenerateNotification(NotificationLevel.Info, message, title);
+            var n = GenerateNotification(NotificationLevel.Info, message, title, displayDuration);
             self.Publish(n);
         }
 
-        public static void PublishWarning(this INotificationPublisher self, string message, string title = null)
+        public static void PublishWarning(this INotificationPublisher self, string message, string title = null, TimeSpan? displayDuration = null)
         {
-            var n = GenerateNotification(NotificationLevel.Warning, message, title);
+            var n = GenerateNotification(NotificationLevel.Warning, message, title, displayDuration);
             self.Publish(n);
         }
 
-        public static void PublishError(this INotificationPublisher self, string message, string title = null)
+        public static void PublishError(this INotificationPublisher self, string message, string title = null, TimeSpan? displayDuration = null)
         {
-            var n = GenerateNotification(NotificationLevel.Error, message, title);
+            var n = GenerateNotification(NotificationLevel.Error, message, title, displayDuration);
             self.Publish(n);
         }
 
-        private static Notification GenerateNotification(NotificationLevel level, string message, string title)
+        private static Notification GenerateNotification(NotificationLevel level, string message, string title, TimeSpan? displayDuration = null)
         {
             return new Notification
             {
                 Level = level,
                 Message = message,
                 Title = title,
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                DisplayDuration = displayDuration
             };
         }
     }
