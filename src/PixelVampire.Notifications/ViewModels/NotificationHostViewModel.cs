@@ -20,6 +20,7 @@ namespace PixelVampire.Notifications.ViewModels
 
         public NotificationHostViewModel(INotificationListener notificationListener = null)
         {
+            Notifications = new ObservableCollection<NotificationViewModel>();
             this.notificationListener = notificationListener ?? Locator.Current.GetService<INotificationListener>();
 
             var notificationSource = new SourceList<Notification>();

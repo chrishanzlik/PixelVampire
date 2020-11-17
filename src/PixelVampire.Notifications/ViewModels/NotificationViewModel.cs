@@ -1,4 +1,5 @@
-﻿using PixelVampire.Shared;
+﻿using PixelVampire.Notifications;
+using PixelVampire.Shared;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
