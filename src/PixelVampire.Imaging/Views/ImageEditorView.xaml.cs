@@ -1,4 +1,4 @@
-﻿using PixelVampire.ViewModels;
+﻿using PixelVampire.Imaging.ViewModels;
 using ReactiveUI;
 using System;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
-namespace PixelVampire.Views
+namespace PixelVampire.Imaging.Views
 {
     /// <summary>
     /// Interaktionslogik für ImageEditorView.xaml
@@ -34,7 +34,7 @@ namespace PixelVampire.Views
                     .Select(x => x.Data.GetData(DataFormats.FileDrop) as string[])
                     .Where(x => x != null)
                     .Select(x => x.Where(x => !string.IsNullOrEmpty(x)))
-                    .Subscribe(x => MessageBox.Show(string.Join(';', x)))
+                    .Subscribe(x => this.ViewModel.LoadFiles(x))
                     .DisposeWith(d);
             });
         }

@@ -1,22 +1,21 @@
-﻿using PixelVampire.ViewModels.Abstractions;
+﻿using PixelVampire.Imaging.ViewModels;
+using PixelVampire.Notifications.ViewModels;
+using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PixelVampire.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, IScreen
+    public sealed class MainWindowViewModel : ViewModelBase, IScreen
     {
+
         public MainWindowViewModel()
         {
+            NotificationHost = new NotificationHostViewModel();
             Router = new RoutingState();
-
             Router.Navigate.Execute(new ImageEditorViewModel());
         }
 
         public RoutingState Router { get; }
+        public NotificationHostViewModel NotificationHost { get; }
     }
 }

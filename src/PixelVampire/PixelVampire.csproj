@@ -29,7 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <ProjectReference Include="..\PixelVampire.Imaging\PixelVampire.Imaging.csproj" />
+    <ProjectReference Include="..\PixelVampire.Notifications\PixelVampire.Notifications.csproj" />
+    <ProjectReference Include="..\PixelVampire.Shared\PixelVampire.Shared.csproj" />
   </ItemGroup>
 
 </Project>

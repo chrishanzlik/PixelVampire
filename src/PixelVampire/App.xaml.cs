@@ -1,4 +1,7 @@
-﻿using PixelVampire.ViewModels;
+﻿using PixelVampire.Imaging;
+using PixelVampire.Notifications;
+using PixelVampire.Shared.Locator;
+using PixelVampire.ViewModels;
 using PixelVampire.Views;
 using ReactiveUI;
 using Splat;
@@ -14,7 +17,9 @@ namespace PixelVampire
         public App()
         {
             Locator.CurrentMutable.Register(() => new MainWindow(), typeof(IViewFor<MainWindowViewModel>));
-            Locator.CurrentMutable.Register(() => new ImageEditorView(), typeof(IViewFor<ImageEditorViewModel>));
+
+            Locator.CurrentMutable.RegisterModule(new ImagingLocatorRegistrations());
+            Locator.CurrentMutable.RegisterModule(new NotificationLocatorRegistrations());
         }
 
         protected override void OnStartup(StartupEventArgs e)
