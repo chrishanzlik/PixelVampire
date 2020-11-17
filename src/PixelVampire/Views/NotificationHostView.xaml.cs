@@ -1,5 +1,4 @@
-﻿using PixelVampire.Controls;
-using PixelVampire.ViewModels;
+﻿using PixelVampire.ViewModels;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -20,23 +19,19 @@ using System.Windows.Shapes;
 namespace PixelVampire.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaktionslogik für NotificationHostView.xaml
     /// </summary>
-    public partial class MainWindow : ReactiveMetroWindow<MainWindowViewModel>
+    public partial class NotificationHostView : ReactiveUserControl<NotificationHostViewModel>
     {
-        public MainWindow()
+        public NotificationHostView()
         {
             InitializeComponent();
 
             this.WhenActivated(d =>
             {
-                this.OneWayBind(ViewModel, 
-                    x => x.Router, 
-                    x => x.RoutedViewHost.Router).DisposeWith(d);
-
                 this.OneWayBind(ViewModel,
-                    x => x.NotificationHost, 
-                    x => x.NotificationHost.ViewModel).DisposeWith(d);
+                    x => x.Notifications,
+                    x => x.NotificationContainer.ItemsSource).DisposeWith(d);
             });
         }
     }
