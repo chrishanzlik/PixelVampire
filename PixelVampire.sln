@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelVampire.Notifications", "src\PixelVampire.Notifications\PixelVampire.Notifications.csproj", "{D302DF0F-6FD5-4F4E-B81A-643F45A78DF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{2BC9449B-BA19-4291-A887-0FDE887B9E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BC9449B-BA19-4291-A887-0FDE887B9E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BC9449B-BA19-4291-A887-0FDE887B9E9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D302DF0F-6FD5-4F4E-B81A-643F45A78DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D302DF0F-6FD5-4F4E-B81A-643F45A78DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D302DF0F-6FD5-4F4E-B81A-643F45A78DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D302DF0F-6FD5-4F4E-B81A-643F45A78DF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

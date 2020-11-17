@@ -1,4 +1,5 @@
-﻿using PixelVampire.ViewModels;
+﻿using PixelVampire.Notifications;
+using PixelVampire.ViewModels;
 using PixelVampire.Views;
 using ReactiveUI;
 using Splat;
@@ -15,6 +16,14 @@ namespace PixelVampire
         {
             Locator.CurrentMutable.Register(() => new MainWindow(), typeof(IViewFor<MainWindowViewModel>));
             Locator.CurrentMutable.Register(() => new ImageEditorView(), typeof(IViewFor<ImageEditorViewModel>));
+            Locator.CurrentMutable.Register(() => new ImageSettingsView(), typeof(IViewFor<ImageSettingsViewModel>));
+            Locator.CurrentMutable.Register(() => new ImageEditorView(), typeof(IViewFor<ImageEditorViewModel>));
+            Locator.CurrentMutable.Register(() => new NotificationHostView(), typeof(IViewFor<NotificationHostViewModel>));
+            Locator.CurrentMutable.Register(() => new NotificationView(), typeof(IViewFor<NotificationViewModel>));
+
+            var notificator = new Notificator();
+            Locator.CurrentMutable.RegisterConstant(notificator, typeof(INotificationPublisher));
+            Locator.CurrentMutable.RegisterConstant(notificator, typeof(INotificationListener));
         }
 
         protected override void OnStartup(StartupEventArgs e)
