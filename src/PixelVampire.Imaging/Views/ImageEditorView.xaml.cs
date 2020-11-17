@@ -1,4 +1,5 @@
-﻿using PixelVampire.Imaging.ViewModels;
+﻿using Microsoft.Win32;
+using PixelVampire.Imaging.ViewModels;
 using ReactiveUI;
 using System;
 using System.Linq;
@@ -26,9 +27,12 @@ namespace PixelVampire.Imaging.Views
 
             this.WhenActivated(d =>
             {
-                //TODO: check not empty
-                //TODO: exclude folders
-                //TODO: check extension
+                Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                        x => this.SelectFilesButton.Click += x,
+                        x => this.SelectFilesButton.Click -= x)
+                    .ObserveOnDispatcher()
+                    .Subscribe(_ => SelectFilesByDialog())
+                    .DisposeWith(d);
 
                 this.Events().Drop
                     .Select(x => x.Data.GetData(DataFormats.FileDrop) as string[])
@@ -37,6 +41,17 @@ namespace PixelVampire.Imaging.Views
                     .Subscribe(x => this.ViewModel.LoadFiles(x))
                     .DisposeWith(d);
             });
+        }
+
+        private void SelectFilesByDialog()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
+            openFileDialog.Filter = "Images|*.jpg;*.jpeg;*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                this.ViewModel.LoadFiles(openFileDialog.FileNames);
+            }
         }
     }
 }

@@ -9,5 +9,11 @@
              x:TypeArguments="vm:NotificationHostViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ItemsControl x:Name="NotificationContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+    <ItemsControl x:Name="NotificationContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ItemsControl.ItemContainerStyle>
+            <Style>
+                <Setter Property="FrameworkElement.Margin" Value="0,10,0,0" />
+            </Style>
+        </ItemsControl.ItemContainerStyle>
+    </ItemsControl>
 </rxui:ReactiveUserControl>

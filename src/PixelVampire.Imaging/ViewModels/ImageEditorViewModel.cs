@@ -2,6 +2,7 @@
 using PixelVampire.Notifications;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 
@@ -25,7 +26,7 @@ namespace PixelVampire.Imaging.ViewModels
         public void LoadFiles(IEnumerable<string> filePaths)
         {
             foreach (var path in filePaths)
-                this.Notify().PublishInfo(path);
+                this.Notify().PublishInfo(path, "File loaded", TimeSpan.FromSeconds(2));
         }
     }
 }

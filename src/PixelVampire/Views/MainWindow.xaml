@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:PixelVampire.Views"
         mc:Ignorable="d"
         x:TypeArguments="vm:MainWindowViewModel"
-        Title="PixelVampire" Height="450" Width="800">
+        Title="PixelVampire" MinHeight="700" Height="700" Width="1200" MinWidth="1200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -25,11 +25,12 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch" />
 
-        <notifyViews:NotificationHostView Margin="10" Width="300" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="0" x:Name="NotificationHost" />
+        <notifyViews:NotificationHostView Margin="10" MinWidth="200" MaxWidth="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="0" x:Name="NotificationHost" />
 
         <StackPanel Background="{StaticResource MahApps.Brushes.Accent2}" Grid.Row="1" Orientation="Horizontal">
             <Button x:Name="Button1" Content="Button 1" Margin="10" />
             <Button x:Name="Button2" Content="Button 2" Margin="10" />
+            <Button x:Name="Button3" Content="Button 3" Margin="10" />
         </StackPanel>
     </Grid>
 </c:ReactiveMetroWindow>
