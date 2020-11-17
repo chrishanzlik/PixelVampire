@@ -1,18 +1,14 @@
 ﻿using PixelVampire.Notifications;
-using PixelVampire.ViewModels.Abstractions;
+using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PixelVampire.ViewModels
+namespace PixelVampire.Notifications.ViewModels
 {
     public class NotificationHostViewModel : ViewModelBase
     {

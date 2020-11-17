@@ -1,13 +1,13 @@
 ﻿using DynamicData;
 using PixelVampire.Notifications;
-using PixelVampire.ViewModels.Abstractions;
+using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 
-namespace PixelVampire.ViewModels
+namespace PixelVampire.Imaging.ViewModels
 {
-    public class ImageEditorViewModel : RoutableViewModelBase, IImageEditorViewModel
+    public class ImageEditorViewModel : RoutableViewModelBase
     {
         public ImageEditorViewModel()
             : base("image-editor")

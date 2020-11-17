@@ -1,9 +1,8 @@
-﻿using PixelVampire.ViewModels;
+﻿using PixelVampire.Imaging.ViewModels;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,22 +15,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PixelVampire.Views
+namespace PixelVampire.Imaging.Views
 {
     /// <summary>
-    /// Interaktionslogik für NotificationView.xaml
+    /// Interaktionslogik für ImageExplorerItemView.xaml
     /// </summary>
-    public partial class NotificationView : ReactiveUserControl<NotificationViewModel>
+    public partial class ImageExplorerItemView : ReactiveUserControl<ImageExlporerItemViewModel>
     {
-        public NotificationView()
+        public ImageExplorerItemView()
         {
             InitializeComponent();
 
             this.WhenActivated(d =>
             {
-                this.OneWayBind(ViewModel,
-                    x => x.Notification.Message,
-                    x => x.txt.Text).DisposeWith(d);
+
             });
         }
     }

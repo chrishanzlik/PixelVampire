@@ -1,9 +1,8 @@
-﻿using PixelVampire.Notifications;
-using ReactiveUI;
+﻿using ReactiveUI;
 using Splat;
 using System;
 
-namespace PixelVampire.ViewModels.Abstractions
+namespace PixelVampire.Shared.ViewModels
 {
     [Serializable]
     public abstract class ViewModelBase : ReactiveObject, IActivatableViewModel, IEnableNotifications, IEnableLogger

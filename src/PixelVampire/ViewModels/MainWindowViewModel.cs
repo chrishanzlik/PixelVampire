@@ -1,10 +1,7 @@
-﻿using PixelVampire.Notifications;
-using PixelVampire.ViewModels.Abstractions;
+﻿using PixelVampire.Imaging.ViewModels;
+using PixelVampire.Notifications.ViewModels;
+using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
-using Splat;
-using System;
-using System.Diagnostics;
-using System.Reactive.Linq;
 
 namespace PixelVampire.ViewModels
 {

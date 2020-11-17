@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PixelVampire.Helpers
+namespace PixelVampire.Shared
 {
     public static class Guard
     {

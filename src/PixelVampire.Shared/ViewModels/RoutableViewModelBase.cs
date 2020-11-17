@@ -1,8 +1,7 @@
-﻿using PixelVampire.Helpers;
-using ReactiveUI;
+﻿using ReactiveUI;
 using Splat;
 
-namespace PixelVampire.ViewModels.Abstractions
+namespace PixelVampire.Shared.ViewModels
 {
     public abstract class RoutableViewModelBase : ViewModelBase, IRoutableViewModel
     {
@@ -11,7 +10,7 @@ namespace PixelVampire.ViewModels.Abstractions
             Guard.Against.NullOrEmpty(urlPathSegment, nameof(urlPathSegment));
 
             UrlPathSegment = urlPathSegment;
-            HostScreen = hostScreen ?? Locator.Current.GetService<IScreen>();
+            HostScreen = hostScreen ?? Splat.Locator.Current.GetService<IScreen>();
         }
 
         public string UrlPathSegment { get; }

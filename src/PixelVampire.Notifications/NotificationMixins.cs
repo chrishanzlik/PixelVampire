@@ -1,4 +1,5 @@
-﻿using Splat;
+﻿using PixelVampire.Shared;
+using Splat;
 using System;
 
 namespace PixelVampire.Notifications
