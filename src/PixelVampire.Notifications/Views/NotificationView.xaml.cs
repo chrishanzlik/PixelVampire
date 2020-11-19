@@ -2,20 +2,8 @@
 using PixelVampire.Notifications.ViewModels;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Disposables;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PixelVampire.Notifications.Views
 {
@@ -50,7 +38,7 @@ namespace PixelVampire.Notifications.Views
                 this.OneWayBind(ViewModel,
                     x => x.SelfDestructionEnabled,
                     x => x.Duration.Visibility,
-                    x => x ? Visibility.Visible : Visibility.Collapsed);
+                    x => x ? Visibility.Visible : Visibility.Collapsed).DisposeWith(d);
 
                 this.BindCommand(ViewModel,
                     x => x.Close,
@@ -58,15 +46,14 @@ namespace PixelVampire.Notifications.Views
             });
         }
 
-        private PackIconBase GetIcon(NotificationLevel level)
-        {
-            switch(level)
+        private static PackIconBase GetIcon(NotificationLevel level) =>
+            level switch
             {
-                case NotificationLevel.Info: return new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.InfoCircleSolid };
-                case NotificationLevel.Warning: return new PackIconOcticons() { Kind = PackIconOcticonsKind.Alert };
-                case NotificationLevel.Error: return new PackIconMicrons() { Kind = PackIconMicronsKind.Fail };
-                default: throw new NotImplementedException("This notification level is not implemented yet.");
-            }
-        }
+                NotificationLevel.Info => new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.InfoCircleSolid },
+                NotificationLevel.Warning => new PackIconOcticons() { Kind = PackIconOcticonsKind.Alert },
+                NotificationLevel.Error => new PackIconMicrons() { Kind = PackIconMicronsKind.Fail },
+                _ => throw new NotImplementedException("This notification level is not implemented yet."),
+            };
+        
     }
 }
