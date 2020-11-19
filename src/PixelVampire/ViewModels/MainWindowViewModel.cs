@@ -10,7 +10,6 @@ namespace PixelVampire.ViewModels
 {
     public sealed class MainWindowViewModel : ViewModelBase, IScreen
     {
-
         public MainWindowViewModel()
         {
             NotificationHost = new NotificationHostViewModel();

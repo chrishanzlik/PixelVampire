@@ -1,5 +1,7 @@
 > Under active development...
 
-# PixelVampire
+# Pixel Vampire :syringe:
 
-Tool for compressing images
+WPF desktop application for image manipulation (mainly size compression).  
+
+There is **no usable/working version** atm.

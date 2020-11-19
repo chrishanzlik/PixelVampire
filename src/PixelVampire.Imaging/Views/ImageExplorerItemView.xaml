@@ -6,10 +6,10 @@
              xmlns:rx="http://reactiveui.net"
              xmlns:vm="clr-namespace:PixelVampire.Imaging.ViewModels"
              xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
-             x:TypeArguments="vm:ImageExlporerItemViewModel"
+             x:TypeArguments="vm:ImageExplorerItemViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <TextBlock x:Name="FileNameText" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </rx:ReactiveUserControl>

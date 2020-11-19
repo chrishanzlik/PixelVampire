@@ -6,7 +6,7 @@ namespace PixelVampire.Notifications
 {
     public static class NotificationMixins
     {
-        public static INotificationPublisher Notify(this IEnableNotifications self)
+        public static INotificationPublisher Notify(this IEnableNotifications _)
         {
             return Locator.Current.GetService<INotificationPublisher>();
         }

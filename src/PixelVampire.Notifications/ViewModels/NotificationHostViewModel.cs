@@ -15,27 +15,26 @@ namespace PixelVampire.Notifications.ViewModels
 {
     public class NotificationHostViewModel : ViewModelBase
     {
-        private readonly INotificationListener notificationListener;
-        private ReadOnlyObservableCollection<NotificationViewModel> notifications;
+        private readonly INotificationListener _notificationListener;
+        private ReadOnlyObservableCollection<NotificationViewModel> _notifications;
 
         public NotificationHostViewModel(INotificationListener notificationListener = null)
         {
-            Notifications = new ObservableCollection<NotificationViewModel>();
-            this.notificationListener = notificationListener ?? Locator.Current.GetService<INotificationListener>();
+            this._notificationListener = notificationListener ?? Locator.Current.GetService<INotificationListener>();
 
             var notificationSource = new SourceList<Notification>();
             var sourceConnection = notificationSource.Connect();
 
             this.WhenActivated(d =>
             {
-                this.notificationListener.Notifications
+                this._notificationListener.Notifications
                     .Subscribe(x => notificationSource.Add(x))
                     .DisposeWith(d);
 
                 sourceConnection
                     .Transform(x => new NotificationViewModel(x))
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .Bind(out notifications)
+                    .Bind(out _notifications)
                     .Subscribe()
                     .DisposeWith(d);
 
@@ -47,7 +46,7 @@ namespace PixelVampire.Notifications.ViewModels
             });
         }
 
-        public ReadOnlyObservableCollection<NotificationViewModel> Notifications => notifications;
+        public ReadOnlyObservableCollection<NotificationViewModel> Notifications => _notifications;
 
     }
 }
