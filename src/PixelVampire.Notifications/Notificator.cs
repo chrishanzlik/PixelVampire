@@ -10,9 +10,9 @@ namespace PixelVampire.Notifications
 {
     public class Notificator : INotificationListener, INotificationPublisher
     {
-        private readonly Subject<Notification> notificationSubject;
+        private readonly Subject<Notification> _notificationSubject;
 
-        IObservable<Notification> INotificationListener.Notifications => notificationSubject
+        IObservable<Notification> INotificationListener.Notifications => _notificationSubject
             .AsObservable()
             .Publish()
             .RefCount()
@@ -20,12 +20,12 @@ namespace PixelVampire.Notifications
 
         public Notificator()
         {
-            notificationSubject = new Subject<Notification>();
+            _notificationSubject = new Subject<Notification>();
         }
 
         public void Publish(Notification notification)
         {
-            notificationSubject.OnNext(notification);
+            _notificationSubject.OnNext(notification);
         }
     }
 }

@@ -3,6 +3,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,7 +21,7 @@ namespace PixelVampire.Imaging.Views
     /// <summary>
     /// Interaktionslogik für ImageExplorerItemView.xaml
     /// </summary>
-    public partial class ImageExplorerItemView : ReactiveUserControl<ImageExlporerItemViewModel>
+    public partial class ImageExplorerItemView : ReactiveUserControl<ImageExplorerItemViewModel>
     {
         public ImageExplorerItemView()
         {
@@ -28,7 +29,9 @@ namespace PixelVampire.Imaging.Views
 
             this.WhenActivated(d =>
             {
-
+                this.OneWayBind(ViewModel,
+                    x => x.ImageHandle.OriginalName,
+                    x => x.FileNameText.Text).DisposeWith(d);
             });
         }
     }

@@ -25,7 +25,7 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch" />
 
-        <notifyViews:NotificationHostView Margin="10" MinWidth="200" MaxWidth="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="0" x:Name="NotificationHost" />
+        <notifyViews:NotificationHostView Margin="10" MinWidth="300" MaxWidth="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="0" x:Name="NotificationHost" />
 
         <StackPanel Background="{StaticResource MahApps.Brushes.Accent2}" Grid.Row="1" Orientation="Horizontal">
             <Button x:Name="Button1" Content="Button 1" Margin="10" />
