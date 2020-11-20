@@ -30,10 +30,7 @@ namespace PixelVampire.Imaging.ViewModels
                 LoadImage
                     .Where(x => x != null)
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(handle => {
-                        SelectedImage = handle;
-                        source.AddOrUpdate(handle);
-                    })
+                    .Subscribe(handle => source.AddOrUpdate(handle))
                     .DisposeWith(d);
 
                 source
@@ -51,8 +48,8 @@ namespace PixelVampire.Imaging.ViewModels
                     .Switch()
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => {
-                        if (SelectedImage == x.ImageHandle) SelectedImage = null;
                         source.Remove(x.ImageHandle);
+                        if (SelectedImage == x.ImageHandle) SelectedImage = null;
                     })
                     .DisposeWith(d);
             });

@@ -35,15 +35,24 @@ namespace PixelVampire.Imaging.Views
                     x => x.Images,
                     x => x.ImageExplorer.ItemsSource).DisposeWith(d);
 
-                //TEST: Convert ImageHandle <-> ImageExplorerItemViewModel
-                //this.Bind(ViewModel,
-                //    x => x.SelectedImage,
-                //    x => x.ImageExplorer.SelectedItem).DisposeWith(d);
+                this.Bind(ViewModel,
+                    x => x.SelectedImage,
+                    x => x.ImageExplorer.SelectedItem,
+                    x => ViewModel.Images.FirstOrDefault(vm => vm.ImageHandle == x),
+                    x => (x as ImageExplorerItemViewModel)?.ImageHandle).DisposeWith(d);
+
+                IObservable<EventPattern<RoutedEventArgs>> selectFilesButtonClicks =
+                    Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                        x => this.SelectFilesButton.Click += x,
+                        x => this.SelectFilesButton.Click -= x);
+
+                IObservable<EventPattern<RoutedEventArgs>> selectFilesExplorerButtonClicks =
+                    Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                        x => this.SelectFilesExplorerButton.Click += x,
+                        x => this.SelectFilesExplorerButton.Click -= x);
 
                 // Load files from dialog
-                Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                        x => this.SelectFilesButton.Click += x,
-                        x => this.SelectFilesButton.Click -= x)
+                Observable.Merge(selectFilesButtonClicks, selectFilesExplorerButtonClicks)
                     .ObserveOnDispatcher()
                     .Select(_ => SelectFilesByDialog())
                     .Where(x => x != null)
@@ -64,7 +73,10 @@ namespace PixelVampire.Imaging.Views
                 ViewModel
                     .WhenAnyValue(x => x.SelectedImage)
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(_ => Canvas.InvalidateVisual())
+                    .Subscribe(img => {
+                        Canvas.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;
+                        Canvas.InvalidateVisual();
+                    })
                     .DisposeWith(d);
 
                 Canvas.PaintSurface += (o, e) =>

@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
              xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:rx="http://reactiveui.net"
              xmlns:vm="clr-namespace:PixelVampire.Imaging.ViewModels"
              x:TypeArguments="vm:ImageEditorViewModel"
              mc:Ignorable="d" 
-             AllowDrop="True" Background="White"
+             AllowDrop="True"
              d:DesignHeight="450" d:DesignWidth="1100">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,17 +18,52 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
-        <ListView x:Name="ImageExplorer" Grid.Column="0" Background="LightGray" />
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Margin="0" Padding="10,10,10,0" BorderBrush="Transparent" Background="#F3F3F3">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="20" Text="Images" Margin="0,0,0,5" />
+                    <Separator Margin="0" />
+                </StackPanel>
+            </Border>
+            <ListView Grid.Row="1" Padding="10,0,10,10" x:Name="ImageExplorer" Background="#F3F3F3">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="FontWeight" Value="Bold" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <Border Grid.Row="2" Margin="0" Padding="10,0,10,10" BorderBrush="Transparent" Background="#F3F3F3">
+                <Button x:Name="SelectFilesExplorerButton" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <iconPacks:PackIconCodicons Kind="Add" />
+                </Button>
+            </Border>
+        </Grid>
         <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock HorizontalAlignment="Center" Text="DROP FILES HERE" />
             <TextBlock HorizontalAlignment="Center" Text="OR" />
             <Button HorizontalAlignment="Center" x:Name="SelectFilesButton">SELECT FILES</Button>
-            
         </StackPanel>
 
         <skia:SKElement Grid.Column="1" x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        <Border Grid.Column="2" Background="LightGray">
+        <Border Grid.Column="2" Background="#F3F3F3">
             <local:ImageSettingsView />
         </Border>
     </Grid>
