@@ -1,16 +1,7 @@
-﻿using ReactiveUI;
-using SkiaSharp;
+﻿using SkiaSharp;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 
 namespace PixelVampire.Imaging
 {
@@ -21,10 +12,11 @@ namespace PixelVampire.Imaging
             return Observable.Create<ImageHandle>(observer =>
             {
                 ImageHandle handle = default;
+                SKCodec codec = default;
 
                 try
                 {
-                    using var codec = SKCodec.Create(path);
+                    codec = SKCodec.Create(path);
                     if (codec == null)
                     {
                         throw new Exception("Codec is null..."); //TODO... better approach?
@@ -37,7 +29,7 @@ namespace PixelVampire.Imaging
                         Format = codec.EncodedFormat,
                         OriginalPath = path,
                         OriginalName = Path.GetFileName(path),
-                        Thumbnail = CreateThumbnail(bitmap, 50, 50)
+                        Thumbnail = CreateThumbnail(bitmap, 50)
                     };
                     observer.OnNext(handle);
                 }
@@ -48,18 +40,38 @@ namespace PixelVampire.Imaging
 
                 observer.OnCompleted();
 
-                return Disposable.Empty;
+                return codec;
             });
         }
 
-        private SKBitmap CreateThumbnail(SKBitmap source, int width, int height)
+        private static SKBitmap CreateThumbnail(SKBitmap source, int sideLength)
         {
-            //using var ms = new MemoryStream();
-            var skBitmap = source.Resize(new SKSizeI(width, height), SKFilterQuality.Medium);
-            //skBitmap.Encode(ms, SKEncodedImageFormat.Png, 80);
-            //var bitmap = new Bitmap(ms, false)
+            var srcHeight = source.Height;
+            var srcWidth = source.Width;
+            var srcShortSide = srcWidth > srcHeight ? srcHeight : srcWidth;
+            
+            int top = 0, left = 0, right = 0, bottom = 0;
 
-            return skBitmap;
+            using var thumb = new SKBitmap(srcShortSide, srcShortSide);
+
+            if (srcHeight > srcWidth)
+            {
+                var offset = (srcHeight - srcWidth) / 2;
+                top = offset;
+                right = srcShortSide;
+                bottom = srcShortSide + offset;
+            }
+            else
+            {
+                var offset = (srcWidth - srcHeight) / 2;
+                left = offset;
+                right = offset + srcShortSide;
+                bottom = srcShortSide;
+            }
+
+            source.ExtractSubset(thumb, new SKRectI(left, top, right, bottom));
+
+            return thumb.Resize(new SKSizeI(sideLength, sideLength), SKFilterQuality.Medium); ;
         }
     }
 }
