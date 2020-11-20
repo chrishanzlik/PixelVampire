@@ -23,18 +23,18 @@
                        Margin="0,0,0,8"/>
         </StackPanel>
         <Button Margin="5"
-                Height="16"
-                Width="16"
+                Height="18"
+                Width="18"
                 Padding="0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 x:Name="RemoveButton"
-                Style="{StaticResource MahApps.Styles.Button.Flat}"
-                BorderBrush="Red">
+                Background="Red"
+                Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">
             <iconPacks:PackIconUnicons
                 Height="8"
                 Width="8"
-                Foreground="Red"
+                Foreground="White"
                 Kind="Times"
                 Margin="0"
                 Padding="0" />

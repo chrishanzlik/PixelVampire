@@ -9,14 +9,14 @@
              xmlns:rx="http://reactiveui.net"
              xmlns:vm="clr-namespace:PixelVampire.Imaging.ViewModels"
              x:TypeArguments="vm:ImageEditorViewModel"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Background="White"
              AllowDrop="True"
              d:DesignHeight="450" d:DesignWidth="1100">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition x:Name="ExplorerColumn" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition x:Name="SettingsColumn" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -50,15 +50,20 @@
                 </ListView.ItemContainerStyle>
             </ListView>
             <Border Grid.Row="2" Margin="0" Padding="10,0,10,10" BorderBrush="Transparent" Background="#F3F3F3">
-                <Button x:Name="SelectFilesExplorerButton" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Button x:Name="SelectFilesExplorerButton"
+                        Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Height="48"
+                        Width="48">
                     <iconPacks:PackIconCodicons Kind="Add" />
                 </Button>
             </Border>
         </Grid>
         <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center" Text="DROP FILES HERE" />
-            <TextBlock HorizontalAlignment="Center" Text="OR" />
-            <Button HorizontalAlignment="Center" x:Name="SelectFilesButton">SELECT FILES</Button>
+            <TextBlock FontSize="42" HorizontalAlignment="Center" Text="DROP FILES HERE" />
+            <TextBlock FontSize="28" HorizontalAlignment="Center" Text="OR" Margin="0,20" />
+            <Button FontSize="42" HorizontalAlignment="Center" x:Name="SelectFilesButton" Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">SELECT FILES</Button>
         </StackPanel>
 
         <skia:SKElement Grid.Column="1" x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

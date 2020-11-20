@@ -32,6 +32,16 @@ namespace PixelVampire.Imaging.Views
             this.WhenActivated(d =>
             {
                 this.OneWayBind(ViewModel,
+                    x => x.Images.Count,
+                    x => x.ExplorerColumn.Width,
+                    x => x > 0 ? new GridLength(300) : new GridLength(0)).DisposeWith(d);
+
+                this.OneWayBind(ViewModel,
+                    x => x.SelectedImage,
+                    x => x.SettingsColumn.Width,
+                    x => x != null ? new GridLength(200) : new GridLength(0)).DisposeWith(d);
+
+                this.OneWayBind(ViewModel,
                     x => x.Images,
                     x => x.ImageExplorer.ItemsSource).DisposeWith(d);
 

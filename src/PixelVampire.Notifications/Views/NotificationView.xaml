@@ -22,7 +22,20 @@
                 <TextBlock FontSize="12" Grid.Row="1" x:Name="MessageText" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Text placeholder here..." />
             </Grid>
         </Border>
-        <Button x:Name="CloseButton" Style="{StaticResource MahApps.Styles.Button.Flat}" Margin="1" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="5,0">&#215;</Button>
+        <Button x:Name="CloseButton"
+                Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                Margin="1"
+                BorderThickness="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top">
+            <iconPacks:PackIconUnicons
+                Height="8"
+                Width="8"
+                Foreground="White"
+                Kind="Times"
+                Margin="0"
+                Padding="0" />
+        </Button>
         <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom" MinHeight="1" Height="1" Grid.Row="2" x:Name="Duration" />
     </Grid>
 </rxui:ReactiveUserControl>
