@@ -22,24 +22,25 @@ namespace PixelVampire.Notifications.ViewModels
 
             if (notification.DisplayDuration.HasValue)
             {
-                var duration = notification.DisplayDuration.Value;
-                var stepWidth = 1;
-                var stepOverTime = duration * stepWidth / 100;
+                var displayDuration = notification.DisplayDuration.Value;
+                var decayAmount = 1;
+                var decayOverTime = displayDuration * decayAmount / 100;
 
-                IObservable<int> lifeTime = Observable.Generate(
-                    stepWidth,
+                IObservable<int> decayTicks = Observable.Generate(
+                    decayAmount,
                     x => x <= 100,
-                    x => x + stepWidth,
+                    x => x + decayAmount,
                     x => x,
-                    x => stepOverTime);
+                    x => decayOverTime);
 
                 this.WhenActivated(d =>
                 {
-                    lifeTime
+                    decayTicks
                         .ObserveOn(RxApp.MainThreadScheduler)
                         .ToPropertyEx(this, x => x.DestructionProcess)
                         .DisposeWith(d);
-                    lifeTime
+
+                    decayTicks
                         .Where(x => x >= 100)
                         .Select(_ => Unit.Default)
                         .InvokeCommand(Close)
@@ -48,12 +49,12 @@ namespace PixelVampire.Notifications.ViewModels
             }
         }
 
-        public Notification Notification { get; }
         public ReactiveCommand<Unit, NotificationViewModel> Close { get; }
+        public Notification Notification { get; }
+        public bool SelfDestructionEnabled { get; }
 
         [ObservableAsProperty]
         public int DestructionProcess { get; }
 
-        public bool SelfDestructionEnabled { get; }
     }
 }

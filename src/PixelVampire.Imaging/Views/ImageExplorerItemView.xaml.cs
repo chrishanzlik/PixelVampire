@@ -29,9 +29,18 @@ namespace PixelVampire.Imaging.Views
 
             this.WhenActivated(d =>
             {
+                this.BindCommand(ViewModel,
+                    x => x.Remove,
+                    x => x.RemoveButton).DisposeWith(d);
+
                 this.OneWayBind(ViewModel,
                     x => x.ImageHandle.OriginalName,
                     x => x.FileNameText.Text).DisposeWith(d);
+
+                this.OneWayBind(ViewModel,
+                    x => x.ImageHandle.Thumbnail,
+                    x => x.ThumbnailImage.Source,
+                    x => x.ToBitmapImage());
             });
         }
     }

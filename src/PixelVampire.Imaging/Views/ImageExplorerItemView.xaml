@@ -5,11 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:rx="http://reactiveui.net"
              xmlns:vm="clr-namespace:PixelVampire.Imaging.ViewModels"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
              x:TypeArguments="vm:ImageExplorerItemViewModel"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" Background="#01FFFFFF"
+             d:DesignHeight="120" d:DesignWidth="350">
     <Grid>
-        <TextBlock x:Name="FileNameText" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal">
+            <Image x:Name="ThumbnailImage"
+                   Width="50"
+                   Height="50"
+                   Margin="0,0,10,0" />
+            <TextBlock Text="example-image.jpg"
+                       x:Name="FileNameText"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       Margin="0,0,0,8"/>
+        </StackPanel>
+        <Button Margin="5"
+                Height="18"
+                Width="18"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                x:Name="RemoveButton"
+                Background="Red"
+                Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">
+            <iconPacks:PackIconUnicons
+                Height="8"
+                Width="8"
+                Foreground="White"
+                Kind="Times"
+                Margin="0"
+                Padding="0" />
+        </Button>
+        <Separator Margin="0" VerticalAlignment="Bottom" />
     </Grid>
 </rx:ReactiveUserControl>

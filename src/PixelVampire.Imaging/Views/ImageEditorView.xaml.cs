@@ -1,9 +1,12 @@
 ﻿using Microsoft.Win32;
 using PixelVampire.Imaging.ViewModels;
 using ReactiveUI;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows;
@@ -28,37 +31,71 @@ namespace PixelVampire.Imaging.Views
 
             this.WhenActivated(d =>
             {
-                Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                        x => this.SelectFilesButton.Click += x,
-                        x => this.SelectFilesButton.Click -= x)
-                    .ObserveOnDispatcher()
-                    .Select(_ => SelectFilesByDialog())
-                    .Where(x => x != null)
-                    .InvokeCommand(ViewModel.LoadImages)
-                    .DisposeWith(d);
+                this.OneWayBind(ViewModel,
+                    x => x.Images.Count,
+                    x => x.ExplorerColumn.Width,
+                    x => x > 0 ? new GridLength(300) : new GridLength(0)).DisposeWith(d);
 
-                this.Events().Drop
-                    .Select(x => x.Data.GetData(DataFormats.FileDrop) as string[])
-                    .Where(x => x != null)
-                    .Select(x => x.Where(x => !string.IsNullOrEmpty(x)))
-                    .InvokeCommand(ViewModel.LoadImages)
-                    .DisposeWith(d);
+                this.OneWayBind(ViewModel,
+                    x => x.SelectedImage,
+                    x => x.SettingsColumn.Width,
+                    x => x != null ? new GridLength(200) : new GridLength(0)).DisposeWith(d);
 
                 this.OneWayBind(ViewModel,
                     x => x.Images,
                     x => x.ImageExplorer.ItemsSource).DisposeWith(d);
 
-                ViewModel.LoadImages.Where(x => x.Images.Any()).ObserveOnDispatcher().Subscribe(x =>
-                {
-                    Canvas.InvalidateVisual();
-                });
+                this.Bind(ViewModel,
+                    x => x.SelectedImage,
+                    x => x.ImageExplorer.SelectedItem,
+                    x => ViewModel.Images.FirstOrDefault(vm => vm.ImageHandle == x),
+                    x => (x as ImageExplorerItemViewModel)?.ImageHandle).DisposeWith(d);
+
+                IObservable<EventPattern<RoutedEventArgs>> selectFilesButtonClicks =
+                    Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                        x => this.SelectFilesButton.Click += x,
+                        x => this.SelectFilesButton.Click -= x);
+
+                IObservable<EventPattern<RoutedEventArgs>> selectFilesExplorerButtonClicks =
+                    Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                        x => this.SelectFilesExplorerButton.Click += x,
+                        x => this.SelectFilesExplorerButton.Click -= x);
+
+                // Load files from dialog
+                Observable.Merge(selectFilesButtonClicks, selectFilesExplorerButtonClicks)
+                    .ObserveOnDispatcher()
+                    .Select(_ => SelectFilesByDialog())
+                    .Where(x => x != null)
+                    .SelectMany(x => x)
+                    .InvokeCommand(ViewModel.LoadImage)
+                    .DisposeWith(d);
+
+                // Load files from drag & drop
+                this.Events().Drop
+                    .Select(x => x.Data.GetData(DataFormats.FileDrop) as string[])
+                    .Where(x => x != null)
+                    .Select(x => x.Where(x => !string.IsNullOrEmpty(x)))
+                    .SelectMany(x => x)
+                    .InvokeCommand(ViewModel.LoadImage)
+                    .DisposeWith(d);
+
+                // Redraw preview when selection changes
+                ViewModel
+                    .WhenAnyValue(x => x.SelectedImage)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(img => {
+                        Canvas.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;
+                        Canvas.InvalidateVisual();
+                    })
+                    .DisposeWith(d);
 
                 Canvas.PaintSurface += (o, e) =>
                 {
                     e.Surface.Canvas.Clear();
-                    //var thumb = ViewModel.Images?.LastOrDefault()?.OriginalImage;
-                    //if (thumb != null)
-                    //    e.Surface.Canvas.DrawBitmap(thumb, new SkiaSharp.SKPoint(0,0));
+                    if (ViewModel.SelectedImage != null)
+                    {
+                        e.Surface.Canvas.DrawBitmap(ViewModel.SelectedImage.Preview, new SKPoint(0, 0));
+                    }
                 };
             });
         }
