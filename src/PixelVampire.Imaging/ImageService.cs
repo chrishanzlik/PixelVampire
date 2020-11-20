@@ -2,72 +2,64 @@
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace PixelVampire.Imaging
 {
     public class ImageService : IImageService
     {
-        public IObservable<ImageLoadResult> LoadImages(IEnumerable<string> paths, IScheduler scheduler = null)
+        public IObservable<ImageHandle> LoadImage(string path)
         {
-            var result = new ImageLoadResult();
-
-            return Observable.Create<ImageLoadResult>(observer =>
+            return Observable.Create<ImageHandle>(observer =>
             {
-                foreach(var path in paths)
+                ImageHandle handle = default;
+
+                try
                 {
-                    try
+                    using var codec = SKCodec.Create(path);
+                    if (codec == null)
                     {
-                        using var codec = SKCodec.Create(path);
-                        if (codec == null)
-                        {
-                            // Not an image
-                            continue;
-                        }
-
-                        SKBitmap bitmap = SKBitmap.Decode(codec);
-
-                        var handle = new ImageHandle
-                        {
-                            OriginalImage = bitmap,
-                            Format = codec.EncodedFormat,
-                            OriginalPath = path,
-                            OriginalName = Path.GetFileName(path),
-                            Thumbnail = CreateThumbnail(bitmap, 200, 200)
-                        };
-
-                        result.Images.Add(handle);
+                        throw new Exception("Codec is null..."); //TODO... better approach?
                     }
-                    catch(Exception ex)
+                    var bitmap = SKBitmap.Decode(codec);
+                    handle = new ImageHandle
                     {
-                        observer.OnError(ex);
-                    }
-
+                        OriginalImage = bitmap,
+                        Preview = bitmap,
+                        Format = codec.EncodedFormat,
+                        OriginalPath = path,
+                        OriginalName = Path.GetFileName(path),
+                        Thumbnail = CreateThumbnail(bitmap, 50, 50)
+                    };
+                    observer.OnNext(handle);
+                }
+                catch (Exception ex)
+                {
+                    observer.OnError(ex);
                 }
 
-                result.LoadedCount = result.Images.Count;
-                result.RejectedCount = paths.Count() - result.LoadedCount;
-
-                observer.OnNext(result);
                 observer.OnCompleted();
 
-                return () => { };
+                return Disposable.Empty;
             });
         }
 
         private SKBitmap CreateThumbnail(SKBitmap source, int width, int height)
         {
-            return source.Resize(new SKSizeI(width, height), SKFilterQuality.Medium);
-        }
+            //using var ms = new MemoryStream();
+            var skBitmap = source.Resize(new SKSizeI(width, height), SKFilterQuality.Medium);
+            //skBitmap.Encode(ms, SKEncodedImageFormat.Png, 80);
+            //var bitmap = new Bitmap(ms, false)
 
-        private bool ValidateFilePath(string path)
-        {
-            return false;
+            return skBitmap;
         }
     }
 }
