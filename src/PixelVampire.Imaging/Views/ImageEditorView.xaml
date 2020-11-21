@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
+             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:rx="http://reactiveui.net"
@@ -20,6 +21,11 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition x:Name="SettingsColumn" />
         </Grid.ColumnDefinitions>
+
+        <Border Visibility="Collapsed" Grid.Column="2" Panel.ZIndex="999" Background="#AFFF" x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <metroControls:ProgressRing MinWidth="100" MinHeight="100" />
+        </Border>
+
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

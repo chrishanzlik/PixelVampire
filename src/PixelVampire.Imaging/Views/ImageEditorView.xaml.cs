@@ -45,6 +45,11 @@ namespace PixelVampire.Imaging.Views
                     x => x.Images,
                     x => x.ImageExplorer.ItemsSource).DisposeWith(d);
 
+                this.OneWayBind(ViewModel,
+                    x => x.IsLoading,
+                    x => x.LoadingOverlay.Visibility,
+                    x => x ? Visibility.Visible : Visibility.Collapsed).DisposeWith(d);
+
                 this.Bind(ViewModel,
                     x => x.SelectedImage,
                     x => x.ImageExplorer.SelectedItem,

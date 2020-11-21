@@ -1,5 +1,4 @@
 ﻿using DynamicData;
-using DynamicData.Binding;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -16,25 +15,39 @@ namespace PixelVampire.Imaging.ViewModels
     public class ImageEditorViewModel : RoutableViewModelBase
     {
         private ReadOnlyObservableCollection<ImageExplorerItemViewModel> _images;
+        private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
 
         public ImageEditorViewModel(IImageService imageService = null)
         {
             imageService ??= Locator.Current.GetService<IImageService>();
 
-            var source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
+            IObservable<bool> loadings = default;
+            var sourceConnection = _source.Connect();
 
-            LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(imageService.LoadImage);
+            LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x), loadings);
+
+            loadings = LoadImage.IsExecuting;
 
             this.WhenActivated(d =>
             {
                 LoadImage
                     .Where(x => x != null)
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(handle => source.AddOrUpdate(handle))
+                    .Subscribe(handle => _source.AddOrUpdate(handle))
                     .DisposeWith(d);
 
-                source
-                    .Connect()
+                LoadImage
+                    .Throttle(TimeSpan.FromMilliseconds(200))
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(handle => SelectedImage = handle)
+                    .DisposeWith(d);
+
+                loadings
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .ToPropertyEx(this, x => x.IsLoading)
+                    .DisposeWith(d);
+
+                sourceConnection
                     .DisposeMany()
                     .Transform(x => new ImageExplorerItemViewModel(x))
                     .ObserveOn(RxApp.MainThreadScheduler)
@@ -42,13 +55,12 @@ namespace PixelVampire.Imaging.ViewModels
                     .Subscribe()
                     .DisposeWith(d);
 
-                Images
-                    .ToObservableChangeSet()
+                sourceConnection
                     .Select(_ => Images.Select(x => x.Remove).Merge())
                     .Switch()
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => {
-                        source.Remove(x.ImageHandle);
+                        _source.Remove(x.ImageHandle);
                         if (SelectedImage == x.ImageHandle) SelectedImage = null;
                     })
                     .DisposeWith(d);
@@ -61,5 +73,8 @@ namespace PixelVampire.Imaging.ViewModels
         
         [Reactive]
         public ImageHandle SelectedImage { get; set; }
+
+        [ObservableAsProperty]
+        public bool IsLoading { get; }
     }
 }
