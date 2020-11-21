@@ -1,4 +1,5 @@
 ﻿using DynamicData;
+using PixelVampire.Notifications;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -30,23 +31,32 @@ namespace PixelVampire.Imaging.ViewModels
 
             this.WhenActivated(d =>
             {
+                // Add loaded images to source
                 LoadImage
                     .Where(x => x != null)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(handle => _source.AddOrUpdate(handle))
                     .DisposeWith(d);
 
+                // Display latest loaded image
                 LoadImage
                     .Throttle(TimeSpan.FromMilliseconds(200))
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(handle => SelectedImage = handle)
                     .DisposeWith(d);
 
+                // Show image loading error
+                LoadImage.ThrownExceptions
+                    .Subscribe(_ => this.Notify()
+                        .PublishError("Sorry. Could not load this file.", "Error", TimeSpan.FromSeconds(10)));
+
+                // Pipe loadings to property
                 loadings
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .ToPropertyEx(this, x => x.IsLoading)
                     .DisposeWith(d);
 
+                // Bind and transform source to ObservableCollection
                 sourceConnection
                     .DisposeMany()
                     .Transform(x => new ImageExplorerItemViewModel(x))
@@ -55,6 +65,7 @@ namespace PixelVampire.Imaging.ViewModels
                     .Subscribe()
                     .DisposeWith(d);
 
+                // Subscribe to ViewModel closes after new items were added
                 sourceConnection
                     .Select(_ => Images.Select(x => x.Remove).Merge())
                     .Switch()
@@ -68,8 +79,8 @@ namespace PixelVampire.Imaging.ViewModels
         }
 
         public ReactiveCommand<string, ImageHandle> LoadImage { get; }
-        public override string UrlPathSegment => "image-editor";
         public ReadOnlyObservableCollection<ImageExplorerItemViewModel> Images => _images;
+        public override string UrlPathSegment => "image-editor";
         
         [Reactive]
         public ImageHandle SelectedImage { get; set; }

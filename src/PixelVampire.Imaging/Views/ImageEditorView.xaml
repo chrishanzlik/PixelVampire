@@ -71,13 +71,13 @@
         
         <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" />
 
-        <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
+        <StackPanel x:Name="SelectFilesBlock" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock FontSize="42" HorizontalAlignment="Center" Text="DROP FILES HERE" />
             <TextBlock FontSize="28" HorizontalAlignment="Center" Text="OR" Margin="0,20" />
             <Button FontSize="42" HorizontalAlignment="Center" x:Name="SelectFilesButton" Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">SELECT FILES</Button>
         </StackPanel>
 
-        <skia:SKElement Grid.Column="2" x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <skia:SKElement Margin="20" Grid.Column="2" x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
         <GridSplitter Grid.Column="3" Width="3" VerticalAlignment="Stretch" />
 

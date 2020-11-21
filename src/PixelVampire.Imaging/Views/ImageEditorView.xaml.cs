@@ -4,7 +4,6 @@ using ReactiveUI;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -89,6 +88,7 @@ namespace PixelVampire.Imaging.Views
                     .WhenAnyValue(x => x.SelectedImage)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(img => {
+                        SelectFilesBlock.Visibility = img != null ? Visibility.Collapsed : Visibility.Visible;
                         Canvas.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;
                         Canvas.InvalidateVisual();
                     })
@@ -99,7 +99,10 @@ namespace PixelVampire.Imaging.Views
                     e.Surface.Canvas.Clear();
                     if (ViewModel.SelectedImage != null)
                     {
-                        e.Surface.Canvas.DrawBitmap(ViewModel.SelectedImage.Preview, new SKPoint(0, 0));
+                        if (double.IsNaN(Canvas.ActualWidth) || double.IsNaN(Canvas.ActualHeight)) return;
+
+                        using var draw = ViewModel.SelectedImage.Preview.ResizeWithLockedRatio((int)Canvas.ActualWidth, (int)Canvas.ActualHeight, SKFilterQuality.Medium);
+                        e.Surface.Canvas.DrawBitmap(draw, new SKPoint(0, 0));
                     }
                 };
             });
@@ -110,7 +113,7 @@ namespace PixelVampire.Imaging.Views
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Multiselect = true,
-                Filter = "Images|*.jpg;*.jpeg;*.png"
+                Filter = "Images|*.jpg;*.jpeg;*.png;*.gif;*.bmp"
             };
 
             if (openFileDialog.ShowDialog() == true)
