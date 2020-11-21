@@ -29,30 +29,12 @@ namespace PixelVampire.Imaging
             return image;
         }
 
-        public static SKBitmap ResizeWithLockedRatio(this SKBitmap self, double width, double height, SKFilterQuality filterQuality)
+        public static SKBitmap ResizeFixedRatio(this SKBitmap self, int width, int height, SKFilterQuality filterQuality)
         {
-            var srcHeight = (double)self.Height;
-            var srcWidth = (double)self.Width;
-            int targetHeight, targetWidth;
-
-            //TODO: check for overflows
-
-            if (srcHeight > srcWidth)
-            {
-                var ratio = height / srcHeight;
-                targetHeight = (int)Math.Ceiling(height);
-                targetWidth = (int)Math.Ceiling(ratio * srcWidth);
-            }
-            else
-            {
-                var ratio = width / srcWidth;
-                targetWidth = (int)Math.Ceiling(width);
-                targetHeight = (int)Math.Ceiling(ratio * srcHeight);
-            }
-
-            return self.Resize(new SKSizeI(targetWidth, targetHeight), filterQuality);
+            double scale = Math.Min((double)width / self.Width, (double)height / self.Height);
+            int newWidth = (int)Math.Ceiling(self.Width * scale);
+            int newHeight = (int)Math.Ceiling(self.Height * scale);
+            return self.Resize(new SKSizeI(newWidth, newHeight), filterQuality);
         }
-
-
     }
 }

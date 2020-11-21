@@ -2,6 +2,7 @@
 using PixelVampire.Imaging.ViewModels;
 using ReactiveUI;
 using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,14 +99,30 @@ namespace PixelVampire.Imaging.Views
                 {
                     e.Surface.Canvas.Clear();
                     if (ViewModel.SelectedImage != null)
-                    {
-                        if (double.IsNaN(Canvas.ActualWidth) || double.IsNaN(Canvas.ActualHeight)) return;
-
-                        using var draw = ViewModel.SelectedImage.Preview.ResizeWithLockedRatio((int)Canvas.ActualWidth, (int)Canvas.ActualHeight, SKFilterQuality.Medium);
-                        e.Surface.Canvas.DrawBitmap(draw, new SKPoint(0, 0));
-                    }
+                        DrawPreview(e.Surface.Canvas);
                 };
             });
+        }
+
+        private void DrawPreview(SKCanvas canv)
+        {
+            if (double.IsNaN(Canvas.ActualWidth) || double.IsNaN(Canvas.ActualHeight)) return;
+
+            var prev = ViewModel.SelectedImage.Preview;
+
+            if (prev.Width > Canvas.ActualWidth || prev.Height > Canvas.ActualHeight)
+            {
+                using var draw = prev.ResizeFixedRatio((int)Canvas.ActualWidth, (int)Canvas.ActualHeight, SKFilterQuality.Medium);
+                var top = (int)Math.Ceiling(Canvas.ActualHeight - draw.Height) / 2;
+                var left = (int)Math.Ceiling(Canvas.ActualWidth - draw.Width) / 2;
+                canv.DrawBitmap(draw, new SKPoint(left, top));
+            }
+            else
+            {
+                var top = (int)Math.Ceiling(Canvas.ActualHeight - prev.Height) / 2;
+                var left = (int)Math.Ceiling(Canvas.ActualWidth - prev.Width) / 2;
+                canv.DrawBitmap(prev, new SKPoint(left, top));
+            }
         }
 
         private static IEnumerable<string> SelectFilesByDialog()
