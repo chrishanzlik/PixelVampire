@@ -1,46 +1,59 @@
-﻿using SkiaSharp;
+﻿using PixelVampire.Notifications;
+using PixelVampire.Shared;
+using ReactiveUI;
+using SkiaSharp;
 using System;
 using System.IO;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading;
 
 namespace PixelVampire.Imaging
 {
-    public class ImageService : IImageService
+    public class ImageService : IImageService, IEnableNotifications
     {
-        public IObservable<ImageHandle> LoadImage(string path)
+        public IObservable<ImageHandle> LoadImage(string path, IScheduler executionScheduler = null)
         {
+            executionScheduler ??= RxApp.TaskpoolScheduler;
+
             return Observable.Create<ImageHandle>(observer =>
             {
+                CompositeDisposable disposable = new CompositeDisposable();
                 ImageHandle handle = default;
                 SKCodec codec = default;
 
-                try
+                executionScheduler.Schedule(() =>
                 {
-                    codec = SKCodec.Create(path);
-                    if (codec == null)
+                    try
                     {
-                        throw new Exception("Codec is null..."); //TODO... better approach?
+                        codec = SKCodec.Create(path);
+                        codec.DisposeWith(disposable);
+                        if (codec == null)
+                        {
+                            throw new Exception("Codec is null..."); //TODO... better approach?
+                        }
+                        var bitmap = SKBitmap.Decode(codec);
+                        handle = new ImageHandle
+                        {
+                            OriginalImage = bitmap,
+                            Preview = bitmap,
+                            Format = codec.EncodedFormat,
+                            OriginalPath = path,
+                            OriginalName = Path.GetFileName(path),
+                            Thumbnail = CreateThumbnail(bitmap, 50)
+                        };
+                        observer.OnNext(handle);
                     }
-                    var bitmap = SKBitmap.Decode(codec);
-                    handle = new ImageHandle
+                    catch (Exception ex)
                     {
-                        OriginalImage = bitmap,
-                        Preview = bitmap,
-                        Format = codec.EncodedFormat,
-                        OriginalPath = path,
-                        OriginalName = Path.GetFileName(path),
-                        Thumbnail = CreateThumbnail(bitmap, 50)
-                    };
-                    observer.OnNext(handle);
-                }
-                catch (Exception ex)
-                {
-                    observer.OnError(ex);
-                }
+                        observer.OnError(ex);
+                    }
+                    observer.OnCompleted();
 
-                observer.OnCompleted();
+                }).DisposeWith(disposable);
 
-                return codec;
+                return disposable;
             });
         }
 

@@ -28,5 +28,31 @@ namespace PixelVampire.Imaging
 
             return image;
         }
+
+        public static SKBitmap ResizeWithLockedRatio(this SKBitmap self, double width, double height, SKFilterQuality filterQuality)
+        {
+            var srcHeight = (double)self.Height;
+            var srcWidth = (double)self.Width;
+            int targetHeight, targetWidth;
+
+            //TODO: check for overflows
+
+            if (srcHeight > srcWidth)
+            {
+                var ratio = height / srcHeight;
+                targetHeight = (int)Math.Ceiling(height);
+                targetWidth = (int)Math.Ceiling(ratio * srcWidth);
+            }
+            else
+            {
+                var ratio = width / srcWidth;
+                targetWidth = (int)Math.Ceiling(width);
+                targetHeight = (int)Math.Ceiling(ratio * srcHeight);
+            }
+
+            return self.Resize(new SKSizeI(targetWidth, targetHeight), filterQuality);
+        }
+
+
     }
 }

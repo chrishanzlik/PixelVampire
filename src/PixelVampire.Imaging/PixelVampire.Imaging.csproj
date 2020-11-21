@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="FodyWeavers.xml" />
 	  <None Remove="Views\ImageEditorView.xaml" />
 	  <None Remove="Views\ImageExplorerItemView.xaml" />
 	  <None Remove="Views\ImageSettingsView.xaml" />

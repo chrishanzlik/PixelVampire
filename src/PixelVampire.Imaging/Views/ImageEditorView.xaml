@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
+             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:rx="http://reactiveui.net"
@@ -15,9 +16,16 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="ExplorerColumn" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition x:Name="SettingsColumn" />
         </Grid.ColumnDefinitions>
+
+        <Border Visibility="Collapsed" Grid.Column="2" Panel.ZIndex="999" Background="#AFFF" x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <metroControls:ProgressRing MinWidth="100" MinHeight="100" />
+        </Border>
+
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -60,15 +68,20 @@
                 </Button>
             </Border>
         </Grid>
-        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+        
+        <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" />
+
+        <StackPanel x:Name="SelectFilesBlock" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock FontSize="42" HorizontalAlignment="Center" Text="DROP FILES HERE" />
             <TextBlock FontSize="28" HorizontalAlignment="Center" Text="OR" Margin="0,20" />
             <Button FontSize="42" HorizontalAlignment="Center" x:Name="SelectFilesButton" Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">SELECT FILES</Button>
         </StackPanel>
 
-        <skia:SKElement Grid.Column="1" x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <skia:SKElement Margin="20" Grid.Column="2" x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        <Border Grid.Column="2" Background="#F3F3F3">
+        <GridSplitter Grid.Column="3" Width="3" VerticalAlignment="Stretch" />
+
+        <Border Grid.Column="4" Background="#F3F3F3">
             <local:ImageSettingsView />
         </Border>
     </Grid>
