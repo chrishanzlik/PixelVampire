@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -22,12 +23,9 @@ namespace PixelVampire.Imaging.ViewModels
         {
             imageService ??= Locator.Current.GetService<IImageService>();
 
-            IObservable<bool> loadings = default;
             var sourceConnection = _source.Connect();
 
-            LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x), loadings);
-
-            loadings = LoadImage.IsExecuting;
+            LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x));
 
             this.WhenActivated(d =>
             {
@@ -51,7 +49,7 @@ namespace PixelVampire.Imaging.ViewModels
                         .PublishError("Sorry. Could not load this file.", "Error", TimeSpan.FromSeconds(10)));
 
                 // Pipe loadings to property
-                loadings
+                LoadImage.IsExecuting
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .ToPropertyEx(this, x => x.IsLoading)
                     .DisposeWith(d);
@@ -79,6 +77,9 @@ namespace PixelVampire.Imaging.ViewModels
         }
 
         public ReactiveCommand<string, ImageHandle> LoadImage { get; }
+        public ReactiveCommand<Unit, Unit> GoNext { get; }
+        public ReactiveCommand<Unit, Unit> GoPrev { get; }
+
         public ReadOnlyObservableCollection<ImageExplorerItemViewModel> Images => _images;
         public override string UrlPathSegment => "image-editor";
         

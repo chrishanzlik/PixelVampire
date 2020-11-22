@@ -56,18 +56,19 @@ namespace PixelVampire.Imaging.Views
                     x => ViewModel.Images.FirstOrDefault(vm => vm.ImageHandle == x),
                     x => (x as ImageExplorerItemViewModel)?.ImageHandle).DisposeWith(d);
 
-                IObservable<EventPattern<RoutedEventArgs>> selectFilesButtonClicks =
-                    Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                        x => this.SelectFilesButton.Click += x,
-                        x => this.SelectFilesButton.Click -= x);
-
-                IObservable<EventPattern<RoutedEventArgs>> selectFilesExplorerButtonClicks =
-                    Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                        x => this.SelectFilesExplorerButton.Click += x,
-                        x => this.SelectFilesExplorerButton.Click -= x);
+                // Hide next and prev buttons, when not needed
+                ViewModel.WhenAnyValue(x => x.Images.Count)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(cnt => {
+                        NextButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                        PrevButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                    })
+                    .DisposeWith(d);
 
                 // Load files from dialog
-                Observable.Merge(selectFilesButtonClicks, selectFilesExplorerButtonClicks)
+                Observable.Merge(
+                        ClicksOf(SelectFilesExplorerButton),
+                        ClicksOf(SelectFilesButton))
                     .ObserveOnDispatcher()
                     .Select(_ => SelectFilesByDialog())
                     .Where(x => x != null)
@@ -139,6 +140,13 @@ namespace PixelVampire.Imaging.Views
             }
 
             return null;
+        }
+
+        private IObservable<EventPattern<RoutedEventArgs>> ClicksOf(Button button)
+        {
+            return Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                x => button.Click += x,
+                x => button.Click -= x);
         }
     }
 }

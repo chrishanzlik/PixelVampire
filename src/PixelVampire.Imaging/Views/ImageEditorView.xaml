@@ -71,6 +71,26 @@
         
         <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" />
 
+        <Button x:Name="PrevButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Panel.ZIndex="100"
+                Margin="10,0,0,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleLeftF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
+        <Button x:Name="NextButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Panel.ZIndex="100"
+                Margin="0,0,10,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleRightF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
         <StackPanel x:Name="SelectFilesBlock" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock FontSize="42" HorizontalAlignment="Center" Text="DROP FILES HERE" />
             <TextBlock FontSize="28" HorizontalAlignment="Center" Text="OR" Margin="0,20" />
