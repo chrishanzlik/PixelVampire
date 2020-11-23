@@ -10,6 +10,8 @@
 	  <None Remove="FodyWeavers.xml" />
 	  <None Remove="Views\ImageEditorView.xaml" />
 	  <None Remove="Views\ImageExplorerItemView.xaml" />
+	  <None Remove="Views\ImageExplorerView.xaml" />
+	  <None Remove="Views\ImagePreviewView.xaml" />
 	  <None Remove="Views\ImageSettingsView.xaml" />
 	</ItemGroup>
 
@@ -24,6 +26,16 @@
 
 	<ItemGroup>
 	  <Page Include="Views\ImageEditorView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImagePreviewView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImageExplorerView.xaml">
 	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 	    <SubType>Designer</SubType>
 	    <Generator>MSBuild:Compile</Generator>
@@ -47,6 +59,12 @@
 
 	<ItemGroup>
 	  <Compile Update="Views\ImageEditorView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImagePreviewView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImageExplorerView.xaml.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
 	  <Compile Update="Views\ImageExplorerItemView.xaml.cs">
