@@ -11,7 +11,7 @@
              mc:Ignorable="d" Background="#01FFFFFF"
              d:DesignHeight="120" d:DesignWidth="350">
     <Grid>
-        <ListView x:Name="ImageExplorer" Background="#F3F3F3">
+        <ListView x:Name="ImageExplorer" Background="#F3F3F3" SelectionMode="Extended">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Background" Value="White" />

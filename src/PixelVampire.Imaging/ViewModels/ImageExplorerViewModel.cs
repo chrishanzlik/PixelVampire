@@ -1,6 +1,6 @@
 ﻿using DynamicData;
-using DynamicData.Binding;
 using PixelVampire.Imaging.Models;
+using PixelVampire.Imaging.ViewModels.Abstractions;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -12,18 +12,23 @@ using System.Reactive.Linq;
 
 namespace PixelVampire.Imaging.ViewModels
 {
-    public class ImageExplorerViewModel : ViewModelBase
+    public class ImageExplorerViewModel : ViewModelBase, IImageExplorerViewModel
     {
         private ReadOnlyObservableCollection<ImageExplorerItemViewModel> _children;
+        private ReactiveCommand<ImageExplorerItemViewModel, ImageHandle> RequestRemove { get; }
 
         public ImageExplorerViewModel(IObservableCache<ImageHandle, string> imageCache)
         {
-            var connection = imageCache.Connect();
+            var connection = imageCache?.Connect() ?? throw new ArgumentNullException(nameof(imageCache));
 
             RequestRemove = ReactiveCommand.Create<ImageExplorerItemViewModel, ImageHandle>(
                 vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm.ExplorerItem.FilePath),
                 outputScheduler: RxApp.TaskpoolScheduler);
 
+            Deletions = RequestRemove.AsObservable();
+            Selections = this.WhenAnyValue(x => x.SelectedItem)
+                .Select(vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm?.ExplorerItem.FilePath))
+                .DistinctUntilChanged();
 
             this.WhenActivated(d =>
             {
@@ -32,8 +37,9 @@ namespace PixelVampire.Imaging.ViewModels
                     .Transform(x => new ImageExplorerItem(x.OriginalPath, x.OriginalImage.ToThumbnail(50)))
                     .DisposeMany()
                     .Transform(x => new ImageExplorerItemViewModel(x)).ObserveOn(RxApp.MainThreadScheduler)
+                    .ObserveOn(RxApp.MainThreadScheduler)
                     .Bind(out _children)
-                    .Subscribe()
+                    .Subscribe(_ => SelectedItem ??= Children.FirstOrDefault())
                     .DisposeWith(d);
 
                 connection
@@ -46,33 +52,33 @@ namespace PixelVampire.Imaging.ViewModels
             });
         }
 
-        public ReactiveCommand<ImageExplorerItemViewModel, ImageHandle> RequestRemove { get; }
-
         public ReadOnlyObservableCollection<ImageExplorerItemViewModel> Children => _children;
-
+        
         [Reactive]
         public ImageExplorerItemViewModel SelectedItem { get; set; }
 
-        public void SelectNextImage()
+        public IObservable<ImageHandle> Selections { get; }
+
+        public IObservable<ImageHandle> Deletions { get; }
+
+        public void NextImage()
         {
-            if (Children.Count < 1) return;
+            if (Children.Count <= 1) return;
 
-            var actualIndex = Children.IndexOf(SelectedItem);
-
-            var nextIndex = actualIndex == Children.Count ? 0 : actualIndex + 1;
-
-            SelectedItem = Children.ElementAtOrDefault(nextIndex);
+            int actualIndex = Children.IndexOf(SelectedItem);
+            int nextIndex = actualIndex < Children.Count - 1 ? actualIndex + 1 : 0;
+            
+            SelectedItem = Children.ElementAt(nextIndex);
         }
 
-        public void SelectPreviousImage()
+        public void PreviousImage()
         {
-            if (Children.Count < 1) return;
+            if (Children.Count <= 1) return;
 
-            var actualIndex = Children.IndexOf(SelectedItem);
+            int actualIndex = Children.IndexOf(SelectedItem);
+            int nextIndex = actualIndex > 0 ? actualIndex - 1 : Children.Count - 1;
 
-            var nextIndex = actualIndex == 0 ? Children.Count : actualIndex - 1;
-
-            SelectedItem = Children.ElementAtOrDefault(nextIndex);
+            SelectedItem = Children.ElementAt(nextIndex);
         }
     }
 }

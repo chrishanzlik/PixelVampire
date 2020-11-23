@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -17,7 +18,7 @@ namespace PixelVampire.Imaging.ViewModels
     public class ImageEditorViewModel : RoutableViewModelBase
     {
         private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
-        private ReadOnlyObservableCollection<ImageHandle> _loadedImages;
+        private ReadOnlyObservableCollection<ImageHandle> _images;
 
         public ImageEditorViewModel(IImageService imageService = null)
         {
@@ -25,25 +26,17 @@ namespace PixelVampire.Imaging.ViewModels
 
             ImageExplorer = new ImageExplorerViewModel(_source.AsObservableCache());
             ImagePreview = new ImagePreviewViewModel(this.WhenAnyValue(x => x.SelectedImage));
-
-            var sourceConnection = _source.Connect();
-
             LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x));
+            SelectNext = ReactiveCommand.Create(ImageExplorer.NextImage);
+            SelectPrevious = ReactiveCommand.Create(ImageExplorer.PreviousImage);
 
             this.WhenActivated(d =>
             {
-                sourceConnection
+                _source
+                    .Connect()
                     .DisposeMany()
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .Bind(out _loadedImages)
-                    .Do(x =>
-                    {
-                        //TODO: called to early
-                        if (SelectedImage == null)
-                        {
-                            ImageExplorer.SelectNextImage();
-                        }
-                    })
+                    .Bind(out _images)
                     .Subscribe()
                     .DisposeWith(d);
 
@@ -56,8 +49,7 @@ namespace PixelVampire.Imaging.ViewModels
 
                 // Show image loading error
                 LoadImage.ThrownExceptions
-                    .Subscribe(_ => this.Notify()
-                        .PublishError("Sorry. Could not load this file.", "Error", TimeSpan.FromSeconds(10)))
+                    .Subscribe(_ => this.Notify().PublishError("Sorry. Could not load this file.", "Error", TimeSpan.FromSeconds(10)))
                     .DisposeWith(d);
 
                 // Pipe loadings to property
@@ -67,17 +59,13 @@ namespace PixelVampire.Imaging.ViewModels
                     .DisposeWith(d);
 
                 // React on close requests from explorer view
-                ImageExplorer.WhenAnyObservable(x => x.RequestRemove)
+                ImageExplorer.Deletions
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(img => {
-                        _source.Remove(img);
-                        if (SelectedImage == img) SelectedImage = null;
-                    })
+                    .Subscribe(x => _source.Remove(x))
                     .DisposeWith(d);
 
                 // Select explorer item
-                ImageExplorer.WhenAnyValue(x => x.SelectedItem)
-                    .Select(x => x != null ? _source.Items.FirstOrDefault(i => i.OriginalPath == x.ExplorerItem.FilePath) : null)
+                ImageExplorer.Selections
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => SelectedImage = x)
                     .DisposeWith(d);
@@ -85,6 +73,8 @@ namespace PixelVampire.Imaging.ViewModels
         }
 
         public ReactiveCommand<string, ImageHandle> LoadImage { get; }
+        public ReactiveCommand<Unit, Unit> SelectNext { get; }
+        public ReactiveCommand<Unit, Unit> SelectPrevious { get; }
 
         public ImageExplorerViewModel ImageExplorer { get; }
 
@@ -98,6 +88,6 @@ namespace PixelVampire.Imaging.ViewModels
         [ObservableAsProperty]
         public bool IsLoading { get; }
 
-        public ReadOnlyObservableCollection<ImageHandle> LoadedImages => _loadedImages;
+        public ReadOnlyObservableCollection<ImageHandle> Images => _images;
     }
 }

@@ -31,8 +31,16 @@ namespace PixelVampire.Imaging.Views
 
             this.WhenActivated(d =>
             {
+                this.BindCommand(ViewModel,
+                    x => x.SelectNext,
+                    x => x.NextButton).DisposeWith(d);
+
+                this.BindCommand(ViewModel,
+                    x => x.SelectPrevious,
+                    x => x.PrevButton).DisposeWith(d);
+
                 this.OneWayBind(ViewModel,
-                    x => x.LoadedImages.Count,
+                    x => x.Images.Count,
                     x => x.ExplorerColumn.Width,
                     x => x > 0 ? new GridLength(300) : new GridLength(0)).DisposeWith(d);
 
@@ -82,6 +90,12 @@ namespace PixelVampire.Imaging.Views
                         Preview.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;
                     })
                     .DisposeWith(d);
+
+                ViewModel.WhenAnyValue(x => x.Images.Count).ObserveOnDispatcher().Subscribe(cnt =>
+                {
+                    PrevButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                    NextButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                }).DisposeWith(d);
             });
         }
 

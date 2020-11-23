@@ -35,7 +35,7 @@ namespace PixelVampire.Imaging.Views
 
                 this.Bind(ViewModel,
                     x => x.SelectedItem,
-                    x => x.ImageExplorer.SelectedItem).DisposeWith(d);
+                    x => x.ImageExplorer.SelectedItem);
             });
         }
     }

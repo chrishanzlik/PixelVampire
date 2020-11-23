@@ -63,6 +63,26 @@
 
         <local:ImagePreviewView x:Name="Preview" Margin="20" Grid.Column="2" />
 
+        <Button x:Name="PrevButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Panel.ZIndex="100"
+                Margin="10,0,0,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleLeftF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
+        <Button x:Name="NextButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Panel.ZIndex="100"
+                Margin="0,0,10,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleRightF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
         <GridSplitter Grid.Column="3" Width="3" VerticalAlignment="Stretch" />
 
         <Border Grid.Column="4" Background="#F3F3F3">
