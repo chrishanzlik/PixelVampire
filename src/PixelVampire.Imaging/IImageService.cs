@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PixelVampire.Imaging.Models;
+using System;
 using System.Reactive.Concurrency;
 
 namespace PixelVampire.Imaging

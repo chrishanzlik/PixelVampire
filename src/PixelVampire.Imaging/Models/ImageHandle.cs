@@ -1,7 +1,7 @@
 ﻿using SkiaSharp;
 using System;
 
-namespace PixelVampire.Imaging
+namespace PixelVampire.Imaging.Models
 {
     public class ImageHandle : IDisposable
     {
@@ -13,7 +13,6 @@ namespace PixelVampire.Imaging
         public string OriginalPath { get; set; }
         public string OriginalName { get; set; }
         public SKBitmap OriginalImage { get; set; }
-        public SKBitmap Thumbnail { get; set; }
         public SKBitmap Preview { get; set; }
         public SKEncodedImageFormat Format { get; set; }
 
@@ -29,7 +28,6 @@ namespace PixelVampire.Imaging
             {
                 OriginalImage?.Dispose();
                 Preview?.Dispose();
-                Thumbnail?.Dispose();
             }
         }
     }

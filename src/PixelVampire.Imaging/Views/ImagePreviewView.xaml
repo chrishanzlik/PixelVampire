@@ -1,0 +1,37 @@
+﻿<rx:ReactiveUserControl x:Class="PixelVampire.Imaging.Views.ImagePreviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:rx="http://reactiveui.net"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+             xmlns:vm="clr-namespace:PixelVampire.Imaging.ViewModels"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
+             x:TypeArguments="vm:ImagePreviewViewModel"
+             mc:Ignorable="d" Background="#01FFFFFF"
+             d:DesignHeight="120" d:DesignWidth="350">
+    <Grid>
+        <Button x:Name="PrevButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Panel.ZIndex="100"
+                Margin="10,0,0,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleLeftF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
+        <Button x:Name="NextButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Panel.ZIndex="100"
+                Margin="0,0,10,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleRightF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
+        <skia:SKElement x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+    </Grid>
+</rx:ReactiveUserControl>

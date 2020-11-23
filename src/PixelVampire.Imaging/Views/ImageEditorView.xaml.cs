@@ -32,7 +32,7 @@ namespace PixelVampire.Imaging.Views
             this.WhenActivated(d =>
             {
                 this.OneWayBind(ViewModel,
-                    x => x.Images.Count,
+                    x => x.LoadedImages.Count,
                     x => x.ExplorerColumn.Width,
                     x => x > 0 ? new GridLength(300) : new GridLength(0)).DisposeWith(d);
 
@@ -42,28 +42,17 @@ namespace PixelVampire.Imaging.Views
                     x => x != null ? new GridLength(200) : new GridLength(0)).DisposeWith(d);
 
                 this.OneWayBind(ViewModel,
-                    x => x.Images,
-                    x => x.ImageExplorer.ItemsSource).DisposeWith(d);
-
-                this.OneWayBind(ViewModel,
                     x => x.IsLoading,
                     x => x.LoadingOverlay.Visibility,
                     x => x ? Visibility.Visible : Visibility.Collapsed).DisposeWith(d);
 
-                this.Bind(ViewModel,
-                    x => x.SelectedImage,
-                    x => x.ImageExplorer.SelectedItem,
-                    x => ViewModel.Images.FirstOrDefault(vm => vm.ImageHandle == x),
-                    x => (x as ImageExplorerItemViewModel)?.ImageHandle).DisposeWith(d);
+                this.OneWayBind(ViewModel,
+                    x => x.ImageExplorer,
+                    x => x.Explorer.ViewModel).DisposeWith(d);
 
-                // Hide next and prev buttons, when not needed
-                ViewModel.WhenAnyValue(x => x.Images.Count)
-                    .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(cnt => {
-                        NextButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
-                        PrevButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
-                    })
-                    .DisposeWith(d);
+                this.OneWayBind(ViewModel,
+                    x => x.ImagePreview,
+                    x => x.Preview.ViewModel).DisposeWith(d);
 
                 // Load files from dialog
                 Observable.Merge(
@@ -85,45 +74,15 @@ namespace PixelVampire.Imaging.Views
                     .InvokeCommand(ViewModel.LoadImage)
                     .DisposeWith(d);
 
-                // Redraw preview when selection changes
                 ViewModel
                     .WhenAnyValue(x => x.SelectedImage)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(img => {
                         SelectFilesBlock.Visibility = img != null ? Visibility.Collapsed : Visibility.Visible;
-                        Canvas.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;
-                        Canvas.InvalidateVisual();
+                        Preview.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;
                     })
                     .DisposeWith(d);
-
-                Canvas.PaintSurface += (o, e) =>
-                {
-                    e.Surface.Canvas.Clear();
-                    if (ViewModel.SelectedImage != null)
-                        DrawPreview(e.Surface.Canvas);
-                };
             });
-        }
-
-        private void DrawPreview(SKCanvas canv)
-        {
-            if (double.IsNaN(Canvas.ActualWidth) || double.IsNaN(Canvas.ActualHeight)) return;
-
-            var prev = ViewModel.SelectedImage.Preview;
-
-            if (prev.Width > Canvas.ActualWidth || prev.Height > Canvas.ActualHeight)
-            {
-                using var draw = prev.ResizeFixedRatio((int)Canvas.ActualWidth, (int)Canvas.ActualHeight, SKFilterQuality.Medium);
-                var top = (int)Math.Ceiling(Canvas.ActualHeight - draw.Height) / 2;
-                var left = (int)Math.Ceiling(Canvas.ActualWidth - draw.Width) / 2;
-                canv.DrawBitmap(draw, new SKPoint(left, top));
-            }
-            else
-            {
-                var top = (int)Math.Ceiling(Canvas.ActualHeight - prev.Height) / 2;
-                var left = (int)Math.Ceiling(Canvas.ActualWidth - prev.Width) / 2;
-                canv.DrawBitmap(prev, new SKPoint(left, top));
-            }
         }
 
         private static IEnumerable<string> SelectFilesByDialog()

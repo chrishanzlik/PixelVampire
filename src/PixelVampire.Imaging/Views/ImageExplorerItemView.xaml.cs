@@ -2,6 +2,8 @@
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Text;
@@ -14,7 +16,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PixelVampire.Imaging.Views
 {
@@ -30,17 +31,22 @@ namespace PixelVampire.Imaging.Views
             this.WhenActivated(d =>
             {
                 this.BindCommand(ViewModel,
-                    x => x.Remove,
+                    x => x.RequestRemove,
                     x => x.RemoveButton).DisposeWith(d);
 
                 this.OneWayBind(ViewModel,
-                    x => x.ImageHandle.OriginalName,
-                    x => x.FileNameText.Text).DisposeWith(d);
+                    x => x.ExplorerItem.FilePath,
+                    x => x.FileNameText.Text,
+                    x => Path.GetFileName(x)).DisposeWith(d);
 
                 this.OneWayBind(ViewModel,
-                    x => x.ImageHandle.Thumbnail,
+                    x => x.ExplorerItem.FilePath,
+                    x => x.FileNameText.ToolTip).DisposeWith(d);
+
+                this.OneWayBind(ViewModel,
+                    x => x.ExplorerItem.Thumbnail,
                     x => x.ThumbnailImage.Source,
-                    x => x.ToBitmapImage());
+                    x => x.ToBitmapImage()).DisposeWith(d);
             });
         }
     }

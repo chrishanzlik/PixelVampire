@@ -14,6 +14,8 @@ namespace PixelVampire.Imaging
             resolver.Register(() => new ImageSettingsView(), typeof(IViewFor<ImageSettingsViewModel>));
             resolver.Register(() => new ImageEditorView(), typeof(IViewFor<ImageEditorViewModel>));
             resolver.Register(() => new ImageExplorerItemView(), typeof(IViewFor<ImageExplorerItemViewModel>));
+            resolver.Register(() => new ImageExplorerView(), typeof(IViewFor<ImageExplorerViewModel>));
+            resolver.Register(() => new ImagePreviewView(), typeof(IViewFor<ImagePreviewViewModel>));
 
             resolver.Register<IImageService>(() => new ImageService());
         }

@@ -1,0 +1,34 @@
+﻿<rx:ReactiveUserControl x:Class="PixelVampire.Imaging.Views.ImageExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:rx="http://reactiveui.net"
+             xmlns:vm="clr-namespace:PixelVampire.Imaging.ViewModels"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
+             x:TypeArguments="vm:ImageExplorerViewModel"
+             mc:Ignorable="d" Background="#01FFFFFF"
+             d:DesignHeight="120" d:DesignWidth="350">
+    <Grid>
+        <ListView x:Name="ImageExplorer" Background="#F3F3F3">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</rx:ReactiveUserControl>

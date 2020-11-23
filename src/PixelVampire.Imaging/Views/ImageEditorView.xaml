@@ -38,25 +38,9 @@
                     <Separator Margin="0" />
                 </StackPanel>
             </Border>
-            <ListView Grid.Row="1" Padding="10,0,10,10" x:Name="ImageExplorer" Background="#F3F3F3">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                    <ContentPresenter />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="FontWeight" Value="Bold" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
+
+            <local:ImageExplorerView Background="#F3F3F3" x:Name="Explorer" Grid.Row="1" Padding="10,0,10,10" />
+
             <Border Grid.Row="2" Margin="0" Padding="10,0,10,10" BorderBrush="Transparent" Background="#F3F3F3">
                 <Button x:Name="SelectFilesExplorerButton"
                         Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
@@ -68,28 +52,8 @@
                 </Button>
             </Border>
         </Grid>
-        
+
         <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" />
-
-        <Button x:Name="PrevButton"
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Left"
-                Panel.ZIndex="100"
-                Margin="10,0,0,0"
-                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
-            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleLeftF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
-        </Button>
-
-        <Button x:Name="NextButton"
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Right"
-                Panel.ZIndex="100"
-                Margin="0,0,10,0"
-                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
-            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleRightF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
-        </Button>
 
         <StackPanel x:Name="SelectFilesBlock" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock FontSize="42" HorizontalAlignment="Center" Text="DROP FILES HERE" />
@@ -97,7 +61,7 @@
             <Button FontSize="42" HorizontalAlignment="Center" x:Name="SelectFilesButton" Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">SELECT FILES</Button>
         </StackPanel>
 
-        <skia:SKElement Margin="20" Grid.Column="2" x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <local:ImagePreviewView x:Name="Preview" Margin="20" Grid.Column="2" />
 
         <GridSplitter Grid.Column="3" Width="3" VerticalAlignment="Stretch" />
 
