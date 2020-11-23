@@ -1,4 +1,5 @@
 ﻿using PixelVampire.Imaging.Models;
+using PixelVampire.Imaging.ViewModels.Abstractions;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -8,7 +9,7 @@ using System.Reactive.Linq;
 
 namespace PixelVampire.Imaging.ViewModels
 {
-    public class ImagePreviewViewModel : ViewModelBase
+    public class ImagePreviewViewModel : ViewModelBase, IImagePreviewViewModel
     {
         public ImagePreviewViewModel(IObservable<ImageHandle> imageChanges)
         {

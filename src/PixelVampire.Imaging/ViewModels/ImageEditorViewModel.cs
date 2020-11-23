@@ -1,5 +1,6 @@
 ﻿using DynamicData;
 using PixelVampire.Imaging.Models;
+using PixelVampire.Imaging.ViewModels.Abstractions;
 using PixelVampire.Notifications;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
@@ -15,7 +16,7 @@ using System.Reactive.Linq;
 
 namespace PixelVampire.Imaging.ViewModels
 {
-    public class ImageEditorViewModel : RoutableViewModelBase
+    public class ImageEditorViewModel : RoutableViewModelBase, IImageEditorViewModel
     {
         private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
         private ReadOnlyObservableCollection<ImageHandle> _images;
