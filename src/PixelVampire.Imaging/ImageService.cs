@@ -1,4 +1,5 @@
-﻿using PixelVampire.Imaging.Models;
+﻿using PixelVampire.Imaging.Exceptions;
+using PixelVampire.Imaging.Models;
 using PixelVampire.Notifications;
 using PixelVampire.Shared;
 using ReactiveUI;
@@ -24,16 +25,13 @@ namespace PixelVampire.Imaging
                 ImageHandle handle = default;
                 SKCodec codec = default;
 
-                executionScheduler.Schedule(() =>
+                IDisposable scheduling = executionScheduler.Schedule(() =>
                 {
                     try
                     {
-                        codec = SKCodec.Create(path);
+                        codec = SKCodec.Create(path) ?? throw new ImageLoadingException(path);
                         codec.DisposeWith(disposable);
-                        if (codec == null)
-                        {
-                            throw new Exception("Codec is null..."); //TODO... better approach?
-                        }
+
                         var bitmap = SKBitmap.Decode(codec);
                         handle = new ImageHandle
                         {

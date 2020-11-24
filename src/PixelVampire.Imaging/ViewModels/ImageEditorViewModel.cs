@@ -1,4 +1,5 @@
 ﻿using DynamicData;
+using PixelVampire.Imaging.Exceptions;
 using PixelVampire.Imaging.Models;
 using PixelVampire.Imaging.ViewModels.Abstractions;
 using PixelVampire.Notifications;
@@ -50,7 +51,9 @@ namespace PixelVampire.Imaging.ViewModels
 
                 // Show image loading error
                 LoadImage.ThrownExceptions
-                    .Subscribe(_ => this.Notify().PublishError("Sorry. Could not load this file.", "Error", TimeSpan.FromSeconds(10)))
+                    .OfType<ImageLoadingException>()
+                    .Subscribe(ex => this.Notify()
+                        .PublishError($"Sorry. \"{ex.FilePath}\" does not have a supported file format.", "Error", TimeSpan.FromSeconds(5)))
                     .DisposeWith(d);
 
                 // Pipe loadings to property
