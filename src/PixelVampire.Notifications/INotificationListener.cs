@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PixelVampire.Notifications.Models;
+using System;
 
 namespace PixelVampire.Notifications
 {

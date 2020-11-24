@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.IconPacks;
+using PixelVampire.Notifications.Models;
 using PixelVampire.Notifications.ViewModels;
 using ReactiveUI;
 using System;
@@ -18,27 +19,14 @@ namespace PixelVampire.Notifications.Views
 
             this.WhenActivated(d =>
             {
-                this.OneWayBind(ViewModel,
-                    x => x.Notification.Title,
-                    x => x.TitleText.Text).DisposeWith(d);
-
-                this.OneWayBind(ViewModel,
-                    x => x.Notification.Message,
-                    x => x.MessageText.Text).DisposeWith(d);
+                TitleText.Text = ViewModel.Notification.Title;
+                MessageText.Text = ViewModel.Notification.Message;
+                IconWrapper.Content = GetIcon(ViewModel.Notification.Level);
+                Duration.Visibility = ViewModel.SelfDestructionEnabled ? Visibility.Visible : Visibility.Collapsed;
 
                 this.OneWayBind(ViewModel,
                     x => x.DestructionProcess,
                     x => x.Duration.Value).DisposeWith(d);
-
-                this.OneWayBind(ViewModel,
-                    x => x.Notification.Level,
-                    x => x.IconWrapper.Content,
-                    x => GetIcon(x)).DisposeWith(d);
-
-                this.OneWayBind(ViewModel,
-                    x => x.SelfDestructionEnabled,
-                    x => x.Duration.Visibility,
-                    x => x ? Visibility.Visible : Visibility.Collapsed).DisposeWith(d);
 
                 this.BindCommand(ViewModel,
                     x => x.Close,

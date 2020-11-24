@@ -19,8 +19,7 @@ namespace PixelVampire.Imaging.Views
 
             this.WhenActivated(d =>
             {
-                ViewModel
-                    .WhenAnyValue(x => x.ImageContext)
+                this.WhenAnyValue(x => x.ViewModel.ImageContext)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(img => {
                         Canvas.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;

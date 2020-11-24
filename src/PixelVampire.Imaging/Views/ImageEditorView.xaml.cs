@@ -82,8 +82,7 @@ namespace PixelVampire.Imaging.Views
                     .InvokeCommand(ViewModel.LoadImage)
                     .DisposeWith(d);
 
-                ViewModel
-                    .WhenAnyValue(x => x.SelectedImage)
+                this.WhenAnyValue(x => x.ViewModel.SelectedImage)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(img => {
                         SelectFilesBlock.Visibility = img != null ? Visibility.Collapsed : Visibility.Visible;
@@ -91,11 +90,14 @@ namespace PixelVampire.Imaging.Views
                     })
                     .DisposeWith(d);
 
-                ViewModel.WhenAnyValue(x => x.Images.Count).ObserveOnDispatcher().Subscribe(cnt =>
-                {
-                    PrevButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
-                    NextButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
-                }).DisposeWith(d);
+                this.WhenAnyValue(x => x.ViewModel.Images.Count)
+                    .ObserveOnDispatcher()
+                    .Subscribe(cnt =>
+                    {
+                        PrevButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                        NextButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                    })
+                    .DisposeWith(d);
             });
         }
 

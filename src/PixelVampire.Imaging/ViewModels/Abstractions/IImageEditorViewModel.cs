@@ -13,10 +13,6 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
 
         ReactiveCommand<Unit, Unit> SelectPrevious { get; }
 
-        ImageExplorerViewModel ImageExplorer { get; }
-
-        ImagePreviewViewModel ImagePreview { get; }
-
         ImageHandle SelectedImage { get; set; }
 
         bool IsLoading { get; }

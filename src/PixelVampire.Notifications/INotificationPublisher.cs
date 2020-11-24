@@ -1,4 +1,6 @@
-﻿namespace PixelVampire.Notifications
+﻿using PixelVampire.Notifications.Models;
+
+namespace PixelVampire.Notifications
 {
     public interface INotificationPublisher
     {

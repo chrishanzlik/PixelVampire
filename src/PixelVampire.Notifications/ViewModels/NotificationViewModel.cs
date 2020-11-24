@@ -1,5 +1,4 @@
-﻿using PixelVampire.Notifications;
-using PixelVampire.Shared;
+﻿using PixelVampire.Shared;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -7,6 +6,7 @@ using System;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using Notification = PixelVampire.Notifications.Models.Notification;
 
 namespace PixelVampire.Notifications.ViewModels
 {

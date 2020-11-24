@@ -1,10 +1,11 @@
-﻿using PixelVampire.Shared;
+﻿using PixelVampire.Notifications.Models;
+using PixelVampire.Shared;
 using Splat;
 using System;
 
 namespace PixelVampire.Notifications
 {
-    public static class NotificationMixins
+    public static class NotificationExtensions
     {
         public static INotificationPublisher Notify(this IEnableNotifications _)
         {

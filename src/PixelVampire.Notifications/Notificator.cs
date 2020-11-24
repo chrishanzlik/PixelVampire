@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PixelVampire.Notifications.Models;
+using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;

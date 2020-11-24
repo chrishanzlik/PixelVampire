@@ -1,4 +1,4 @@
-﻿namespace PixelVampire.Notifications
+﻿namespace PixelVampire.Notifications.Models
 {
     public enum NotificationLevel
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PixelVampire.Notifications
+namespace PixelVampire.Notifications.Models
 {
     public class Notification
     {

@@ -1,5 +1,6 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
+using PixelVampire.Notifications.Models;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using Splat;
