@@ -14,7 +14,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <rxui:RoutedViewHost 
@@ -26,11 +25,5 @@
             VerticalContentAlignment="Stretch" />
 
         <notifyViews:NotificationHostView Margin="10" MinWidth="300" MaxWidth="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="0" x:Name="NotificationHost" />
-
-        <StackPanel Background="{StaticResource MahApps.Brushes.Accent2}" Grid.Row="1" Orientation="Horizontal">
-            <Button Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" BorderThickness="0" x:Name="Button1" Content="DEBUG - PUBLISH INFO NOTIFICATION" Margin="10" />
-            <Button Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" BorderThickness="0" x:Name="Button2" Content="DEBUG - PUBLISH ERROR NOTIFICATION" Margin="10" />
-            <Button Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" BorderThickness="0" x:Name="Button3" Content="DEBUG - PUBLISH WARNING NOTIFICATION" Margin="10" />
-        </StackPanel>
     </Grid>
 </c:ReactiveMetroWindow>

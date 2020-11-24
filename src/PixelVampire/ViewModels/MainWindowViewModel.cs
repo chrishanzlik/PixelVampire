@@ -19,17 +19,5 @@ namespace PixelVampire.ViewModels
 
         public RoutingState Router { get; }
         public NotificationHostViewModel NotificationHost { get; }
-
-
-        //Testing:
-        public ReactiveCommand<Unit, Unit> SpawnTestNotification1 => ReactiveCommand.Create(() => {
-            this.Notify().PublishInfo("Info detail goes here...", "Test info notification", TimeSpan.FromSeconds(3));
-        });
-        public ReactiveCommand<Unit, Unit> SpawnTestNotification2 => ReactiveCommand.Create(() => {
-            this.Notify().PublishError("Error detail goes here...", "Test error notification", TimeSpan.FromSeconds(3));
-        });
-        public ReactiveCommand<Unit, Unit> SpawnTestNotification3 => ReactiveCommand.Create(() => {
-            this.Notify().PublishWarning("Warning detail goes here...", "Test warning notification", TimeSpan.FromSeconds(3));
-        });
     }
 }
