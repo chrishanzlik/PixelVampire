@@ -26,32 +26,34 @@
             <metroControls:ProgressRing MinWidth="100" MinHeight="100" />
         </Border>
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Border Margin="0" Padding="10,10,10,0" BorderBrush="Transparent" Background="#F3F3F3">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock FontSize="20" Text="Images" Margin="0,0,0,5" />
-                    <Separator Margin="0" />
-                </StackPanel>
-            </Border>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Margin="0" Padding="10,10,10,0" BorderBrush="Transparent" Background="#F3F3F3">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="20" Text="Images" Margin="0,0,0,5" />
+                        <Separator Margin="0" />
+                    </StackPanel>
+                </Border>
 
-            <local:ImageExplorerView Background="#F3F3F3" x:Name="Explorer" Grid.Row="1" Padding="10,0,10,10" />
+                <local:ImageExplorerView Background="#F3F3F3" x:Name="Explorer" Grid.Row="1" Padding="10,0,10,10" />
 
-            <Border Grid.Row="2" Margin="0" Padding="10,0,10,10" BorderBrush="Transparent" Background="#F3F3F3">
-                <Button x:Name="SelectFilesExplorerButton"
-                        Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Height="48"
-                        Width="48">
-                    <iconPacks:PackIconCodicons Kind="Add" />
-                </Button>
-            </Border>
-        </Grid>
+                <Border Grid.Row="2" Margin="0" Padding="10,0,10,10" BorderBrush="Transparent" Background="#F3F3F3">
+                    <Button x:Name="SelectFilesExplorerButton"
+                            Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Height="48"
+                            Width="48">
+                        <iconPacks:PackIconCodicons Kind="Add" />
+                    </Button>
+                </Border>
+            </Grid>
+        </ScrollViewer>
 
         <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" />
 
