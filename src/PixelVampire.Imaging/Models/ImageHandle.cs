@@ -15,6 +15,7 @@ namespace PixelVampire.Imaging.Models
         public SKBitmap OriginalImage { get; set; }
         public SKBitmap Preview { get; set; }
         public SKEncodedImageFormat Format { get; set; }
+        public ManipulationState ManipulationState { get; set; }
 
         public void Dispose()
         {

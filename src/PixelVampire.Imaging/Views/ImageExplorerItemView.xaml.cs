@@ -23,7 +23,7 @@ namespace PixelVampire.Imaging.Views
     /// <summary>
     /// Interaktionslogik für ImageExplorerItemView.xaml
     /// </summary>
-    public partial class ImageExplorerItemView : ReactiveUserControl<ImageExplorerItemViewModel>
+    public partial class ImageExplorerItemView
     {
         public ImageExplorerItemView()
         {
@@ -38,10 +38,11 @@ namespace PixelVampire.Imaging.Views
                 this.WhenAnyValue(x => x.ViewModel.ExplorerItem)
                     .Where(x => x != null)
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe(x => {
+                    .Subscribe(x =>
+                    {
                         FileNameText.Text = Path.GetFileName(x.FilePath);
                         FileNameText.ToolTip = x.FilePath;
-                        ThumbnailImage.Source = x.Thumbnail.ToBitmapImage();
+                        ThumbnailImage.Source = x.Thumbnail?.ToBitmapImage();
                     })
                     .DisposeWith(d);
             });

@@ -17,13 +17,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Controls.Primitives;
 
 namespace PixelVampire.Imaging.Views
 {
     /// <summary>
     /// Interaktionslogik für ImageEditorView.xaml
     /// </summary>
-    public partial class ImageEditorView : ReactiveUserControl<ImageEditorViewModel>
+    public partial class ImageEditorView
     {
         public ImageEditorView()
         {
@@ -64,8 +65,8 @@ namespace PixelVampire.Imaging.Views
 
                 // Load files from dialog
                 Observable.Merge(
-                        ClicksOf(SelectFilesExplorerButton),
-                        ClicksOf(SelectFilesButton))
+                        SelectFilesExplorerButton.Events().Click,
+                        SelectFilesButton.Events().Click)
                     .ObserveOnDispatcher()
                     .Select(_ => SelectFilesByDialog())
                     .Where(x => x != null)
@@ -115,13 +116,6 @@ namespace PixelVampire.Imaging.Views
             }
 
             return null;
-        }
-
-        private IObservable<EventPattern<RoutedEventArgs>> ClicksOf(Button button)
-        {
-            return Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                x => button.Click += x,
-                x => button.Click -= x);
         }
     }
 }

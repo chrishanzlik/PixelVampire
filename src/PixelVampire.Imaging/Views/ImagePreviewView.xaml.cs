@@ -11,7 +11,7 @@ namespace PixelVampire.Imaging.Views
     /// <summary>
     /// Interaktionslogik für ImageExplorerItemView.xaml
     /// </summary>
-    public partial class ImagePreviewView : ReactiveUserControl<ImagePreviewViewModel>
+    public partial class ImagePreviewView
     {
         public ImagePreviewView()
         {

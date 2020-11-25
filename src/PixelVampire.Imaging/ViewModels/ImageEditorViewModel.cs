@@ -29,8 +29,8 @@ namespace PixelVampire.Imaging.ViewModels
             ImageExplorer = new ImageExplorerViewModel(_source.AsObservableCache());
             ImagePreview = new ImagePreviewViewModel(this.WhenAnyValue(x => x.SelectedImage));
             LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x));
-            SelectNext = ReactiveCommand.Create(ImageExplorer.NextImage);
-            SelectPrevious = ReactiveCommand.Create(ImageExplorer.PreviousImage);
+            SelectNext = ReactiveCommand.Create(ImageExplorer.SelectNext);
+            SelectPrevious = ReactiveCommand.Create(ImageExplorer.SelectPrevious);
 
             this.WhenActivated(d =>
             {
@@ -63,13 +63,13 @@ namespace PixelVampire.Imaging.ViewModels
                     .DisposeWith(d);
 
                 // React on close requests from explorer view
-                ImageExplorer.Deletions
+                this.WhenAnyObservable(x => x.ImageExplorer.Deletions)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => _source.Remove(x))
                     .DisposeWith(d);
 
                 // Select explorer item
-                ImageExplorer.Selections
+                this.WhenAnyObservable(x => x.ImageExplorer.Selections)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => SelectedImage = x)
                     .DisposeWith(d);
@@ -77,7 +77,9 @@ namespace PixelVampire.Imaging.ViewModels
         }
 
         public ReactiveCommand<string, ImageHandle> LoadImage { get; }
+
         public ReactiveCommand<Unit, Unit> SelectNext { get; }
+
         public ReactiveCommand<Unit, Unit> SelectPrevious { get; }
 
         public ImageExplorerViewModel ImageExplorer { get; }

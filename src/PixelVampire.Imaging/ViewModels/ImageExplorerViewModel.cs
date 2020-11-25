@@ -33,10 +33,11 @@ namespace PixelVampire.Imaging.ViewModels
             this.WhenActivated(d =>
             {
                 connection
+                    .ObserveOn(RxApp.TaskpoolScheduler)
                     .Filter(x => x != null)
-                    .Transform(x => new ImageExplorerItem(x.OriginalPath, x.OriginalImage.ToThumbnail(50)))
+                    .Transform(x => new ImageExplorerItem(x.OriginalPath, x.Preview.ToThumbnail(50)))
                     .DisposeMany()
-                    .Transform(x => new ImageExplorerItemViewModel(x)).ObserveOn(RxApp.MainThreadScheduler)
+                    .Transform(x => new ImageExplorerItemViewModel(x))
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Bind(out _children)
                     .Subscribe(_ => SelectedItem ??= Children.FirstOrDefault())
@@ -61,7 +62,7 @@ namespace PixelVampire.Imaging.ViewModels
 
         public IObservable<ImageHandle> Deletions { get; }
 
-        public void NextImage()
+        public void SelectNext()
         {
             if (Children.Count <= 1) return;
 
@@ -71,7 +72,7 @@ namespace PixelVampire.Imaging.ViewModels
             SelectedItem = Children.ElementAt(nextIndex);
         }
 
-        public void PreviousImage()
+        public void SelectPrevious()
         {
             if (Children.Count <= 1) return;
 

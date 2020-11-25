@@ -20,7 +20,7 @@ namespace PixelVampire.Imaging.Views
     /// <summary>
     /// Interaktionslogik für ImageSettingsView.xaml
     /// </summary>
-    public partial class ImageSettingsView : ReactiveUserControl<ImageSettingsViewModel>
+    public partial class ImageSettingsView
     {
         public ImageSettingsView()
         {

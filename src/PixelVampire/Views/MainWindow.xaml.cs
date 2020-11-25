@@ -22,7 +22,7 @@ namespace PixelVampire.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : ReactiveMetroWindow<MainWindowViewModel>
+    public partial class MainWindow
     {
         public MainWindow()
         {

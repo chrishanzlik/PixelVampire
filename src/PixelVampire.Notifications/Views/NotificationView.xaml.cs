@@ -11,7 +11,7 @@ namespace PixelVampire.Notifications.Views
     /// <summary>
     /// Interaktionslogik für NotificationView.xaml
     /// </summary>
-    public partial class NotificationView : ReactiveUserControl<NotificationViewModel>
+    public partial class NotificationView
     {
         public NotificationView()
         {

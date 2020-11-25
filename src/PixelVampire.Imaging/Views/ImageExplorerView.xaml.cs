@@ -21,7 +21,7 @@ namespace PixelVampire.Imaging.Views
     /// <summary>
     /// Interaktionslogik für ImageExplorerItemView.xaml
     /// </summary>
-    public partial class ImageExplorerView : ReactiveUserControl<ImageExplorerViewModel>
+    public partial class ImageExplorerView
     {
         public ImageExplorerView()
         {
@@ -35,7 +35,7 @@ namespace PixelVampire.Imaging.Views
 
                 this.Bind(ViewModel,
                     x => x.SelectedItem,
-                    x => x.ImageExplorer.SelectedItem);
+                    x => x.ImageExplorer.SelectedItem).DisposeWith(d);
             });
         }
     }

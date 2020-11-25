@@ -9,8 +9,8 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
 
         IObservable<ImageHandle> Deletions { get; }
 
-        void NextImage();
+        void SelectNext();
 
-        void PreviousImage();
+        void SelectPrevious();
     }
 }
