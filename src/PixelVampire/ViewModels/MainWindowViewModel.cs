@@ -12,6 +12,9 @@ namespace PixelVampire.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IScreen
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowViewModel" /> class.
+        /// </summary>
         public MainWindowViewModel()
         {
             NotificationHost = new NotificationHostViewModel();

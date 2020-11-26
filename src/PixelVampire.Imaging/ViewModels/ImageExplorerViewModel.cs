@@ -12,20 +12,27 @@ using System.Reactive.Linq;
 
 namespace PixelVampire.Imaging.ViewModels
 {
+    /// <summary>
+    /// Viewmodel for browsing and displaying a list of loaded images.
+    /// </summary>
     public class ImageExplorerViewModel : ViewModelBase, IImageExplorerViewModel
     {
-        private ReadOnlyObservableCollection<ImageExplorerItemViewModel> _children;
-        private ReactiveCommand<ImageExplorerItemViewModel, ImageHandle> RequestRemove { get; }
+        private ReadOnlyObservableCollection<IImageExplorerItemViewModel> _children;
+        private ReactiveCommand<IImageExplorerItemViewModel, ImageHandle> _requestRemove;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageExplorerViewModel" /> class.
+        /// </summary>
+        /// <param name="imageCache">Cache which notifies about loaded or removed images.</param>
         public ImageExplorerViewModel(IObservableCache<ImageHandle, string> imageCache)
         {
             var connection = imageCache?.Connect() ?? throw new ArgumentNullException(nameof(imageCache));
 
-            RequestRemove = ReactiveCommand.Create<ImageExplorerItemViewModel, ImageHandle>(
+            _requestRemove = ReactiveCommand.Create<IImageExplorerItemViewModel, ImageHandle>(
                 vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm.ExplorerItem.FilePath),
                 outputScheduler: RxApp.TaskpoolScheduler);
 
-            Deletions = RequestRemove.AsObservable();
+            DeletionRequests = _requestRemove.AsObservable();
             Selections = this.WhenAnyValue(x => x.SelectedItem)
                 .Select(vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm?.ExplorerItem.FilePath))
                 .DistinctUntilChanged();
@@ -37,7 +44,7 @@ namespace PixelVampire.Imaging.ViewModels
                     .Filter(x => x != null)
                     .Transform(x => new ImageExplorerItem(x.OriginalPath, x.Preview.ToThumbnail(50)))
                     .DisposeMany()
-                    .Transform(x => new ImageExplorerItemViewModel(x))
+                    .Transform(x => new ImageExplorerItemViewModel(x) as IImageExplorerItemViewModel)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Bind(out _children)
                     .Subscribe(_ => SelectedItem ??= Children.FirstOrDefault())
@@ -48,20 +55,25 @@ namespace PixelVampire.Imaging.ViewModels
                     .Throttle(TimeSpan.FromMilliseconds(200))
                     .Select(_ => Children.Select(x => x.RequestRemove).Merge())
                     .Switch()
-                    .InvokeCommand(RequestRemove)
+                    .InvokeCommand(_requestRemove)
                     .DisposeWith(d);
             });
         }
 
-        public ReadOnlyObservableCollection<ImageExplorerItemViewModel> Children => _children;
-        
-        [Reactive]
-        public ImageExplorerItemViewModel SelectedItem { get; set; }
+        /// <inheritdoc />
+        public ReadOnlyObservableCollection<IImageExplorerItemViewModel> Children => _children;
 
+        /// <inheritdoc />
+        [Reactive]
+        public IImageExplorerItemViewModel SelectedItem { get; set; }
+
+        /// <inheritdoc />
         public IObservable<ImageHandle> Selections { get; }
 
-        public IObservable<ImageHandle> Deletions { get; }
+        /// <inheritdoc />
+        public IObservable<ImageHandle> DeletionRequests { get; }
 
+        /// <inheritdoc />
         public void SelectNext()
         {
             if (Children.Count <= 1) return;
@@ -72,6 +84,7 @@ namespace PixelVampire.Imaging.ViewModels
             SelectedItem = Children.ElementAt(nextIndex);
         }
 
+        /// <inheritdoc />
         public void SelectPrevious()
         {
             if (Children.Count <= 1) return;

@@ -7,18 +7,30 @@ using System.Reactive;
 
 namespace PixelVampire.Imaging.ViewModels
 {
+    /// <summary>
+    /// Represents a single image inside a <see cref="ImageExplorerViewModel"/>.
+    /// </summary>
     public class ImageExplorerItemViewModel : ViewModelBase, IImageExplorerItemViewModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageExplorerItemViewModel" /> class.
+        /// </summary>
+        /// <param name="explorerItem">Object which should be displayed inside the image explorer.</param>
         public ImageExplorerItemViewModel(ImageExplorerItem explorerItem)
         {
             Guard.Against.Null(explorerItem, nameof(explorerItem));
 
             ExplorerItem = explorerItem;
 
-            RequestRemove = ReactiveCommand.Create(() => this, outputScheduler: RxApp.TaskpoolScheduler);
+            RequestRemove = ReactiveCommand.Create(
+                () => this as IImageExplorerItemViewModel,
+                outputScheduler: RxApp.TaskpoolScheduler);
         }
         
-        public ReactiveCommand<Unit, ImageExplorerItemViewModel> RequestRemove { get; }
+        /// <inheritdoc />
+        public ReactiveCommand<Unit, IImageExplorerItemViewModel> RequestRemove { get; }
+
+        /// <inheritdoc />
         public ImageExplorerItem ExplorerItem { get; }
     }
 }

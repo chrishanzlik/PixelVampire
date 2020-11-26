@@ -9,6 +9,9 @@ using System.Reactive.Linq;
 
 namespace PixelVampire.Imaging.ViewModels
 {
+    /// <summary>
+    /// Viewmodel for visual image actions.
+    /// </summary>
     public class ImagePreviewViewModel : ViewModelBase, IImagePreviewViewModel
     {
         public ImagePreviewViewModel(IObservable<ImageHandle> imageChanges)
@@ -25,6 +28,7 @@ namespace PixelVampire.Imaging.ViewModels
             });
         }
 
+        /// <inheritdoc />
         [ObservableAsProperty]
         public ImageHandle ImageContext { get; }
     }

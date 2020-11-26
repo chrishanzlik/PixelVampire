@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PixelVampire.Shared
+﻿namespace PixelVampire.Shared
 {
+    /// <summary>
+    /// Classes implementing this interface have access to notifications.
+    /// </summary>
     public interface IEnableNotifications
     {
         

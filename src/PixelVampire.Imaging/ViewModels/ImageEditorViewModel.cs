@@ -17,11 +17,18 @@ using System.Reactive.Linq;
 
 namespace PixelVampire.Imaging.ViewModels
 {
+    /// <summary>
+    /// Viewmodel which contains all image manipulation capabilities.
+    /// </summary>
     public class ImageEditorViewModel : RoutableViewModelBase, IImageEditorViewModel
     {
         private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
         private ReadOnlyObservableCollection<ImageHandle> _images;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageEditorViewModel" /> class.
+        /// </summary>
+        /// <param name="imageService">Service for image loading and manipulation.</param>
         public ImageEditorViewModel(IImageService imageService = null)
         {
             imageService ??= Locator.Current.GetService<IImageService>();
@@ -34,6 +41,7 @@ namespace PixelVampire.Imaging.ViewModels
 
             this.WhenActivated(d =>
             {
+                // Dispose handles removed from the source collection
                 _source
                     .Connect()
                     .DisposeMany()
@@ -63,7 +71,7 @@ namespace PixelVampire.Imaging.ViewModels
                     .DisposeWith(d);
 
                 // React on close requests from explorer view
-                this.WhenAnyObservable(x => x.ImageExplorer.Deletions)
+                this.WhenAnyObservable(x => x.ImageExplorer.DeletionRequests)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => _source.Remove(x))
                     .DisposeWith(d);
@@ -76,24 +84,33 @@ namespace PixelVampire.Imaging.ViewModels
             });
         }
 
+        /// <inheritdoc />
         public ReactiveCommand<string, ImageHandle> LoadImage { get; }
 
+        /// <inheritdoc />
         public ReactiveCommand<Unit, Unit> SelectNext { get; }
 
+        /// <inheritdoc />
         public ReactiveCommand<Unit, Unit> SelectPrevious { get; }
 
-        public ImageExplorerViewModel ImageExplorer { get; }
+        /// <inheritdoc />
+        public IImageExplorerViewModel ImageExplorer { get; }
 
-        public ImagePreviewViewModel ImagePreview { get; }
+        /// <inheritdoc />
+        public IImagePreviewViewModel ImagePreview { get; }
 
+        /// <inheritdoc />
         public override string UrlPathSegment => "image-editor";
-        
+
+        /// <inheritdoc />
         [Reactive]
         public ImageHandle SelectedImage { get; set; }
 
+        /// <inheritdoc />
         [ObservableAsProperty]
         public bool IsLoading { get; }
 
+        /// <inheritdoc />
         public ReadOnlyObservableCollection<ImageHandle> Images => _images;
     }
 }

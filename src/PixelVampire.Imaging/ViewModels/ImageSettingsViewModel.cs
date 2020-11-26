@@ -1,13 +1,12 @@
-﻿using PixelVampire.Imaging.ViewModels.Abstractions;
+﻿using PixelVampire.Imaging.Models;
+using PixelVampire.Imaging.ViewModels.Abstractions;
 using PixelVampire.Shared.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PixelVampire.Imaging.ViewModels
 {
+    /// <summary>
+    /// Viewmodel which is related to the settings of a given <see cref="ImageHandle"/>.
+    /// </summary>
     public class ImageSettingsViewModel : ViewModelBase, IImageSettingsViewModel
     {
     }

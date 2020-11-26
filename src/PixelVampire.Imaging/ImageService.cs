@@ -1,6 +1,5 @@
 ﻿using PixelVampire.Imaging.Exceptions;
 using PixelVampire.Imaging.Models;
-using PixelVampire.Notifications;
 using PixelVampire.Shared;
 using ReactiveUI;
 using SkiaSharp;
@@ -9,12 +8,15 @@ using System.IO;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading;
 
 namespace PixelVampire.Imaging
 {
+    /// <summary>
+    /// Service class for image loading and manipulation
+    /// </summary>
     public class ImageService : IImageService, IEnableNotifications
     {
+        /// <inheritdoc />
         public IObservable<ImageHandle> LoadImage(string path, IScheduler executionScheduler = null)
         {
             executionScheduler ??= RxApp.TaskpoolScheduler;
@@ -33,14 +35,7 @@ namespace PixelVampire.Imaging
                         codec.DisposeWith(disposable);
 
                         var bitmap = SKBitmap.Decode(codec);
-                        handle = new ImageHandle
-                        {
-                            OriginalImage = bitmap,
-                            Preview = bitmap,
-                            Format = codec.EncodedFormat,
-                            OriginalPath = path,
-                            OriginalName = Path.GetFileName(path)
-                        };
+                        handle = new ImageHandle(path, bitmap, codec.EncodedFormat);
                         observer.OnNext(handle);
                     }
                     catch (Exception ex)
