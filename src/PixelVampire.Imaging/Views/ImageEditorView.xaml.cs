@@ -17,13 +17,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Controls.Primitives;
 
 namespace PixelVampire.Imaging.Views
 {
     /// <summary>
     /// Interaktionslogik für ImageEditorView.xaml
     /// </summary>
-    public partial class ImageEditorView : ReactiveUserControl<ImageEditorViewModel>
+    public partial class ImageEditorView
     {
         public ImageEditorView()
         {
@@ -64,8 +65,8 @@ namespace PixelVampire.Imaging.Views
 
                 // Load files from dialog
                 Observable.Merge(
-                        ClicksOf(SelectFilesExplorerButton),
-                        ClicksOf(SelectFilesButton))
+                        SelectFilesExplorerButton.Events().Click,
+                        SelectFilesButton.Events().Click)
                     .ObserveOnDispatcher()
                     .Select(_ => SelectFilesByDialog())
                     .Where(x => x != null)
@@ -82,8 +83,7 @@ namespace PixelVampire.Imaging.Views
                     .InvokeCommand(ViewModel.LoadImage)
                     .DisposeWith(d);
 
-                ViewModel
-                    .WhenAnyValue(x => x.SelectedImage)
+                this.WhenAnyValue(x => x.ViewModel.SelectedImage)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(img => {
                         SelectFilesBlock.Visibility = img != null ? Visibility.Collapsed : Visibility.Visible;
@@ -91,11 +91,14 @@ namespace PixelVampire.Imaging.Views
                     })
                     .DisposeWith(d);
 
-                ViewModel.WhenAnyValue(x => x.Images.Count).ObserveOnDispatcher().Subscribe(cnt =>
-                {
-                    PrevButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
-                    NextButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
-                }).DisposeWith(d);
+                this.WhenAnyValue(x => x.ViewModel.Images.Count)
+                    .ObserveOnDispatcher()
+                    .Subscribe(cnt =>
+                    {
+                        PrevButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                        NextButton.Visibility = cnt > 1 ? Visibility.Visible : Visibility.Collapsed;
+                    })
+                    .DisposeWith(d);
             });
         }
 
@@ -113,13 +116,6 @@ namespace PixelVampire.Imaging.Views
             }
 
             return null;
-        }
-
-        private IObservable<EventPattern<RoutedEventArgs>> ClicksOf(Button button)
-        {
-            return Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                x => button.Click += x,
-                x => button.Click -= x);
         }
     }
 }

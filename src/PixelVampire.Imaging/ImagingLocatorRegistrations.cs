@@ -6,8 +6,12 @@ using Splat;
 
 namespace PixelVampire.Imaging
 {
+    /// <summary>
+    /// Registration container for "Imaging"-Module
+    /// </summary>
     public class ImagingLocatorRegistrations : ModuleRegistration
     {
+        /// <inheritdoc />
         public override void Register(IMutableDependencyResolver resolver)
         {
             resolver.Register(() => new ImageEditorView(), typeof(IViewFor<ImageEditorViewModel>));

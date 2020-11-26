@@ -11,7 +11,7 @@ namespace PixelVampire.Imaging.Views
     /// <summary>
     /// Interaktionslogik für ImageExplorerItemView.xaml
     /// </summary>
-    public partial class ImagePreviewView : ReactiveUserControl<ImagePreviewViewModel>
+    public partial class ImagePreviewView
     {
         public ImagePreviewView()
         {
@@ -19,8 +19,7 @@ namespace PixelVampire.Imaging.Views
 
             this.WhenActivated(d =>
             {
-                ViewModel
-                    .WhenAnyValue(x => x.ImageContext)
+                this.WhenAnyValue(x => x.ViewModel.ImageContext)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(img => {
                         Canvas.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;

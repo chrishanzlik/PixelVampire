@@ -4,6 +4,10 @@ using System.Windows;
 
 namespace PixelVampire.Shared.Controls
 {
+    /// <summary>
+    /// Basic window view which combines MahApps with RxUi
+    /// </summary>
+    /// <typeparam name="TViewModel">Type of the viewmodel.</typeparam>
     public abstract class ReactiveMetroWindow<TViewModel> : MetroWindow, IViewFor<TViewModel>, IActivatableView
         where TViewModel : class
     {
@@ -14,12 +18,14 @@ namespace PixelVampire.Shared.Controls
 
         public static readonly DependencyProperty ViewModelProperty;
 
+        /// <inheritdoc />
         public TViewModel ViewModel
         {
             get => (TViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
+        /// <inheritdoc />
         object IViewFor.ViewModel
         {
             get => ViewModel;

@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:rxui="http://reactiveui.net"
-             xmlns:vm="clr-namespace:PixelVampire.Notifications.ViewModels"
+             xmlns:vma="clr-namespace:PixelVampire.Notifications.ViewModels.Abstractions"
              xmlns:local="clr-namespace:PixelVampire.Notifications.Views"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             x:TypeArguments="vm:NotificationViewModel"
+             x:TypeArguments="vma:INotificationViewModel"
              mc:Ignorable="d" Foreground="White" Background="White"
              d:DesignHeight="100" d:DesignWidth="500">
     <Grid>

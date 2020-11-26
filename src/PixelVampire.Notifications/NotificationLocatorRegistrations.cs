@@ -6,8 +6,12 @@ using Splat;
 
 namespace PixelVampire.Notifications
 {
+    /// <summary>
+    /// Registration container for "Notification"-Module
+    /// </summary>
     public class NotificationLocatorRegistrations : ModuleRegistration
     {
+        /// <inheritdoc />
         public override void Register(IMutableDependencyResolver resolver)
         {
             resolver.Register(() => new NotificationHostView(), typeof(IViewFor<NotificationHostViewModel>));

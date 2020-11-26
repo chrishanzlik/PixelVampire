@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,7 +23,7 @@ namespace PixelVampire.Imaging.Views
     /// <summary>
     /// Interaktionslogik für ImageExplorerItemView.xaml
     /// </summary>
-    public partial class ImageExplorerItemView : ReactiveUserControl<ImageExplorerItemViewModel>
+    public partial class ImageExplorerItemView
     {
         public ImageExplorerItemView()
         {
@@ -34,19 +35,16 @@ namespace PixelVampire.Imaging.Views
                     x => x.RequestRemove,
                     x => x.RemoveButton).DisposeWith(d);
 
-                this.OneWayBind(ViewModel,
-                    x => x.ExplorerItem.FilePath,
-                    x => x.FileNameText.Text,
-                    x => Path.GetFileName(x)).DisposeWith(d);
-
-                this.OneWayBind(ViewModel,
-                    x => x.ExplorerItem.FilePath,
-                    x => x.FileNameText.ToolTip).DisposeWith(d);
-
-                this.OneWayBind(ViewModel,
-                    x => x.ExplorerItem.Thumbnail,
-                    x => x.ThumbnailImage.Source,
-                    x => x.ToBitmapImage()).DisposeWith(d);
+                this.WhenAnyValue(x => x.ViewModel.ExplorerItem)
+                    .Where(x => x != null)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Subscribe(x =>
+                    {
+                        FileNameText.Text = Path.GetFileName(x.FilePath);
+                        FileNameText.ToolTip = x.FilePath;
+                        ThumbnailImage.Source = x.Thumbnail?.ToBitmapImage();
+                    })
+                    .DisposeWith(d);
             });
         }
     }

@@ -4,17 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:c="clr-namespace:PixelVampire.Shared.Controls;assembly=PixelVampire.Shared"
-        xmlns:vm="clr-namespace:PixelVampire.ViewModels"
+        xmlns:vma="clr-namespace:PixelVampire.ViewModels.Abstractions"
         xmlns:notifyViews="clr-namespace:PixelVampire.Notifications.Views;assembly=PixelVampire.Notifications"
         xmlns:rxui="http://reactiveui.net"
         xmlns:local="clr-namespace:PixelVampire.Views"
         mc:Ignorable="d"
-        x:TypeArguments="vm:MainWindowViewModel"
+        x:TypeArguments="vma:IMainWindowViewModel"
         Title="PixelVampire" MinHeight="700" Height="700" Width="1200" MinWidth="1200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <rxui:RoutedViewHost 
@@ -26,11 +25,5 @@
             VerticalContentAlignment="Stretch" />
 
         <notifyViews:NotificationHostView Margin="10" MinWidth="300" MaxWidth="400" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="0" x:Name="NotificationHost" />
-
-        <StackPanel Background="{StaticResource MahApps.Brushes.Accent2}" Grid.Row="1" Orientation="Horizontal">
-            <Button Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" BorderThickness="0" x:Name="Button1" Content="DEBUG - PUBLISH INFO NOTIFICATION" Margin="10" />
-            <Button Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" BorderThickness="0" x:Name="Button2" Content="DEBUG - PUBLISH ERROR NOTIFICATION" Margin="10" />
-            <Button Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" BorderThickness="0" x:Name="Button3" Content="DEBUG - PUBLISH WARNING NOTIFICATION" Margin="10" />
-        </StackPanel>
     </Grid>
 </c:ReactiveMetroWindow>
