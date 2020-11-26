@@ -1,4 +1,4 @@
-> Under active development...
+![.NET Core](https://github.com/chrishanzlik/PixelVampire/workflows/.NET%20Core/badge.svg)
 
 # Pixel Vampire :syringe:
 
