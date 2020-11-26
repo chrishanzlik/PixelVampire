@@ -11,14 +11,21 @@ using Notification = PixelVampire.Notifications.Models.Notification;
 
 namespace PixelVampire.Notifications.ViewModels
 {
+    /// <summary>
+    /// Contains state and information about a single notification.
+    /// </summary>
     public class NotificationViewModel : ViewModelBase, INotificationViewModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationViewModel" /> class.
+        /// </summary>
+        /// <param name="notification">The displayed notification.</param>
         public NotificationViewModel(Notification notification)
         {
             Guard.Against.Null(notification, nameof(notification));
 
             Notification = notification;
-            Close = ReactiveCommand.Create(() => this);
+            Close = ReactiveCommand.Create(() => this as INotificationViewModel);
             SelfDestructionEnabled = notification.DisplayDuration.HasValue;
 
             if (notification.DisplayDuration.HasValue)
@@ -50,10 +57,16 @@ namespace PixelVampire.Notifications.ViewModels
             }
         }
 
-        public ReactiveCommand<Unit, NotificationViewModel> Close { get; }
+        /// <inheritdoc />
+        public ReactiveCommand<Unit, INotificationViewModel> Close { get; }
+
+        /// <inheritdoc />
         public Notification Notification { get; }
+        
+        /// <inheritdoc />
         public bool SelfDestructionEnabled { get; }
 
+        /// <inheritdoc />
         [ObservableAsProperty]
         public int DestructionProcess { get; }
 
