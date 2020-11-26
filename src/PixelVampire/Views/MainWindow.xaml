@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:c="clr-namespace:PixelVampire.Shared.Controls;assembly=PixelVampire.Shared"
-        xmlns:vm="clr-namespace:PixelVampire.ViewModels"
+        xmlns:vma="clr-namespace:PixelVampire.ViewModels.Abstractions"
         xmlns:notifyViews="clr-namespace:PixelVampire.Notifications.Views;assembly=PixelVampire.Notifications"
         xmlns:rxui="http://reactiveui.net"
         xmlns:local="clr-namespace:PixelVampire.Views"
         mc:Ignorable="d"
-        x:TypeArguments="vm:MainWindowViewModel"
+        x:TypeArguments="vma:IMainWindowViewModel"
         Title="PixelVampire" MinHeight="700" Height="700" Width="1200" MinWidth="1200">
     <Grid>
         <Grid.RowDefinitions>

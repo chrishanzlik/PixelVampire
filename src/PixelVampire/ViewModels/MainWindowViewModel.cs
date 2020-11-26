@@ -1,14 +1,12 @@
 ﻿using PixelVampire.Imaging.ViewModels;
-using PixelVampire.Notifications;
 using PixelVampire.Notifications.ViewModels;
 using PixelVampire.Shared.ViewModels;
+using PixelVampire.ViewModels.Abstractions;
 using ReactiveUI;
-using System;
-using System.Reactive;
 
 namespace PixelVampire.ViewModels
 {
-    public sealed class MainWindowViewModel : ViewModelBase, IScreen
+    public sealed class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IScreen
     {
         public MainWindowViewModel()
         {

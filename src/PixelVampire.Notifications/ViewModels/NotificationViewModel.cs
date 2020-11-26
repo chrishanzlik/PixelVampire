@@ -1,4 +1,5 @@
-﻿using PixelVampire.Shared;
+﻿using PixelVampire.Notifications.ViewModels.Abstractions;
+using PixelVampire.Shared;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -10,7 +11,7 @@ using Notification = PixelVampire.Notifications.Models.Notification;
 
 namespace PixelVampire.Notifications.ViewModels
 {
-    public class NotificationViewModel : ViewModelBase
+    public class NotificationViewModel : ViewModelBase, INotificationViewModel
     {
         public NotificationViewModel(Notification notification)
         {

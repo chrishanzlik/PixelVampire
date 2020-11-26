@@ -1,6 +1,7 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
 using PixelVampire.Notifications.Models;
+using PixelVampire.Notifications.ViewModels.Abstractions;
 using PixelVampire.Shared.ViewModels;
 using ReactiveUI;
 using Splat;
@@ -12,7 +13,7 @@ using System.Reactive.Linq;
 
 namespace PixelVampire.Notifications.ViewModels
 {
-    public class NotificationHostViewModel : ViewModelBase
+    public class NotificationHostViewModel : ViewModelBase, INotificationHostViewModel
     {
         private readonly INotificationListener _notificationListener;
         private ReadOnlyObservableCollection<NotificationViewModel> _notifications;

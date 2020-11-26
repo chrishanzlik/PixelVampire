@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:rx="http://reactiveui.net"
              xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
-             xmlns:vm="clr-namespace:PixelVampire.Imaging.ViewModels"
+             xmlns:vma="clr-namespace:PixelVampire.Imaging.ViewModels.Abstractions"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:PixelVampire.Imaging.Views"
-             x:TypeArguments="vm:ImagePreviewViewModel"
+             x:TypeArguments="vma:IImagePreviewViewModel"
              mc:Ignorable="d" Background="#01FFFFFF"
              d:DesignHeight="120" d:DesignWidth="350">
     <Grid>

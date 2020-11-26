@@ -18,5 +18,9 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         bool IsLoading { get; }
 
         ReadOnlyObservableCollection<ImageHandle> Images { get; }
+
+        ImageExplorerViewModel ImageExplorer { get; }
+
+        ImagePreviewViewModel ImagePreview { get; }
     }
 }
