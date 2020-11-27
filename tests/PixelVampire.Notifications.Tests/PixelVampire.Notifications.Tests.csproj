@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PixelVampire.Notifications\PixelVampire.Notifications.csproj" />
-    <ProjectReference Include="..\..\src\PixelVampire.Shared\PixelVampire.csproj" />
+    <ProjectReference Include="..\..\src\PixelVampire\PixelVampire.csproj" />
   </ItemGroup>
 
 </Project>

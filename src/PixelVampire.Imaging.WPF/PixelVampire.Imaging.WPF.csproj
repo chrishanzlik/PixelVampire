@@ -16,9 +16,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="MahApps.Metro" Version="2.3.4" />
+	  <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
 	  <PackageReference Include="ReactiveUI" Version="12.1.5" />
 	  <PackageReference Include="ReactiveUI.Events.WPF" Version="12.1.5" />
-	  <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
 	  <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
 	  <PackageReference Include="SkiaSharp" Version="2.80.2" />
 	  <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.2" />
@@ -54,8 +55,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\PixelVampire.Imaging\PixelVampire.Imaging.csproj" />
-	  <ProjectReference Include="..\PixelVampire.Notifications.WPF\PixelVampire.Notifications.WPF.csproj" />
-	  <ProjectReference Include="..\PixelVampire.Shared.WPF\PixelVampire.Controls.WPF.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

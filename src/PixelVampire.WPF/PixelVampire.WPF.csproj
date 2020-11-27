@@ -23,14 +23,13 @@
     <PackageReference Include="MahApps.Metro" Version="2.3.4" />
     <PackageReference Include="ReactiveUI" Version="12.1.5" />
     <PackageReference Include="ReactiveUI.Events.WPF" Version="12.1.5" />
-    <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
     <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PixelVampire.Controls.WPF\PixelVampire.Controls.WPF.csproj" />
     <ProjectReference Include="..\PixelVampire.Imaging.WPF\PixelVampire.Imaging.WPF.csproj" />
     <ProjectReference Include="..\PixelVampire.Notifications.WPF\PixelVampire.Notifications.WPF.csproj" />
-    <ProjectReference Include="..\PixelVampire.Shared.WPF\PixelVampire.Controls.WPF.csproj" />
   </ItemGroup>
 
 </Project>

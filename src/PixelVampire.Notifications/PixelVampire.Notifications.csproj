@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PixelVampire.Shared\PixelVampire.csproj" />
+    <ProjectReference Include="..\PixelVampire\PixelVampire.csproj" />
   </ItemGroup>
 
 </Project>
