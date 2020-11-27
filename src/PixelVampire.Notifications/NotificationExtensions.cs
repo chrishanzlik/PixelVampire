@@ -28,6 +28,8 @@ namespace PixelVampire.Notifications
         /// <param name="displayDuration">Display duration. No auto-remove if null.</param>
         public static void PublishInfo(this INotificationPublisher self, string message, string title = null, TimeSpan? displayDuration = null)
         {
+            Guard.Against.ArgumentNullOrEmpty(message, "message");
+
             self.Publish(new Notification(message, title, NotificationLevel.Info, displayDuration));
         }
 
@@ -40,6 +42,8 @@ namespace PixelVampire.Notifications
         /// <param name="displayDuration">Display duration. No auto-remove if null.</param>
         public static void PublishWarning(this INotificationPublisher self, string message, string title = null, TimeSpan? displayDuration = null)
         {
+            Guard.Against.ArgumentNullOrEmpty(message, "message");
+
             self.Publish(new Notification(message, title, NotificationLevel.Warning, displayDuration));
         }
 
@@ -52,6 +56,8 @@ namespace PixelVampire.Notifications
         /// <param name="displayDuration">Display duration. No auto-remove if null.</param>
         public static void PublishError(this INotificationPublisher self, string message, string title = null, TimeSpan? displayDuration = null)
         {
+            Guard.Against.ArgumentNullOrEmpty(message, "message");
+
             self.Publish(new Notification(message, title, NotificationLevel.Error, displayDuration));
         }
     }
