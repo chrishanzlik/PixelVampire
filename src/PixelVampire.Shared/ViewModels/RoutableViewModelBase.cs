@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using Splat;
 
-namespace PixelVampire.Shared.ViewModels
+namespace PixelVampire.ViewModels
 {
     /// <summary>
     /// Base viewmodel with capabilities of routing.

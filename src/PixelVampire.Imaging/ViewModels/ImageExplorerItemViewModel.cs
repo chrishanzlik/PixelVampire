@@ -1,7 +1,6 @@
 ﻿using PixelVampire.Imaging.Models;
 using PixelVampire.Imaging.ViewModels.Abstractions;
-using PixelVampire.Shared;
-using PixelVampire.Shared.ViewModels;
+using PixelVampire.ViewModels;
 using ReactiveUI;
 using System.Reactive;
 

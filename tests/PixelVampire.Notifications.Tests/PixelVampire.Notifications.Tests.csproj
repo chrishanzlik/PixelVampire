@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PixelVampire.Notifications\PixelVampire.Notifications.csproj" />
-    <ProjectReference Include="..\..\src\PixelVampire.Shared\PixelVampire.Shared.csproj" />
+    <ProjectReference Include="..\..\src\PixelVampire.Shared\PixelVampire.csproj" />
   </ItemGroup>
 
 </Project>
