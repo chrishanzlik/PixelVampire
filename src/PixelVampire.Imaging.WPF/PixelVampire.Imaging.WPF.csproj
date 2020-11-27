@@ -1,0 +1,79 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<EnableDefaultPageItems>false</EnableDefaultPageItems>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="FodyWeavers.xml" />
+	  <None Remove="Views\ImageEditorView.xaml" />
+	  <None Remove="Views\ImageExplorerItemView.xaml" />
+	  <None Remove="Views\ImageExplorerView.xaml" />
+	  <None Remove="Views\ImagePreviewView.xaml" />
+	  <None Remove="Views\ImageSettingsView.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="ReactiveUI" Version="12.1.5" />
+	  <PackageReference Include="ReactiveUI.Events.WPF" Version="12.1.5" />
+	  <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
+	  <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
+	  <PackageReference Include="SkiaSharp" Version="2.80.2" />
+	  <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Include="Views\ImageEditorView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImagePreviewView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImageExplorerView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImageExplorerItemView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Include="Views\ImageSettingsView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\PixelVampire.Imaging\PixelVampire.Imaging.csproj" />
+	  <ProjectReference Include="..\PixelVampire.Notifications.WPF\PixelVampire.Notifications.WPF.csproj" />
+	  <ProjectReference Include="..\PixelVampire.Shared.WPF\PixelVampire.Controls.WPF.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\ImageEditorView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImagePreviewView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImageExplorerView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImageExplorerItemView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\ImageSettingsView.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+
+</Project>

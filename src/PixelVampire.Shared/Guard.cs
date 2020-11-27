@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PixelVampire.Shared
+namespace PixelVampire
 {
     /// <summary>
     /// Helper class to unify guard clauses.

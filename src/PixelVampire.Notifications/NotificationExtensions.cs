@@ -1,5 +1,4 @@
 ﻿using PixelVampire.Notifications.Models;
-using PixelVampire.Shared;
 using Splat;
 using System;
 

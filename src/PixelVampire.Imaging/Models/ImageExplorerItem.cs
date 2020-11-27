@@ -1,5 +1,4 @@
-﻿using PixelVampire.Shared;
-using SkiaSharp;
+﻿using SkiaSharp;
 using System;
 
 namespace PixelVampire.Imaging.Models

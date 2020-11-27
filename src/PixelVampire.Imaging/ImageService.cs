@@ -1,10 +1,8 @@
 ﻿using PixelVampire.Imaging.Exceptions;
 using PixelVampire.Imaging.Models;
-using PixelVampire.Shared;
 using ReactiveUI;
 using SkiaSharp;
 using System;
-using System.IO;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
