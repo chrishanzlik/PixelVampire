@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelVampire.Notifications.WPF", "src\PixelVampire.Notifications.WPF\PixelVampire.Notifications.WPF.csproj", "{D302DF0F-6FD5-4F4E-B81A-643F45A78DF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelVampire.Controls.WPF", "src\PixelVampire.Shared.WPF\PixelVampire.Controls.WPF.csproj", "{8CDC9A27-6249-4EBC-9023-2CF79053F601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelVampire.Controls.WPF", "src\PixelVampire.Controls.WPF\PixelVampire.Controls.WPF.csproj", "{8CDC9A27-6249-4EBC-9023-2CF79053F601}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelVampire.Imaging.WPF", "src\PixelVampire.Imaging.WPF\PixelVampire.Imaging.WPF.csproj", "{9EE1387B-9CC2-44C9-82AB-2DAD45E38560}"
 EndProject
@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D9F4BE04
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelVampire.Notifications", "src\PixelVampire.Notifications\PixelVampire.Notifications.csproj", "{973BF908-7666-46A9-A580-BF4A806CA84D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelVampire", "src\PixelVampire.Shared\PixelVampire.csproj", "{F2BFF1B5-C4FB-4215-9E1F-2D9CC54028AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelVampire", "src\PixelVampire\PixelVampire.csproj", "{F2BFF1B5-C4FB-4215-9E1F-2D9CC54028AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{5D78D658-9290-46CF-87D9-D2B8FE21CCF6}"
 EndProject
