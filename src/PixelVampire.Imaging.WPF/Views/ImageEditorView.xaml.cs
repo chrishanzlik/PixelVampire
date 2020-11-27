@@ -33,11 +33,11 @@ namespace PixelVampire.Imaging.WPF.Views
             this.WhenActivated(d =>
             {
                 this.BindCommand(ViewModel,
-                    x => x.SelectNext,
+                    x => x.ImageExplorer.SelectNext,
                     x => x.NextButton).DisposeWith(d);
 
                 this.BindCommand(ViewModel,
-                    x => x.SelectPrevious,
+                    x => x.ImageExplorer.SelectPrevious,
                     x => x.PrevButton).DisposeWith(d);
 
                 this.OneWayBind(ViewModel,

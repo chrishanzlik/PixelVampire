@@ -36,8 +36,6 @@ namespace PixelVampire.Imaging.ViewModels
             ImageExplorer = new ImageExplorerViewModel(_source.AsObservableCache());
             ImagePreview = new ImagePreviewViewModel(this.WhenAnyValue(x => x.SelectedImage));
             LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x));
-            SelectNext = ReactiveCommand.Create(ImageExplorer.SelectNext);
-            SelectPrevious = ReactiveCommand.Create(ImageExplorer.SelectPrevious);
 
             this.WhenActivated(d =>
             {

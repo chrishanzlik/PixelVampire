@@ -7,6 +7,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -27,6 +28,9 @@ namespace PixelVampire.Imaging.ViewModels
         public ImageExplorerViewModel(IObservableCache<ImageHandle, string> imageCache)
         {
             var connection = imageCache?.Connect() ?? throw new ArgumentNullException(nameof(imageCache));
+
+            SelectNext = ReactiveCommand.Create(SelectNextImpl);
+            SelectPrevious = ReactiveCommand.Create(SelectPreviousImpl);
 
             _requestRemove = ReactiveCommand.Create<IImageExplorerItemViewModel, ImageHandle>(
                 vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm.ExplorerItem.FilePath),
@@ -60,6 +64,8 @@ namespace PixelVampire.Imaging.ViewModels
             });
         }
 
+
+
         /// <inheritdoc />
         public ReadOnlyObservableCollection<IImageExplorerItemViewModel> Children => _children;
 
@@ -74,25 +80,30 @@ namespace PixelVampire.Imaging.ViewModels
         public IObservable<ImageHandle> DeletionRequests { get; }
 
         /// <inheritdoc />
-        public void SelectNext()
+        public ReactiveCommand<Unit, IImageExplorerItemViewModel> SelectNext { get; }
+
+        /// <inheritdoc />
+        public ReactiveCommand<Unit, IImageExplorerItemViewModel> SelectPrevious { get; }
+
+
+        private IImageExplorerItemViewModel SelectNextImpl()
         {
-            if (Children.Count <= 1) return;
+            if (Children.Count <= 1) return SelectedItem;
 
             int actualIndex = Children.IndexOf(SelectedItem);
             int nextIndex = actualIndex < Children.Count - 1 ? actualIndex + 1 : 0;
             
-            SelectedItem = Children.ElementAt(nextIndex);
+            return SelectedItem = Children.ElementAt(nextIndex);
         }
 
-        /// <inheritdoc />
-        public void SelectPrevious()
+        public IImageExplorerItemViewModel SelectPreviousImpl()
         {
-            if (Children.Count <= 1) return;
+            if (Children.Count <= 1) return SelectedItem;
 
             int actualIndex = Children.IndexOf(SelectedItem);
             int nextIndex = actualIndex > 0 ? actualIndex - 1 : Children.Count - 1;
 
-            SelectedItem = Children.ElementAt(nextIndex);
+            return SelectedItem = Children.ElementAt(nextIndex);
         }
     }
 }
