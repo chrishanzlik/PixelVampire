@@ -25,7 +25,7 @@ namespace PixelVampire.Notifications.ViewModels
             Guard.Against.ArgumentNull(notification, nameof(notification));
 
             Notification = notification;
-            Close = ReactiveCommand.Create(() => this as INotificationViewModel, null);
+            Close = ReactiveCommand.Create(() => this as INotificationViewModel);
             SelfDestructionEnabled = notification.DisplayDuration.HasValue;
 
             if (notification.DisplayDuration.HasValue)
