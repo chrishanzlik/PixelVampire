@@ -20,12 +20,13 @@ namespace PixelVampire.Notifications.ViewModels
         /// Initializes a new instance of the <see cref="NotificationViewModel" /> class.
         /// </summary>
         /// <param name="notification">The displayed notification.</param>
+        /// <param name="taskPoolScheduler">Custom task pool scheduler.</param>
         public NotificationViewModel(Notification notification)
         {
-            Guard.Against.Null(notification, nameof(notification));
+            Guard.Against.ArgumentNull(notification, nameof(notification));
 
             Notification = notification;
-            Close = ReactiveCommand.Create(() => this as INotificationViewModel);
+            Close = ReactiveCommand.Create(() => this as INotificationViewModel, null);
             SelfDestructionEnabled = notification.DisplayDuration.HasValue;
 
             if (notification.DisplayDuration.HasValue)
@@ -39,7 +40,8 @@ namespace PixelVampire.Notifications.ViewModels
                     x => x <= 100,
                     x => x + decayAmount,
                     x => x,
-                    x => decayOverTime);
+                    x => decayOverTime,
+                    RxApp.TaskpoolScheduler);
 
                 this.WhenActivated(d =>
                 {

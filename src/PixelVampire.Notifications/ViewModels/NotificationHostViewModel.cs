@@ -35,6 +35,7 @@ namespace PixelVampire.Notifications.ViewModels
             this.WhenActivated(d =>
             {
                 _notificationListener.Notifications
+                    .ObserveOn(RxApp.TaskpoolScheduler)
                     .Subscribe(x => notificationSource.Add(x))
                     .DisposeWith(d);
 
@@ -48,9 +49,10 @@ namespace PixelVampire.Notifications.ViewModels
 
                 // Listen for notification close requests.
                 notificationChanges
-                    .Throttle(TimeSpan.FromMilliseconds(100))
+                    .Throttle(TimeSpan.FromMilliseconds(100), RxApp.TaskpoolScheduler)
                     .Select(_ => Notifications.Select(x => x.Close).Merge())
                     .Switch()
+                    .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(x => notificationSource.Remove(x.Notification))
                     .DisposeWith(d);
             });

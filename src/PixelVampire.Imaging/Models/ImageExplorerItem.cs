@@ -16,8 +16,8 @@ namespace PixelVampire.Imaging.Models
         /// <param name="thumbnail">Thumbnail image of the loaded file.</param>
         public ImageExplorerItem(string filePath, SKBitmap thumbnail)
         {
-            Guard.Against.NullOrEmpty(filePath, nameof(filePath));
-            Guard.Against.Null(thumbnail, nameof(thumbnail));
+            Guard.Against.ArgumentNullOrEmpty(filePath, nameof(filePath));
+            Guard.Against.ArgumentNull(thumbnail, nameof(thumbnail));
 
             FilePath = filePath;
             Thumbnail = thumbnail;

@@ -14,7 +14,7 @@ namespace PixelVampire.Shared.ViewModels
         /// <param name="hostScreen">The screen in which the view is shown.</param>
         public RoutableViewModelBase(IScreen hostScreen = null)
         {
-            Guard.Against.NullOrEmpty(UrlPathSegment, nameof(UrlPathSegment));
+            Guard.Against.ArgumentNullOrEmpty(UrlPathSegment, nameof(UrlPathSegment));
 
             HostScreen = hostScreen ?? Splat.Locator.Current.GetService<IScreen>();
         }

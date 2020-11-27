@@ -8,28 +8,43 @@ namespace PixelVampire.Notifications.Models
     public class Notification
     {
         /// <summary>
-        /// Gets or sets the notification title.
+        /// Initializes a new instance of the <see cref="Notification" /> class.
         /// </summary>
-        public string Title { get; set; }
+        /// <param name="message">Message to display.</param>
+        /// <param name="title">Notifications title.</param>
+        /// <param name="level">Notification level</param>
+        /// <param name="displayDuration">How long the notfiication is valid.</param>
+        public Notification(string message, string title, NotificationLevel level, TimeSpan? displayDuration)
+        {
+            Title = title;
+            Message = message;
+            Level = level;
+            DisplayDuration = displayDuration;
+        }
 
         /// <summary>
-        /// Gets or sets the notification message.
+        /// Gets the notification title.
         /// </summary>
-        public string Message { get; set; }
+        public string Title { get; }
 
         /// <summary>
-        /// Gets or sets the notificatin level.
+        /// Gets the notification message.
         /// </summary>
-        public NotificationLevel Level { get; set; }
+        public string Message { get; }
 
         /// <summary>
-        /// Gets or sets the time when the notification was created.
+        /// Gets the notificatin level.
         /// </summary>
-        public DateTime? TimeStamp { get; set; }
+        public NotificationLevel Level { get; }
 
         /// <summary>
-        /// Gets or sets the amount of time after which the notification disappears.
+        /// Gets the time when the notification was created.
         /// </summary>
-        public TimeSpan? DisplayDuration { get; set; }
+        public DateTime? TimeStamp { get; }
+
+        /// <summary>
+        /// Gets the amount of time after which the notification disappears.
+        /// </summary>
+        public TimeSpan? DisplayDuration { get; }
     }
 }

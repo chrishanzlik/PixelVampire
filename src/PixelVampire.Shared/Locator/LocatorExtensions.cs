@@ -14,7 +14,7 @@ namespace PixelVampire.Shared.Locator
         /// <param name="registration">Registration which should be applied.</param>
         public static void RegisterModule(this IMutableDependencyResolver self, ModuleRegistration registration)
         {
-            Guard.Against.Null(registration, nameof(registration));
+            Guard.Against.ArgumentNull(registration, nameof(registration));
 
             registration.Register(self);
         }

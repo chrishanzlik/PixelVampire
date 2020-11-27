@@ -18,7 +18,7 @@ namespace PixelVampire.Imaging.ViewModels
         /// <param name="explorerItem">Object which should be displayed inside the image explorer.</param>
         public ImageExplorerItemViewModel(ImageExplorerItem explorerItem)
         {
-            Guard.Against.Null(explorerItem, nameof(explorerItem));
+            Guard.Against.ArgumentNull(explorerItem, nameof(explorerItem));
 
             ExplorerItem = explorerItem;
 

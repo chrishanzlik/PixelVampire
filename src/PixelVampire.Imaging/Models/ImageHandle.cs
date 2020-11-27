@@ -18,8 +18,8 @@ namespace PixelVampire.Imaging.Models
         /// <param name="format">Format of the image</param>
         internal ImageHandle(string path, SKBitmap image, SKEncodedImageFormat format)
         {
-            Guard.Against.NullOrEmpty(path, "path");
-            Guard.Against.Null(image, "image");
+            Guard.Against.ArgumentNullOrEmpty(path, "path");
+            Guard.Against.ArgumentNull(image, "image");
 
             OriginalPath = path;
             OriginalName = Path.GetFileName(path);

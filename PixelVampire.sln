@@ -16,7 +16,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelVampire.Notifications"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelVampire.Shared", "src\PixelVampire.Shared\PixelVampire.Shared.csproj", "{8CDC9A27-6249-4EBC-9023-2CF79053F601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelVampire.Imaging", "src\PixelVampire.Imaging\PixelVampire.Imaging.csproj", "{9EE1387B-9CC2-44C9-82AB-2DAD45E38560}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelVampire.Imaging", "src\PixelVampire.Imaging\PixelVampire.Imaging.csproj", "{9EE1387B-9CC2-44C9-82AB-2DAD45E38560}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelVampire.Notifications.Tests", "tests\PixelVampire.Notifications.Tests\PixelVampire.Notifications.Tests.csproj", "{6D9A1812-694E-48C9-B2BA-25E9E685D18C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2159E68E-7393-4B3B-9801-D9B51FCB3A8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D9F4BE04-46FB-4F23-893C-45C6D3A2AA59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,9 +46,20 @@ Global
 		{9EE1387B-9CC2-44C9-82AB-2DAD45E38560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE1387B-9CC2-44C9-82AB-2DAD45E38560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EE1387B-9CC2-44C9-82AB-2DAD45E38560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D9A1812-694E-48C9-B2BA-25E9E685D18C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D9A1812-694E-48C9-B2BA-25E9E685D18C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D9A1812-694E-48C9-B2BA-25E9E685D18C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D9A1812-694E-48C9-B2BA-25E9E685D18C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2BC9449B-BA19-4291-A887-0FDE887B9E9B} = {2159E68E-7393-4B3B-9801-D9B51FCB3A8E}
+		{D302DF0F-6FD5-4F4E-B81A-643F45A78DF5} = {2159E68E-7393-4B3B-9801-D9B51FCB3A8E}
+		{8CDC9A27-6249-4EBC-9023-2CF79053F601} = {2159E68E-7393-4B3B-9801-D9B51FCB3A8E}
+		{9EE1387B-9CC2-44C9-82AB-2DAD45E38560} = {2159E68E-7393-4B3B-9801-D9B51FCB3A8E}
+		{6D9A1812-694E-48C9-B2BA-25E9E685D18C} = {D9F4BE04-46FB-4F23-893C-45C6D3A2AA59}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2777B242-AAD8-45B5-8F87-71E3B7EB938F}
