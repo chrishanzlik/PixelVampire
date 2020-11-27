@@ -1,6 +1,5 @@
 ﻿using PixelVampire.Notifications.ViewModels.Abstractions;
-using PixelVampire.Shared;
-using PixelVampire.Shared.ViewModels;
+using PixelVampire.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;

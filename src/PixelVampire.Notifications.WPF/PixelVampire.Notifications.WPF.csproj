@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+	<UseWPF>true</UseWPF>
+	<EnableDefaultPageItems>false</EnableDefaultPageItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="FodyWeavers.xml" />
+    <None Remove="Views\NotificationHostView.xaml" />
+    <None Remove="Views\NotificationView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
+    <PackageReference Include="ReactiveUI" Version="12.1.5" />
+    <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
+    <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Views\NotificationHostView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NotificationView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PixelVampire.Notifications\PixelVampire.Notifications.csproj" />
+    <ProjectReference Include="..\PixelVampire.Shared.WPF\PixelVampire.Controls.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\NotificationHostView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\NotificationView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

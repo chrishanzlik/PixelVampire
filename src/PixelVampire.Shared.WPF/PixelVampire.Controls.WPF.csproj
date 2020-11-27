@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+	  <TargetFramework>net5.0-windows</TargetFramework>
+	  <UseWPF>true</UseWPF>
+	  <EnableDefaultPageItems>false</EnableDefaultPageItems>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="FodyWeavers.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.3.4" />
     <PackageReference Include="ReactiveUI" Version="12.1.5" />
-    <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
   </ItemGroup>
 
   <ItemGroup>

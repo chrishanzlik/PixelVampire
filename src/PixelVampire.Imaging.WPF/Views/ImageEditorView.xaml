@@ -1,0 +1,94 @@
+﻿<rx:ReactiveUserControl x:Class="PixelVampire.Imaging.WPF.Views.ImageEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PixelVampire.Imaging.WPF.Views"
+             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:rx="http://reactiveui.net"
+             xmlns:vma="clr-namespace:PixelVampire.Imaging.ViewModels.Abstractions;assembly=PixelVampire.Imaging"
+             x:TypeArguments="vma:IImageEditorViewModel"
+             mc:Ignorable="d" Background="White"
+             AllowDrop="True"
+             d:DesignHeight="450" d:DesignWidth="1100">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="ExplorerColumn" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition x:Name="SettingsColumn" />
+        </Grid.ColumnDefinitions>
+
+        <Border Visibility="Collapsed" Grid.Column="2" Panel.ZIndex="999" Background="#AFFF" x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <metroControls:ProgressRing MinWidth="100" MinHeight="100" />
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Margin="0" Padding="10,10,10,0" BorderBrush="Transparent" Background="#F3F3F3">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="20" Text="Images" Margin="0,0,0,5" />
+                        <Separator Margin="0" />
+                    </StackPanel>
+                </Border>
+
+                <local:ImageExplorerView Background="#F3F3F3" x:Name="Explorer" Grid.Row="1" Padding="10,0,10,10" />
+
+                <Border Grid.Row="2" Margin="0" Padding="10,0,10,10" BorderBrush="Transparent" Background="#F3F3F3">
+                    <Button x:Name="SelectFilesExplorerButton"
+                            Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Height="48"
+                            Width="48">
+                        <iconPacks:PackIconCodicons Kind="Add" />
+                    </Button>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+
+        <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" />
+
+        <StackPanel x:Name="SelectFilesBlock" Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
+            <TextBlock FontSize="42" HorizontalAlignment="Center" Text="DROP FILES HERE" />
+            <TextBlock FontSize="28" HorizontalAlignment="Center" Text="OR" Margin="0,20" />
+            <Button FontSize="42" HorizontalAlignment="Center" x:Name="SelectFilesButton" Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}">SELECT FILES</Button>
+        </StackPanel>
+
+        <local:ImagePreviewView x:Name="Preview" Margin="20" Grid.Column="2" />
+
+        <Button x:Name="PrevButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Panel.ZIndex="100"
+                Margin="10,0,0,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleLeftF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
+        <Button x:Name="NextButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Panel.ZIndex="100"
+                Margin="0,0,10,0"
+                Style="{StaticResource MahApps.Styles.Button.Chromeless}">
+            <iconPacks:PackIconJamIcons Width="50" Height="50" Kind="ChevronCircleRightF" Foreground="{StaticResource MahApps.Brushes.Accent}" />
+        </Button>
+
+        <GridSplitter Grid.Column="3" Width="3" VerticalAlignment="Stretch" />
+
+        <Border Grid.Column="4" Background="#F3F3F3">
+            <local:ImageSettingsView />
+        </Border>
+    </Grid>
+</rx:ReactiveUserControl>

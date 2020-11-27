@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -11,10 +11,6 @@
   <ItemGroup>
     <PackageReference Include="ReactiveUI" Version="12.1.5" />
     <PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\PixelVampire.Shared\PixelVampire.csproj" />
   </ItemGroup>
 
 </Project>

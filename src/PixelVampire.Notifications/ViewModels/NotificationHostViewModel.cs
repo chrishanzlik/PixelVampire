@@ -1,7 +1,7 @@
 ﻿using DynamicData;
 using PixelVampire.Notifications.Models;
 using PixelVampire.Notifications.ViewModels.Abstractions;
-using PixelVampire.Shared.ViewModels;
+using PixelVampire.ViewModels;
 using ReactiveUI;
 using Splat;
 using System;

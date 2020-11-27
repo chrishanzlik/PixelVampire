@@ -1,4 +1,4 @@
-﻿namespace PixelVampire.Shared
+﻿namespace PixelVampire
 {
     /// <summary>
     /// Classes implementing this interface have access to notifications.

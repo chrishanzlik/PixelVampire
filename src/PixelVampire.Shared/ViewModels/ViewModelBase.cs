@@ -2,7 +2,7 @@
 using Splat;
 using System;
 
-namespace PixelVampire.Shared.ViewModels
+namespace PixelVampire.ViewModels
 {
     /// <summary>
     /// Most basic viewmodel to inhert from.

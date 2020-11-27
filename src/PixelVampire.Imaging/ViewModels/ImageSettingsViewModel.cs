@@ -1,6 +1,6 @@
 ﻿using PixelVampire.Imaging.Models;
 using PixelVampire.Imaging.ViewModels.Abstractions;
-using PixelVampire.Shared.ViewModels;
+using PixelVampire.ViewModels;
 
 namespace PixelVampire.Imaging.ViewModels
 {
