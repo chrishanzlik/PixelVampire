@@ -31,15 +31,14 @@ namespace PixelVampire.Imaging.ViewModels
 
             SelectNext = ReactiveCommand.Create(SelectNextImpl);
             SelectPrevious = ReactiveCommand.Create(SelectPreviousImpl);
-
             _requestRemove = ReactiveCommand.Create<IImageExplorerItemViewModel, ImageHandle>(
                 vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm.ExplorerItem.FilePath),
                 outputScheduler: RxApp.TaskpoolScheduler);
 
             DeletionRequests = _requestRemove.AsObservable();
             Selections = this.WhenAnyValue(x => x.SelectedItem)
-                .Select(vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm?.ExplorerItem.FilePath))
-                .DistinctUntilChanged();
+                .DistinctUntilChanged()
+                .Select(vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm?.ExplorerItem.FilePath));
 
             this.WhenActivated(d =>
             {
