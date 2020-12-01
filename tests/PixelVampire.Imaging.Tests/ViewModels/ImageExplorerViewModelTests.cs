@@ -1,16 +1,12 @@
 ﻿using DynamicData;
 using Microsoft.Reactive.Testing;
-using Moq;
 using PixelVampire.Imaging.Models;
 using PixelVampire.Imaging.ViewModels;
 using ReactiveUI.Testing;
 using SkiaSharp;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PixelVampire.Imaging.Tests.ViewModels
@@ -27,8 +23,8 @@ namespace PixelVampire.Imaging.Tests.ViewModels
         public void ImageExplorerViewModel_SyncsIntialItemsFromCache_WhenItemsAvailable() =>
             new TestScheduler().With(scheduler =>
             {
-                var source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
-                source.AddOrUpdate(new ImageHandle("foo", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
+                var source = new SourceCache<ImageHandle, string>(x => x.LoadingSettings.FilePath);
+                source.AddOrUpdate(GetDummyHandle("foo"));
 
                 var sut = new ImageExplorerViewModel(source.AsObservableCache());
                 sut.Activator.Activate();
@@ -42,9 +38,9 @@ namespace PixelVampire.Imaging.Tests.ViewModels
         public void ImageExplorerViewModel_SelectNextSelectsNextItem_WhenAtLeastTwoItemsAvailable() =>
             new TestScheduler().With(scheduler =>
             {
-                var source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
-                source.AddOrUpdate(new ImageHandle("foo", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
-                source.AddOrUpdate(new ImageHandle("bar", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
+                var source = new SourceCache<ImageHandle, string>(x => x.LoadingSettings.FilePath);
+                source.AddOrUpdate(GetDummyHandle("foo"));
+                source.AddOrUpdate(GetDummyHandle("bar"));
 
                 var sut = new ImageExplorerViewModel(source.AsObservableCache());
                 sut.Activator.Activate();
@@ -62,10 +58,10 @@ namespace PixelVampire.Imaging.Tests.ViewModels
         public void ImageExplorerViewModel_SelectPrevSelectsPrevItem_WhenAtLeastTwoItemsAvailable() =>
             new TestScheduler().With(scheduler =>
             {
-                var source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
-                source.AddOrUpdate(new ImageHandle("foo", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
-                source.AddOrUpdate(new ImageHandle("bar", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
-                source.AddOrUpdate(new ImageHandle("baz", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
+                var source = new SourceCache<ImageHandle, string>(x => x.LoadingSettings.FilePath);
+                source.AddOrUpdate(GetDummyHandle("foo"));
+                source.AddOrUpdate(GetDummyHandle("bar"));
+                source.AddOrUpdate(GetDummyHandle("baz"));
 
                 var sut = new ImageExplorerViewModel(source.AsObservableCache());
                 sut.Activator.Activate();
@@ -85,18 +81,27 @@ namespace PixelVampire.Imaging.Tests.ViewModels
             {
                 bool success = false;
 
-                var source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
-                source.AddOrUpdate(new ImageHandle("foo", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
-                source.AddOrUpdate(new ImageHandle("bar", new SKBitmap(100, 100), SKEncodedImageFormat.Png));
+                var source = new SourceCache<ImageHandle, string>(x => x.LoadingSettings.FilePath);
+                source.AddOrUpdate(GetDummyHandle("foo"));
+                source.AddOrUpdate(GetDummyHandle("bar"));
 
                 var sut = new ImageExplorerViewModel(source.AsObservableCache());
                 sut.Activator.Activate();
                 scheduler.AdvanceBy(2);
-                sut.Selections.Where(x => x.OriginalPath == "bar").Subscribe(_ => success = true);
+                sut.Selections.Where(x => x.LoadingSettings.FilePath == "bar").Subscribe(_ => success = true);
                 sut.SelectNext.Execute().Subscribe();
                 scheduler.AdvanceBy(2);
 
                 Assert.True(success);
             });
+
+        private static ImageHandle GetDummyHandle(string name)
+        {
+            var bmp = new SKBitmap(10, 10);
+            return new ImageHandle(name, bmp, SKEncodedImageFormat.Jpeg)
+            {
+                Preview = bmp
+            };
+        }
     }
 }

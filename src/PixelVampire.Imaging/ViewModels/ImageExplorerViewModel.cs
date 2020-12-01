@@ -33,20 +33,20 @@ namespace PixelVampire.Imaging.ViewModels
             SelectNext = ReactiveCommand.Create(SelectNextImpl);
             SelectPrevious = ReactiveCommand.Create(SelectPreviousImpl);
             _requestRemove = ReactiveCommand.Create<IImageExplorerItemViewModel, ImageHandle>(
-                vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm.ExplorerItem.FilePath),
+                vm => imageCache.Items.FirstOrDefault(x => x.LoadingSettings.FilePath == vm.ExplorerItem.FilePath),
                 outputScheduler: RxApp.TaskpoolScheduler);
 
             DeletionRequests = _requestRemove.AsObservable();
             Selections = this.WhenAnyValue(x => x.SelectedItem)
                 .DistinctUntilChanged()
-                .Select(vm => imageCache.Items.FirstOrDefault(x => x.OriginalPath == vm?.ExplorerItem.FilePath));
+                .Select(vm => imageCache.Items.FirstOrDefault(x => x.LoadingSettings.FilePath == vm?.ExplorerItem.FilePath));
 
             this.WhenActivated(d =>
             {
                 connection
                     .ObserveOn(RxApp.TaskpoolScheduler)
                     .Filter(x => x?.Preview != null)
-                    .Transform(x => new ImageExplorerItem(x.OriginalPath, x.OriginalImage.ToThumbnail(50)))
+                    .Transform(x => new ImageExplorerItem(x.LoadingSettings.FilePath, x.OriginalImage.ToThumbnail(50)))
                     .DisposeMany()
                     .Transform(x => new ImageExplorerItemViewModel(x) as IImageExplorerItemViewModel)
                     .ObserveOn(RxApp.MainThreadScheduler)

@@ -34,7 +34,8 @@ namespace PixelVampire.Imaging
                         codec.DisposeWith(disposable);
 
                         var bitmap = SKBitmap.Decode(codec);
-                        handle = new ImageHandle(path, bitmap, codec.EncodedFormat);
+                        var format = codec.EncodedFormat == SKEncodedImageFormat.Gif ? SKEncodedImageFormat.Png : codec.EncodedFormat;
+                        handle = new ImageHandle(path, bitmap, format);
                         observer.OnNext(handle);
                     }
                     catch (Exception ex)
@@ -61,7 +62,7 @@ namespace PixelVampire.Imaging
                 {
                     var old = handle.Preview;
 
-                    using var data = handle.OriginalImage.Encode(handle.Format, handle.ManipulationState.Quality);
+                    using var data = handle.OriginalImage.Encode(handle.LoadingSettings.Format.ToSkiaFormat(), handle.ManipulationState.Quality);
 
                     handle.Preview = SKBitmap.Decode(data);
 

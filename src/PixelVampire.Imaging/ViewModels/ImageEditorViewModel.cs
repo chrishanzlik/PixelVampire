@@ -22,7 +22,7 @@ namespace PixelVampire.Imaging.ViewModels
     /// </summary>
     public class ImageEditorViewModel : RoutableViewModelBase, IImageEditorViewModel
     {
-        private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
+        private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.LoadingSettings.FilePath);
         private ReadOnlyObservableCollection<ImageHandle> _images;
         private ReactiveCommand<ImageHandle, ImageHandle> _calculatePreview;
 

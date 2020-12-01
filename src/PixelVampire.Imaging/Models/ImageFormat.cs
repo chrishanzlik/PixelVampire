@@ -7,7 +7,7 @@ namespace PixelVampire.Imaging.Models
     public enum ImageFormat
     {
         Png = 0,
-        Jpg = 1,
+        Jpeg = 1,
         Bmp = 2
     }
 }

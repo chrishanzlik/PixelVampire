@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using PixelVampire.Imaging.Models;
+using SkiaSharp;
 using System;
 using System.IO;
 
@@ -7,7 +8,7 @@ namespace PixelVampire.Imaging
     /// <summary>
     /// Extension methods related to SkiaSharp's bitmap class
     /// </summary>
-    public static class SKBitmapExtensions
+    public static class SkiaSharpExtensions
     {
         /// <summary>
         /// Generates a resized bitmap within a given rectangle. (Without causing distortion)
@@ -59,6 +60,26 @@ namespace PixelVampire.Imaging
             self.ExtractSubset(thumb, new SKRectI(left, top, right, bottom));
 
             return thumb.Resize(new SKSizeI(sideLength, sideLength), SKFilterQuality.Medium);
+        }
+
+        /// <summary>
+        /// Converts a SkiaSharp image format to a local one.
+        /// </summary>
+        /// <param name="self">Object to be extended.</param>
+        /// <returns>A local style image format.</returns>
+        public static ImageFormat ToAppFormat(this SKEncodedImageFormat self)
+        {
+            switch(self)
+            {
+                case SKEncodedImageFormat.Jpeg:
+                    return ImageFormat.Jpeg;
+                case SKEncodedImageFormat.Png:
+                case SKEncodedImageFormat.Gif:
+                    return ImageFormat.Png;
+                case SKEncodedImageFormat.Bmp:
+                    return ImageFormat.Bmp;
+                default: throw new InvalidOperationException("Not a supported image format.");
+            }
         }
     }
 }

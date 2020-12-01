@@ -2,8 +2,6 @@
 using ReactiveUI.Fody.Helpers;
 using SkiaSharp;
 using System;
-using System.Diagnostics;
-using System.IO;
 
 namespace PixelVampire.Imaging.Models
 {
@@ -23,32 +21,20 @@ namespace PixelVampire.Imaging.Models
             Guard.Against.ArgumentNullOrEmpty(path, "path");
             Guard.Against.ArgumentNull(image, "image");
 
-            OriginalPath = path;
-            OriginalName = Path.GetFileName(path);
             OriginalImage = image;
-            Format = format;
+            LoadingSettings = new ImageDefaults(path, image.Width, image.Height, image.Info.BytesSize64, format.ToAppFormat());
             ManipulationState = new ManipulationState();
         }
 
         /// <summary>
-        /// Gets the original image path on users local disk.
+        /// Gets the image settings at loading time.
         /// </summary>
-        public string OriginalPath { get; }
+        public ImageDefaults LoadingSettings { get; }
 
         /// <summary>
-        /// Gets the original image name.
-        /// </summary>
-        public string OriginalName { get; }
-
-        /// <summary>
-        /// Gets the original image data.
+        /// Gets the original loaded image.
         /// </summary>
         public SKBitmap OriginalImage { get; }
-
-        /// <summary>
-        /// Gets the image format.
-        /// </summary>
-        public SKEncodedImageFormat Format { get; }
 
         /// <summary>
         /// Gets or sets the actual image preview (manipulated image).
