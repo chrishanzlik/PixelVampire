@@ -50,7 +50,9 @@ namespace PixelVampire.Imaging.ViewModels
 
                 // Add loaded images to source
                 LoadImage
+                    .ObserveOn(RxApp.TaskpoolScheduler)
                     .Where(x => x != null)
+                    .SelectMany(x => imageService.CalculatePreview(x))
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(handle => _source.AddOrUpdate(handle))
                     .DisposeWith(d);

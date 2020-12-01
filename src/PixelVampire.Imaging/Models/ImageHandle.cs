@@ -24,9 +24,6 @@ namespace PixelVampire.Imaging.Models
             OriginalName = Path.GetFileName(path);
             OriginalImage = image;
             Format = format;
-
-            //TODO: temp
-            Preview = OriginalImage;
         }
 
         /// <summary>
