@@ -7,6 +7,6 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
     /// </summary>
     public interface IImageSettingsViewModel
     {
-
+        ImageHandle Context { get; set; }
     }
 }

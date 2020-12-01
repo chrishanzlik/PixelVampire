@@ -63,6 +63,10 @@ namespace PixelVampire.Imaging.WPF.Views
                     x => x.ImagePreview,
                     x => x.Preview.ViewModel).DisposeWith(d);
 
+                this.Bind(ViewModel,
+                    x => x.SelectedImage.ManipulationState.Quality,
+                    x => x.QualitySlider.Value).DisposeWith(d);
+
                 // Load files from dialog
                 Observable.Merge(
                         SelectFilesExplorerButton.Events().Click,

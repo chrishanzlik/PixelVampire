@@ -59,14 +59,13 @@ namespace PixelVampire.Imaging
             {
                 IDisposable scheduling = executionScheduler.Schedule(() =>
                 {
-                    handle.Preview?.Dispose();
+                    var old = handle.Preview;
 
-                    var prev = new SKBitmap(handle.OriginalImage.Width, handle.OriginalImage.Height, handle.OriginalImage.ColorType, handle.OriginalImage.AlphaType, handle.OriginalImage.ColorSpace);
-                    handle.OriginalImage.ExtractSubset(prev, new SKRectI(0, 0, handle.OriginalImage.Width, handle.OriginalImage.Height));
+                    using var data = handle.OriginalImage.Encode(handle.Format, handle.ManipulationState.Quality);
 
-                    handle.Preview = prev;
+                    handle.Preview = SKBitmap.Decode(data);
 
-                    // ...
+                    old?.Dispose();
 
                     observer.OnNext(handle);
                     observer.OnCompleted();

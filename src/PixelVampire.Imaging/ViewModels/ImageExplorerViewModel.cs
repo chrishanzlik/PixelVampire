@@ -6,6 +6,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -44,8 +45,8 @@ namespace PixelVampire.Imaging.ViewModels
             {
                 connection
                     .ObserveOn(RxApp.TaskpoolScheduler)
-                    .Filter(x => x != null)
-                    .Transform(x => new ImageExplorerItem(x.OriginalPath, x.Preview.ToThumbnail(50)))
+                    .Filter(x => x?.Preview != null)
+                    .Transform(x => new ImageExplorerItem(x.OriginalPath, x.OriginalImage.ToThumbnail(50)))
                     .DisposeMany()
                     .Transform(x => new ImageExplorerItemViewModel(x) as IImageExplorerItemViewModel)
                     .ObserveOn(RxApp.MainThreadScheduler)

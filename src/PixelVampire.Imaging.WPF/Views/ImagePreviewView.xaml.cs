@@ -19,7 +19,7 @@ namespace PixelVampire.Imaging.WPF.Views
 
             this.WhenActivated(d =>
             {
-                this.WhenAnyValue(x => x.ViewModel.ImageContext)
+                this.WhenAnyValue(x => x.ViewModel.Image)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(img => {
                         Canvas.Visibility = img != null ? Visibility.Visible : Visibility.Collapsed;
@@ -30,7 +30,7 @@ namespace PixelVampire.Imaging.WPF.Views
                 Canvas.PaintSurface += (o, e) =>
                 {
                     e.Surface.Canvas.Clear();
-                    if (ViewModel.ImageContext != null)
+                    if (ViewModel.Image != null)
                         DrawPreview(e.Surface.Canvas);
                 };
             });
@@ -40,7 +40,7 @@ namespace PixelVampire.Imaging.WPF.Views
         {
             if (double.IsNaN(Canvas.ActualWidth) || double.IsNaN(Canvas.ActualHeight)) return;
 
-            var prev = ViewModel.ImageContext.Preview;
+            var prev = ViewModel.Image;
 
             if (prev.Width > Canvas.ActualWidth || prev.Height > Canvas.ActualHeight)
             {

@@ -3,6 +3,7 @@ using PixelVampire.Imaging.ViewModels.Abstractions;
 using PixelVampire.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using SkiaSharp;
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -22,14 +23,17 @@ namespace PixelVampire.Imaging.ViewModels
             this.WhenActivated(d =>
             {
                 imageChanges
+                    .Where(x => x != null)
+                    .Select(handle => handle.WhenAnyValue(x => x.Preview))
+                    .Switch()
                     .ObserveOn(RxApp.MainThreadScheduler)
-                    .ToPropertyEx(this, x => x.ImageContext)
+                    .ToPropertyEx(this, x => x.Image)
                     .DisposeWith(d);
             });
         }
 
         /// <inheritdoc />
         [ObservableAsProperty]
-        public ImageHandle ImageContext { get; }
+        public SKBitmap Image { get; }
     }
 }

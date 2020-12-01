@@ -24,6 +24,7 @@ namespace PixelVampire.Imaging.ViewModels
     {
         private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.OriginalPath);
         private ReadOnlyObservableCollection<ImageHandle> _images;
+        private ReactiveCommand<ImageHandle, ImageHandle> _calculatePreview;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageEditorViewModel" /> class.
@@ -36,23 +37,31 @@ namespace PixelVampire.Imaging.ViewModels
             ImageExplorer = new ImageExplorerViewModel(_source.AsObservableCache());
             ImagePreview = new ImagePreviewViewModel(this.WhenAnyValue(x => x.SelectedImage));
             LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x));
+            _calculatePreview = ReactiveCommand.CreateFromObservable<ImageHandle, ImageHandle>(x => imageService.CalculatePreview(x));
+
+            var connection = _source.Connect();
 
             this.WhenActivated(d =>
             {
                 // Dispose handles removed from the source collection
-                _source
-                    .Connect()
+                connection
                     .DisposeMany()
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Bind(out _images)
                     .Subscribe()
                     .DisposeWith(d);
 
+                connection.WhenPropertyChanged(x => x.ManipulationState.Quality, false)
+                    .Throttle(TimeSpan.FromMilliseconds(50))
+                    .Select(x => x.Sender)
+                    .InvokeCommand(_calculatePreview)
+                    .DisposeWith(d);
+
                 // Add loaded images to source
                 LoadImage
                     .ObserveOn(RxApp.TaskpoolScheduler)
                     .Where(x => x != null)
-                    .SelectMany(x => imageService.CalculatePreview(x))
+                    .SelectMany(x => _calculatePreview.Execute(x))
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(handle => _source.AddOrUpdate(handle))
                     .DisposeWith(d);
@@ -65,7 +74,7 @@ namespace PixelVampire.Imaging.ViewModels
                     .DisposeWith(d);
 
                 // Pipe loadings to property
-                LoadImage.IsExecuting
+                Observable.CombineLatest(LoadImage.IsExecuting, _calculatePreview.IsExecuting, (a, b) => a || b)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .ToPropertyEx(this, x => x.IsLoading)
                     .DisposeWith(d);

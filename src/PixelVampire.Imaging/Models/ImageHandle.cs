@@ -1,5 +1,8 @@
-﻿using SkiaSharp;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using SkiaSharp;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace PixelVampire.Imaging.Models
@@ -7,7 +10,7 @@ namespace PixelVampire.Imaging.Models
     /// <summary>
     /// The image handle is for interarcting and displaying with loaded files.
     /// </summary>
-    public class ImageHandle : IDisposable
+    public class ImageHandle : ReactiveObject, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageHandle" /> class.
@@ -24,6 +27,7 @@ namespace PixelVampire.Imaging.Models
             OriginalName = Path.GetFileName(path);
             OriginalImage = image;
             Format = format;
+            ManipulationState = new ManipulationState();
         }
 
         /// <summary>
@@ -49,12 +53,12 @@ namespace PixelVampire.Imaging.Models
         /// <summary>
         /// Gets or sets the actual image preview (manipulated image).
         /// </summary>
-        public SKBitmap Preview { get; set; }
+        [Reactive] public SKBitmap Preview { get; set; }
 
         /// <summary>
         /// Gets or sets the manipulation state of this image.
         /// </summary>
-        public ManipulationState ManipulationState { get; set; }
+        [Reactive] public ManipulationState ManipulationState { get; set; }
 
         /// <summary>
         /// Releases all <see cref="ImageHandle"/> resources.

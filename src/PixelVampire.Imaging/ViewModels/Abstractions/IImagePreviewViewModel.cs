@@ -1,4 +1,5 @@
 ﻿using PixelVampire.Imaging.Models;
+using SkiaSharp;
 
 namespace PixelVampire.Imaging.ViewModels.Abstractions
 {
@@ -10,6 +11,6 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         /// <summary>
         /// Gets the actual loaded image.
         /// </summary>
-        ImageHandle ImageContext { get; }
+        SKBitmap Image { get; }
     }
 }
