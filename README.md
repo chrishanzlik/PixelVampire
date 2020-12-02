@@ -7,4 +7,4 @@ WPF desktop application for image manipulation (mainly size compression).
 There is **no usable/working version** atm.
 
 # Visual progress
-![visualprogress](./assets/actual-state-20112020.png)
+![visualprogress](https://github.com/chrishanzlik/PixelVampire/blob/gh-pages/visual-state.jpg?raw=true)
