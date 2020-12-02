@@ -5,6 +5,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace PixelVampire.Imaging.ViewModels
 {
@@ -13,16 +14,25 @@ namespace PixelVampire.Imaging.ViewModels
     /// </summary>
     public class ImageSettingsViewModel : ViewModelBase, IImageSettingsViewModel
     {
-        public ImageSettingsViewModel()
+        public ImageSettingsViewModel(IObservable<ImageHandle> imageChanges) // yes?
         {
+            Guard.Against.ArgumentNull(imageChanges, nameof(imageChanges));
+
             this.WhenActivated(d =>
             {
-                this.WhenAnyValue(x => x.Context)
-                    .Subscribe()
+                imageChanges
+                    .Where(x => x != null)
+                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .Log(this)
+                    .ToPropertyEx(this, x => x.Context)
                     .DisposeWith(d);
             });
         }
 
-        [Reactive] public ImageHandle Context { get; set; }
+        [ObservableAsProperty]
+        public ImageHandle Context { get; }
+
+        //just bind to quality? but this hides dependency
+        //public IObservable<ImageHandle> AffectRenderChanges { get; }
     }
 }

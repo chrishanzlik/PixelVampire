@@ -34,8 +34,11 @@ namespace PixelVampire.Imaging.ViewModels
         {
             imageService ??= Locator.Current.GetService<IImageService>();
 
+            IObservable<ImageHandle> selectionChanges = this.WhenAnyValue(x => x.SelectedImage).Publish().RefCount();
+
             ImageExplorer = new ImageExplorerViewModel(_source.AsObservableCache());
-            ImagePreview = new ImagePreviewViewModel(this.WhenAnyValue(x => x.SelectedImage));
+            ImagePreview = new ImagePreviewViewModel(selectionChanges);
+            Settings = new ImageSettingsViewModel(selectionChanges);
             LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x));
             _calculatePreview = ReactiveCommand.CreateFromObservable<ImageHandle, ImageHandle>(x => imageService.CalculatePreview(x));
 
@@ -107,6 +110,9 @@ namespace PixelVampire.Imaging.ViewModels
 
         /// <inheritdoc />
         public IImagePreviewViewModel ImagePreview { get; }
+
+        /// <inheritdoc />
+        public IImageSettingsViewModel Settings { get; }
 
         /// <inheritdoc />
         public override string UrlPathSegment => "image-editor";

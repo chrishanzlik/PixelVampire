@@ -39,5 +39,10 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         /// Gets the image previewer.
         /// </summary>
         IImagePreviewViewModel ImagePreview { get; }
+
+        /// <summary>
+        /// Gets the current image settings.
+        /// </summary>
+        IImageSettingsViewModel Settings { get; }
     }
 }

@@ -3,6 +3,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,7 +29,9 @@ namespace PixelVampire.Imaging.WPF.Views
 
             this.WhenActivated(d =>
             {
-
+                this.Bind(ViewModel,
+                    x => x.Context.ManipulationState.Quality,
+                    x => x.QualitySlider.Value).DisposeWith(d);
             });
         }
     }

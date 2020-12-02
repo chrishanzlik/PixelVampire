@@ -28,7 +28,9 @@ namespace PixelVampire.Imaging.ViewModels
         /// <param name="imageCache">Cache which notifies about loaded or removed images.</param>
         public ImageExplorerViewModel(IObservableCache<ImageHandle, string> imageCache)
         {
-            var connection = imageCache?.Connect() ?? throw new ArgumentNullException(nameof(imageCache));
+            Guard.Against.ArgumentNull(imageCache, nameof(imageCache));
+
+            var connection = imageCache.Connect();
 
             SelectNext = ReactiveCommand.Create(SelectNextImpl);
             SelectPrevious = ReactiveCommand.Create(SelectPreviousImpl);

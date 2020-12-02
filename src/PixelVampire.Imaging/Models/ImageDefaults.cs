@@ -7,10 +7,10 @@
     {
         public ImageDefaults(string filePath, int width, int height, long size, ImageFormat format)
         {
-            Guard.Against.ArgumentNullOrEmpty(filePath, "filePath");
-            Guard.Ensure.ArgumentGreaterThan(0, width, "width");
-            Guard.Ensure.ArgumentGreaterThan(0, height, "height");
-            Guard.Ensure.ArgumentGreaterThan(0, size, "size");
+            Guard.Against.ArgumentNullOrEmpty(filePath, nameof(filePath));
+            Guard.Ensure.ArgumentGreaterThan(0, width, nameof(width));
+            Guard.Ensure.ArgumentGreaterThan(0, height, nameof(height));
+            Guard.Ensure.ArgumentGreaterThan(0, size, nameof(size));
 
             FilePath = filePath;
             Width = width;

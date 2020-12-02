@@ -17,8 +17,7 @@ namespace PixelVampire.Imaging.ViewModels
     {
         public ImagePreviewViewModel(IObservable<ImageHandle> imageChanges)
         {
-            if (imageChanges == null)
-                throw new ArgumentNullException(nameof(imageChanges));
+            Guard.Against.ArgumentNull(imageChanges, nameof(imageChanges));
 
             this.WhenActivated(d =>
             {
