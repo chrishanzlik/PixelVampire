@@ -3,6 +3,7 @@ using PixelVampire.Imaging.Models;
 using ReactiveUI;
 using SkiaSharp;
 using System;
+using System.IO;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -12,7 +13,7 @@ namespace PixelVampire.Imaging
     /// <summary>
     /// Service class for image loading and manipulation
     /// </summary>
-    public class ImageService : IImageService, IEnableNotifications
+    public class ImageService : IImageService
     {
         /// <inheritdoc />
         public IObservable<ImageHandle> LoadImage(string path, IScheduler executionScheduler = null)
@@ -33,7 +34,8 @@ namespace PixelVampire.Imaging
                         codec.DisposeWith(disposable);
 
                         var bitmap = SKBitmap.Decode(codec);
-                        handle = new ImageHandle(path, bitmap, codec.EncodedFormat);
+                        var format = codec.EncodedFormat == SKEncodedImageFormat.Gif ? SKEncodedImageFormat.Png : codec.EncodedFormat;
+                        handle = new ImageHandle(path, bitmap, format);
                         observer.OnNext(handle);
                     }
                     catch (Exception ex)
@@ -45,6 +47,32 @@ namespace PixelVampire.Imaging
                 }).DisposeWith(disposable);
 
                 return disposable;
+            });
+        }
+
+        /// <inheritdoc />
+        public IObservable<ImageHandle> CalculatePreview(ImageHandle handle, IScheduler executionScheduler = null)
+        {
+            Guard.Against.ArgumentNull(handle, "handle");
+            executionScheduler ??= RxApp.TaskpoolScheduler;
+
+            return Observable.Create<ImageHandle>(observer =>
+            {
+                IDisposable scheduling = executionScheduler.Schedule(() =>
+                {
+                    var old = handle.Preview;
+
+                    using var data = handle.OriginalImage.Encode(handle.LoadingSettings.Format.ToSkiaFormat(), handle.ManipulationState.Quality);
+
+                    handle.Preview = SKBitmap.Decode(data);
+
+                    old?.Dispose();
+
+                    observer.OnNext(handle);
+                    observer.OnCompleted();
+                });
+
+                return scheduling;
             });
         }
     }

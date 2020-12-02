@@ -6,7 +6,7 @@ using ReactiveUI.Testing;
 using System;
 using Xunit;
 
-namespace PixelVampire.Imaging.Tests
+namespace PixelVampire.Imaging.Tests.ViewModels
 {
     public class ImageExplorerItemViewModelTests
     {

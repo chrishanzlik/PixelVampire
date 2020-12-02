@@ -16,5 +16,13 @@ namespace PixelVampire.Imaging
         /// <param name="executionScheduler">Which <see cref="IScheduler"/> should be used for image loading. Defaults to TaskPoolScheduler if null.</param>
         /// <returns>The loaded image wrapped inside a <see cref="ImageHandle"/>.</returns>
         IObservable<ImageHandle> LoadImage(string path, IScheduler executionScheduler = null);
+
+        /// <summary>
+        /// Calcualtes the internal <see cref="ImageHandle.Preview"/> property depending on the given <see cref="ImageHandle.ManipulationState"/>.
+        /// </summary>
+        /// <param name="handle">Image to be processed.</param>
+        /// <param name="executionScheduler">Which <see cref="IScheduler"/> should be used for work. Defaults to TaskPoolScheduler if null.</param>
+        /// <returns></returns>
+        IObservable<ImageHandle> CalculatePreview(ImageHandle handle, IScheduler executionScheduler = null);
     }
 }

@@ -1,13 +1,14 @@
-﻿using SkiaSharp;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using SkiaSharp;
 using System;
-using System.IO;
 
 namespace PixelVampire.Imaging.Models
 {
     /// <summary>
     /// The image handle is for interarcting and displaying with loaded files.
     /// </summary>
-    public class ImageHandle : IDisposable
+    public class ImageHandle : ReactiveObject, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageHandle" /> class.
@@ -15,49 +16,35 @@ namespace PixelVampire.Imaging.Models
         /// <param name="path">Path of the loaded image</param>
         /// <param name="image">Loaded image data</param>
         /// <param name="format">Format of the image</param>
-        internal ImageHandle(string path, SKBitmap image, SKEncodedImageFormat format)
+        public ImageHandle(string path, SKBitmap image, SKEncodedImageFormat format)
         {
             Guard.Against.ArgumentNullOrEmpty(path, "path");
             Guard.Against.ArgumentNull(image, "image");
 
-            OriginalPath = path;
-            OriginalName = Path.GetFileName(path);
             OriginalImage = image;
-            Format = format;
-
-            //TODO: temp
-            Preview = OriginalImage;
+            LoadingSettings = new ImageDefaults(path, image.Width, image.Height, image.Info.BytesSize64, format.ToAppFormat());
+            ManipulationState = new ManipulationState();
         }
 
         /// <summary>
-        /// Gets the original image path on users local disk.
+        /// Gets the image settings at loading time.
         /// </summary>
-        public string OriginalPath { get; }
+        public ImageDefaults LoadingSettings { get; }
 
         /// <summary>
-        /// Gets the original image name.
-        /// </summary>
-        public string OriginalName { get; }
-
-        /// <summary>
-        /// Gets the original image data.
+        /// Gets the original loaded image.
         /// </summary>
         public SKBitmap OriginalImage { get; }
 
         /// <summary>
-        /// Gets the image format.
-        /// </summary>
-        public SKEncodedImageFormat Format { get; }
-
-        /// <summary>
         /// Gets or sets the actual image preview (manipulated image).
         /// </summary>
-        public SKBitmap Preview { get; set; }
+        [Reactive] public SKBitmap Preview { get; set; }
 
         /// <summary>
         /// Gets or sets the manipulation state of this image.
         /// </summary>
-        public ManipulationState ManipulationState { get; set; }
+        [Reactive] public ManipulationState ManipulationState { get; set; }
 
         /// <summary>
         /// Releases all <see cref="ImageHandle"/> resources.

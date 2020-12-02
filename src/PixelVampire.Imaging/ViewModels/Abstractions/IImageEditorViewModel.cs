@@ -16,16 +16,6 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         ReactiveCommand<string, ImageHandle> LoadImage { get; }
 
         /// <summary>
-        /// Select next image.
-        /// </summary>
-        ReactiveCommand<Unit, Unit> SelectNext { get; }
-
-        /// <summary>
-        /// Select previous image.
-        /// </summary>
-        ReactiveCommand<Unit, Unit> SelectPrevious { get; }
-
-        /// <summary>
         /// Gets or sets the selected image.
         /// </summary>
         ImageHandle SelectedImage { get; set; }
@@ -49,5 +39,10 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         /// Gets the image previewer.
         /// </summary>
         IImagePreviewViewModel ImagePreview { get; }
+
+        /// <summary>
+        /// Gets the current image settings.
+        /// </summary>
+        IImageSettingsViewModel Settings { get; }
     }
 }

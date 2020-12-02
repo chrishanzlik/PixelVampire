@@ -1,6 +1,8 @@
 ﻿using PixelVampire.Imaging.Models;
+using ReactiveUI;
 using System;
 using System.Collections.ObjectModel;
+using System.Reactive;
 
 namespace PixelVampire.Imaging.ViewModels.Abstractions
 {
@@ -32,11 +34,11 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         /// <summary>
         /// Select the next image.
         /// </summary>
-        void SelectNext();
+        ReactiveCommand<Unit, IImageExplorerItemViewModel> SelectNext { get; }
 
         /// <summary>
         /// Select the previous image.
         /// </summary>
-        void SelectPrevious();
+        ReactiveCommand<Unit, IImageExplorerItemViewModel> SelectPrevious { get; }
     }
 }
