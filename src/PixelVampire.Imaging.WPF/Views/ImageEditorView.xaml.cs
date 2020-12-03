@@ -72,13 +72,10 @@ namespace PixelVampire.Imaging.WPF.Views
                     x => x.Settings,
                     x => x.Settings.ViewModel).DisposeWith(d);
 
-                ViewModel.SelectFolder.RegisterHandler(ctx =>
+                this.ViewModel.SelectFolder.RegisterHandler(ctx =>
                 {
                     var path = SelectFolderByDialog(ctx.Input);
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        ctx.SetOutput(path);
-                    }
+                    ctx.SetOutput(path);
                 }).DisposeWith(d);
 
                 // Load files from dialog

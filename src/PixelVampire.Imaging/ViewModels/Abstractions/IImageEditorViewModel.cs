@@ -19,12 +19,12 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         /// <summary>
         /// Exports the selected image.
         /// </summary>
-        ReactiveCommand<Unit, Unit> ExportSelected { get; }
+        ReactiveCommand<Unit, string> ExportSelected { get; }
 
         /// <summary>
         /// Exports all loaded images.
         /// </summary>
-        ReactiveCommand<Unit, Unit> ExportAll { get; }
+        ReactiveCommand<Unit, string> ExportAll { get; }
 
         /// <summary>
         /// Waits that the user is selecting a folder.

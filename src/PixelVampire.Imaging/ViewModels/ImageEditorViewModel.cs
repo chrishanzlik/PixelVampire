@@ -67,6 +67,18 @@ namespace PixelVampire.Imaging.ViewModels
                     .InvokeCommand(_calculatePreview)
                     .DisposeWith(d);
 
+                // Notify about successful export.
+                ExportSelected
+                    .Do(name => this.Notify().PublishInfo($"Image export to {name}", "Export completed!", TimeSpan.FromSeconds(3)))
+                    .Subscribe()
+                    .DisposeWith(d);
+
+                // Notify about successful export.
+                ExportAll
+                    .Do(path => this.Notify().PublishInfo($"All images exported to {path}", "Export completed!", TimeSpan.FromSeconds(3)))
+                    .Subscribe()
+                    .DisposeWith(d);
+
                 // Add loaded images to source
                 LoadImage
                     .ObserveOn(RxApp.TaskpoolScheduler)
@@ -112,10 +124,10 @@ namespace PixelVampire.Imaging.ViewModels
         public ReactiveCommand<string, ImageHandle> LoadImage { get; }
 
         /// <inheritdoc />
-        public ReactiveCommand<Unit, Unit> ExportSelected { get; }
+        public ReactiveCommand<Unit, string> ExportSelected { get; }
 
         /// <inheritdoc />
-        public ReactiveCommand<Unit, Unit> ExportAll { get; }
+        public ReactiveCommand<Unit, string> ExportAll { get; }
 
         /// <inheritdoc />
         public ReactiveCommand<Unit, Unit> SelectNext { get; }
@@ -150,14 +162,14 @@ namespace PixelVampire.Imaging.ViewModels
         public Interaction<string, string> SelectFolder { get; }
 
 
-        private IObservable<Unit> ExportSelectedImpl()
+        private IObservable<string> ExportSelectedImpl()
         {
             return SelectFolder.Handle("Please select a folder.")
                 .Where(path => !string.IsNullOrEmpty(path))
                 .SelectMany(path => _imageService.ExportImage(SelectedImage, path));
         }
 
-        private IObservable<Unit> ExportAllImpl()
+        private IObservable<string> ExportAllImpl()
         {
             return SelectFolder.Handle("Please select a folder")
                 .Where(path => !string.IsNullOrEmpty(path))

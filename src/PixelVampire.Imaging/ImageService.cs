@@ -80,13 +80,13 @@ namespace PixelVampire.Imaging
         }
 
         /// <inheritdoc />
-        public IObservable<Unit> ExportImage(ImageHandle handle, string outputPath, IScheduler executionScheduler = null)
+        public IObservable<string> ExportImage(ImageHandle handle, string outputPath, IScheduler executionScheduler = null)
         {
             Guard.Against.ArgumentNull(handle, nameof(handle));
             Guard.Against.ArgumentNullOrEmpty(outputPath, nameof(outputPath));
             executionScheduler ??= RxApp.TaskpoolScheduler;
 
-            return Observable.Create<Unit>(observer =>
+            return Observable.Create<string>(observer =>
             {
                 return executionScheduler.Schedule(() =>
                 {
@@ -99,6 +99,8 @@ namespace PixelVampire.Imaging
 
                         using var fs = File.Create(fullOutputPath);
                         handle.OriginalImage.Encode(fs, handle.LoadingSettings.Format.ToSkiaFormat(), handle.ManipulationState.Quality);
+
+                        observer.OnNext(fullOutputPath);
                     }
                     catch(Exception ex)
                     {

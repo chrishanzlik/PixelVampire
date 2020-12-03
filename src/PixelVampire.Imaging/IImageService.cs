@@ -32,7 +32,7 @@ namespace PixelVampire.Imaging
         /// <param name="handle">Image to be exported.</param>
         /// <param name="outputPath">Location where the image should be stored to.</param>
         /// <param name="executionScheduler">Which <see cref="IScheduler"/> should be used for work. Defaults to TaskPoolScheduler if null.</param>
-        /// <returns>Completion signal.</returns>
-        IObservable<Unit> ExportImage(ImageHandle handle, string outputPath, IScheduler executionScheduler = null);
+        /// <returns>Exported file location</returns>
+        IObservable<string> ExportImage(ImageHandle handle, string outputPath, IScheduler executionScheduler = null);
     }
 }
