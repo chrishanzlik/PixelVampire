@@ -4,6 +4,7 @@
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<EnableDefaultPageItems>false</EnableDefaultPageItems>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,6 +20,7 @@
 	<ItemGroup>
 	  <PackageReference Include="MahApps.Metro" Version="2.3.4" />
 	  <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
+	  <PackageReference Include="Ookii.Dialogs.Wpf" Version="3.1.0" />
 	  <PackageReference Include="ReactiveUI" Version="12.1.5" />
 	  <PackageReference Include="ReactiveUI.Events.WPF" Version="12.1.5" />
 	  <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />

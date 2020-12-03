@@ -1,5 +1,6 @@
 ﻿using PixelVampire.Imaging.Models;
 using System;
+using System.Reactive;
 using System.Reactive.Concurrency;
 
 namespace PixelVampire.Imaging
@@ -22,7 +23,16 @@ namespace PixelVampire.Imaging
         /// </summary>
         /// <param name="handle">Image to be processed.</param>
         /// <param name="executionScheduler">Which <see cref="IScheduler"/> should be used for work. Defaults to TaskPoolScheduler if null.</param>
-        /// <returns></returns>
+        /// <returns>The updated handle.</returns>
         IObservable<ImageHandle> CalculatePreview(ImageHandle handle, IScheduler executionScheduler = null);
+
+        /// <summary>
+        /// Exports a given <see cref="ImageHandle"/> to the specified output path.
+        /// </summary>
+        /// <param name="handle">Image to be exported.</param>
+        /// <param name="outputPath">Location where the image should be stored to.</param>
+        /// <param name="executionScheduler">Which <see cref="IScheduler"/> should be used for work. Defaults to TaskPoolScheduler if null.</param>
+        /// <returns>Exported file location</returns>
+        IObservable<string> ExportImage(ImageHandle handle, string outputPath, IScheduler executionScheduler = null);
     }
 }

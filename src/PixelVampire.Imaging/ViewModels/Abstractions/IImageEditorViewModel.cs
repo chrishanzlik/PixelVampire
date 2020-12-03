@@ -1,5 +1,6 @@
 ﻿using PixelVampire.Imaging.Models;
 using ReactiveUI;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 
@@ -14,6 +15,21 @@ namespace PixelVampire.Imaging.ViewModels.Abstractions
         /// Load a new image from a local file path.
         /// </summary>
         ReactiveCommand<string, ImageHandle> LoadImage { get; }
+
+        /// <summary>
+        /// Exports the selected image.
+        /// </summary>
+        ReactiveCommand<Unit, string> ExportSelected { get; }
+
+        /// <summary>
+        /// Exports all loaded images.
+        /// </summary>
+        ReactiveCommand<Unit, string> ExportAll { get; }
+
+        /// <summary>
+        /// Waits that the user is selecting a folder.
+        /// </summary>
+        Interaction<string, string> SelectFolder { get; }
 
         /// <summary>
         /// Gets or sets the selected image.
