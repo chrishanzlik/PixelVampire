@@ -1,23 +1,20 @@
 ﻿using Microsoft.Win32;
-using PixelVampire.Imaging.ViewModels;
+using Ookii.Dialogs.Wpf;
 using ReactiveUI;
-using SkiaSharp;
-using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Controls.Primitives;
 
 namespace PixelVampire.Imaging.WPF.Views
 {
@@ -32,6 +29,14 @@ namespace PixelVampire.Imaging.WPF.Views
 
             this.WhenActivated(d =>
             {
+                this.BindCommand(ViewModel,
+                    x => x.ExportSelected,
+                    x => x.ExportCurrentButton).DisposeWith(d);
+
+                this.BindCommand(ViewModel,
+                    x => x.ExportAll,
+                    x => x.ExportAllButton).DisposeWith(d);
+
                 this.BindCommand(ViewModel,
                     x => x.ImageExplorer.SelectNext,
                     x => x.NextButton).DisposeWith(d);
@@ -66,6 +71,15 @@ namespace PixelVampire.Imaging.WPF.Views
                 this.OneWayBind(ViewModel,
                     x => x.Settings,
                     x => x.Settings.ViewModel).DisposeWith(d);
+
+                ViewModel.SelectFolder.RegisterHandler(ctx =>
+                {
+                    var path = SelectFolderByDialog(ctx.Input);
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        ctx.SetOutput(path);
+                    }
+                }).DisposeWith(d);
 
                 // Load files from dialog
                 Observable.Merge(
@@ -117,6 +131,20 @@ namespace PixelVampire.Imaging.WPF.Views
             if (openFileDialog.ShowDialog() == true)
             {
                 return openFileDialog.FileNames;
+            }
+
+            return null;
+        }
+
+        private static string SelectFolderByDialog(string prompt)
+        {
+            var dialog = new VistaFolderBrowserDialog();
+            dialog.SelectedPath = "";
+            dialog.ShowNewFolderButton = true;
+
+            if (dialog.ShowDialog() == true)
+            {
+                return dialog.SelectedPath;
             }
 
             return null;

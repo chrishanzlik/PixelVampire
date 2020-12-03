@@ -22,6 +22,7 @@ namespace PixelVampire.Imaging.ViewModels
     /// </summary>
     public class ImageEditorViewModel : RoutableViewModelBase, IImageEditorViewModel
     {
+        private readonly IImageService _imageService;
         private SourceCache<ImageHandle, string> _source = new SourceCache<ImageHandle, string>(x => x.LoadingSettings.FilePath);
         private ReadOnlyObservableCollection<ImageHandle> _images;
         private ReactiveCommand<ImageHandle, ImageHandle> _calculatePreview;
@@ -32,15 +33,20 @@ namespace PixelVampire.Imaging.ViewModels
         /// <param name="imageService">Service for image loading and manipulation.</param>
         public ImageEditorViewModel(IImageService imageService = null)
         {
-            imageService ??= Locator.Current.GetService<IImageService>();
+            _imageService = imageService ?? Locator.Current.GetService<IImageService>();
 
             IObservable<ImageHandle> selectionChanges = this.WhenAnyValue(x => x.SelectedImage).Publish().RefCount();
 
             ImageExplorer = new ImageExplorerViewModel(_source.AsObservableCache());
             ImagePreview = new ImagePreviewViewModel(selectionChanges);
             Settings = new ImageSettingsViewModel(selectionChanges);
-            LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => imageService.LoadImage(x));
-            _calculatePreview = ReactiveCommand.CreateFromObservable<ImageHandle, ImageHandle>(x => imageService.CalculatePreview(x));
+
+            SelectFolder = new Interaction<string, string>();
+            
+            LoadImage = ReactiveCommand.CreateFromObservable<string, ImageHandle>(x => _imageService.LoadImage(x));
+            ExportSelected = ReactiveCommand.CreateFromObservable(ExportSelectedImpl);
+            ExportAll = ReactiveCommand.CreateFromObservable(ExportAllImpl);
+            _calculatePreview = ReactiveCommand.CreateFromObservable<ImageHandle, ImageHandle>(x => _imageService.CalculatePreview(x));
 
             var connection = _source.Connect();
 
@@ -54,6 +60,7 @@ namespace PixelVampire.Imaging.ViewModels
                     .Subscribe()
                     .DisposeWith(d);
 
+                // Recaluclate image when quality changes
                 connection.WhenPropertyChanged(x => x.ManipulationState.Quality, false)
                     .Throttle(TimeSpan.FromMilliseconds(50))
                     .Select(x => x.Sender)
@@ -77,7 +84,12 @@ namespace PixelVampire.Imaging.ViewModels
                     .DisposeWith(d);
 
                 // Pipe loadings to property
-                Observable.CombineLatest(LoadImage.IsExecuting, _calculatePreview.IsExecuting, (a, b) => a || b)
+                Observable.CombineLatest(
+                        LoadImage.IsExecuting,
+                        ExportSelected.IsExecuting,
+                        ExportAll.IsExecuting,
+                        _calculatePreview.IsExecuting,
+                        (a, b, c, d) => a || b || c || d)
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .ToPropertyEx(this, x => x.IsLoading)
                     .DisposeWith(d);
@@ -98,6 +110,12 @@ namespace PixelVampire.Imaging.ViewModels
 
         /// <inheritdoc />
         public ReactiveCommand<string, ImageHandle> LoadImage { get; }
+
+        /// <inheritdoc />
+        public ReactiveCommand<Unit, Unit> ExportSelected { get; }
+
+        /// <inheritdoc />
+        public ReactiveCommand<Unit, Unit> ExportAll { get; }
 
         /// <inheritdoc />
         public ReactiveCommand<Unit, Unit> SelectNext { get; }
@@ -127,5 +145,24 @@ namespace PixelVampire.Imaging.ViewModels
 
         /// <inheritdoc />
         public ReadOnlyObservableCollection<ImageHandle> Images => _images;
+
+        /// <inheritdoc />
+        public Interaction<string, string> SelectFolder { get; }
+
+
+        private IObservable<Unit> ExportSelectedImpl()
+        {
+            return SelectFolder.Handle("Please select a folder.")
+                .Where(path => !string.IsNullOrEmpty(path))
+                .SelectMany(path => _imageService.ExportImage(SelectedImage, path));
+        }
+
+        private IObservable<Unit> ExportAllImpl()
+        {
+            return SelectFolder.Handle("Please select a folder")
+                .Where(path => !string.IsNullOrEmpty(path))
+                .SelectMany(path => Images.ToObservable()
+                    .SelectMany(handle => _imageService.ExportImage(handle, path)));
+        }
     }
 }

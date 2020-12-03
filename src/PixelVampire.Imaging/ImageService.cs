@@ -3,7 +3,9 @@ using PixelVampire.Imaging.Models;
 using ReactiveUI;
 using SkiaSharp;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -18,6 +20,7 @@ namespace PixelVampire.Imaging
         /// <inheritdoc />
         public IObservable<ImageHandle> LoadImage(string path, IScheduler executionScheduler = null)
         {
+            Guard.Against.ArgumentNullOrEmpty(path, nameof(path));
             executionScheduler ??= RxApp.TaskpoolScheduler;
 
             return Observable.Create<ImageHandle>(observer =>
@@ -53,7 +56,7 @@ namespace PixelVampire.Imaging
         /// <inheritdoc />
         public IObservable<ImageHandle> CalculatePreview(ImageHandle handle, IScheduler executionScheduler = null)
         {
-            Guard.Against.ArgumentNull(handle, "handle");
+            Guard.Against.ArgumentNull(handle, nameof(handle));
             executionScheduler ??= RxApp.TaskpoolScheduler;
 
             return Observable.Create<ImageHandle>(observer =>
@@ -73,6 +76,36 @@ namespace PixelVampire.Imaging
                 });
 
                 return scheduling;
+            });
+        }
+
+        /// <inheritdoc />
+        public IObservable<Unit> ExportImage(ImageHandle handle, string outputPath, IScheduler executionScheduler = null)
+        {
+            Guard.Against.ArgumentNull(handle, nameof(handle));
+            Guard.Against.ArgumentNullOrEmpty(outputPath, nameof(outputPath));
+            executionScheduler ??= RxApp.TaskpoolScheduler;
+
+            return Observable.Create<Unit>(observer =>
+            {
+                return executionScheduler.Schedule(() =>
+                {
+                    try
+                    {
+                        var originalFileName = Path.GetFileNameWithoutExtension(handle.LoadingSettings.FilePath);
+                        var originalExtension = Path.GetExtension(handle.LoadingSettings.FilePath); //TODO: Compare with output format
+                        var newFileName = $"{originalFileName}.min{originalExtension}";
+                        var fullOutputPath = Path.Combine(outputPath, newFileName);
+
+                        using var fs = File.Create(fullOutputPath);
+                        handle.OriginalImage.Encode(fs, handle.LoadingSettings.Format.ToSkiaFormat(), handle.ManipulationState.Quality);
+                    }
+                    catch(Exception ex)
+                    {
+                        observer.OnError(ex);
+                    }
+                    observer.OnCompleted();
+                });
             });
         }
     }
